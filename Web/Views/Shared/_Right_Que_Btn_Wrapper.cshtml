@@ -1,0 +1,15 @@
+﻿@model List<VMSection>
+@{ var sectionZ = Model;}
+@for (int i = 0; i < sectionZ.Count; i++)
+{
+    <div class="clearfix section_q_btn_wrapper @Html.IIf((i == 0), "active", "hidden") @sectionZ[i].Name.ToLower().Replace(" ","-")">
+        <div class="text-center margin-bottom-10"><strong><span class="text-gray-black">  </span>@sectionZ[i].Name </strong></div>
+        <ul class="test_question_btns margin-top-10 ">
+            @for (int j = 0; j < sectionZ[i].QuestionCount; j++)
+            {
+
+                <li class="test_icons lg unseen @sectionZ[i].Questions[j].Id @Html.IIf((i == 0 && j == 0), "active", "")" data-question-id="@sectionZ[i].Questions[j].Id"> @(j + 1) </li>
+            }
+        </ul>
+    </div>
+}

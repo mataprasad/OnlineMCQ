@@ -1,0 +1,9 @@
+﻿@model Tuple<VMSection, int>
+<div class="margin-bottom-20 section_wrapper ">
+    <h4 class="test_q_list_section"><strong>@Model.Item1.Name</strong></h4>
+
+    @for (int i = 0; i < Model.Item1.Questions.Count; i++)
+    {
+        @Html.Partial("~/Views/Shared/QuePrev/_QpQuestion.cshtml", new Tuple<VMQuestion, int>(Model.Item1.Questions[i], i))
+    }
+</div>

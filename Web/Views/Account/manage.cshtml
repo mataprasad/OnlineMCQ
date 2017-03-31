@@ -1,0 +1,90 @@
+﻿@model Web.Models.ChangePasswordModel
+@{
+    ViewBag.Title = "Manage Account";
+}
+<section class="content-header">
+    <h1>
+        Manage You Profile...
+    </h1>
+</section>
+<div class="col-md-12">
+    <!-- Custom Tabs -->
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">Profile Details</a></li>
+            <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Change Password</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_1">
+                <b>How to use:</b>
+                <p>
+                    Exactly like the original bootstrap tabs except you should use
+                    the custom wrapper <code>.nav-tabs-custom</code> to achieve this style.
+                </p>
+                A wonderful serenity has taken possession of my entire soul,
+                like these sweet mornings of spring which I enjoy with my whole heart.
+                I am alone, and feel the charm of existence in this spot,
+                which was created for the bliss of souls like mine. I am so happy,
+                my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
+                that I neglect my talents. I should be incapable of drawing a single stroke
+                at the present moment; and yet I feel that I never was a greater artist than now.
+            </div><!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_2">
+
+                <form action="#" method="post" class="box" id="frm-add-edit-form">
+                    <div class="modal-body">
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="Old Password">Old Password</label>
+                                @Html.PasswordFor(P => P.OldPassword, new { @class = "form-control", placeholder = "Old Password" })
+                                @Html.ValidationMessageFor(P => P.OldPassword)
+                            </div>
+
+                            <div class="form-group">
+                                <label for="New Password">New Password</label>
+                                @Html.PasswordFor(P => P.Password, new { @class = "form-control", placeholder = "New Password" })
+                                @Html.ValidationMessageFor(P => P.Password)
+                            </div>
+                            <div class="form-group">
+                                <label for="Confirm New Password">Confirm New Password</label>
+                                @Html.PasswordFor(P => P.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm New Password" })
+                                @Html.ValidationMessageFor(P => P.ConfirmPassword)
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-flat fa fa-save pull-right" onclick="fnSubmit();">&nbsp;&nbsp;&nbsp;Change Password</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top:none;">
+
+                    </div>
+                    <div class="overlay"></div>
+                    <div class="loading-img"></div>
+                </form>
+
+            </div><!-- /.tab-pane -->
+        </div><!-- /.tab-content -->
+    </div><!-- nav-tabs-custom -->
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $('#frm-add-edit-form').submit(function () {
+            if ($(this).valid()) {
+                ToggleOverlayLoading(true);
+                fnPerformAjax("@Url.Action("changepassword","account")", '{ "currentPassword":"' + $("#OldPassword").val() + '", "newPassword":"' + $("#ConfirmPassword").val() + '" }', function (response) {
+                    alert(response);
+                    $("input[type='password']").val("");
+                    ToggleOverlayLoading(false);
+                });
+                return false;
+            }
+        });
+        function ToggleOverlayLoading(blocked) {
+            if (blocked) {
+                $("#frm-add-edit-form .overlay,#frm-add-edit-form .loading-img").show();
+            } else {
+                $("#frm-add-edit-form .overlay,#frm-add-edit-form .loading-img").hide();
+            }
+        }
+        ToggleOverlayLoading(false);
+    </script>
+}

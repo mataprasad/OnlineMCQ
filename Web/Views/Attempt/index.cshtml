@@ -1,0 +1,231 @@
+@model Web.Models.Attempt
+@{
+    ViewBag.Title = "Attempt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section stylesheet {
+    <style type="text/css">
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+}
+<section class="content-header">
+    <h1>
+        Manage Attempts
+    </h1>
+</section>
+<section class="content">
+  <script type="text/javascript">
+        $(document).ready(function () {
+            $(".btnDownload").click(function () {
+                var format = $(this).attr("data-download-format");
+                switch (format) {
+                    case "XLS":
+                        $("#format").val("@Web.Controllers.HomeController.DownloadFormat.XLS");
+                        break;
+                    case "XML":
+                        $("#format").val("@Web.Controllers.HomeController.DownloadFormat.XML");
+                        break;
+                    case "CSV":
+                        $("#format").val("@Web.Controllers.HomeController.DownloadFormat.CSV");
+                        break;
+                    default:
+                        break;
+                }
+                var data = JSON.stringify($('#example').dataTable().fnGetData());
+                $("#gridData").val(data);
+                $("#frmDownload").submit();
+            });
+        });
+    </script>
+    <form action="@Url.Action("downloadgriddata", "home")" id="frmDownload" method="post">
+        <input type="hidden" name="gridData" id="gridData" value="" />
+        <input type="hidden" name="format" id="format" value="@Web.Controllers.HomeController.DownloadFormat.XLS" />
+        <button class="btn btn-primary btnDownload btn-flat btn-sm bg-blue" role="button" data-download-format="XML"><i class="fa fa-download"></i>&nbsp;&nbsp;&nbsp;Export Xml</button>
+        <button class="btn btn-primary btnDownload btn-flat btn-sm bg-green" role="button" data-download-format="XLS"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;&nbsp;Export Excel</button>
+        <button class="btn btn-primary btnDownload btn-flat btn-sm bg-olive" role="button" data-download-format="CSV"><i class="fa fa-download"></i>&nbsp;&nbsp;&nbsp;Export Csv</button>
+    </form>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body table-responsive">
+                    <div class="input-group margin" style="margin-left:0px;">
+                        <input id="txt-search-query" type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button id="btn-refresh" class="btn btn-primary btn-flat" type="button"><i class="fa fa-refresh"></i></button>
+                            <button id="btn-search" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i>&nbsp;&nbsp;FIND</button>
+                        </span>
+                        <input type="button" id="btn-open-modal" data-toggle="modal" data-target="#add-new-modal" value="" style="display:none;" />
+                        <button id="btn-add-new" class="btn btn-primary btn-flat" style="float: right;"><i class="fa fa-plus"></i>&nbsp;&nbsp;ADD NEW Attempt</button>
+                    </div>
+                    <table id="example" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                               <th>ID</th>
+<th>CompanyID</th>
+<th>BatchID</th>
+<th>UserID</th>
+<th>QuizID</th>
+<th>OtherDetails</th>
+<th>CreationDate</th>
+<th>CreationTime</th>
+<th>ModificationDate</th>
+<th>CreatedBy</th>
+<th>ModifiedBy</th>
+<th>ModificationTime</th>
+<th>IsActive</th>
+
+							   <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@{
+    var data = new List<Web.Helper.GridHelper>();
+data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "BatchID" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "UserID" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "QuizID" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
+data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
+
+var modelData=new Tuple<IEnumerable<Web.Helper.GridHelper>,String>(data,"Attempt");
+}
+@section scripts {
+<script type="text/javascript">
+function fnClearForm(){
+$('#ID').val('');
+$('#CompanyID').val('');
+$('#BatchID').val('');
+$('#UserID').val('');
+$('#QuizID').val('');
+$('#OtherDetails').val('');
+$('#CreationDate').val('');
+$('#CreationTime').val('');
+$('#ModificationDate').val('');
+$('#CreatedBy').val('');
+$('#ModifiedBy').val('');
+$('#ModificationTime').val('');
+$('#IsActive').val('');
+
+}
+function fnSetupForm(obj){
+$('#ID').val(obj.ID);
+$('#CompanyID').val(obj.CompanyID);
+$('#BatchID').val(obj.BatchID);
+$('#UserID').val(obj.UserID);
+$('#QuizID').val(obj.QuizID);
+$('#OtherDetails').val(obj.OtherDetails);
+$('#CreationDate').val(obj.CreationDate);
+$('#CreationTime').val(obj.CreationTime);
+$('#ModificationDate').val(obj.ModificationDate);
+$('#CreatedBy').val(obj.CreatedBy);
+$('#ModifiedBy').val(obj.ModifiedBy);
+$('#ModificationTime').val(obj.ModificationTime);
+$('#IsActive').val(obj.IsActive);
+
+}
+function fnSubmit() {
+        $("#frm-add-edit-form").submit();
+}
+</script>
+    @Html.Partial("~/Views/_CrudGridJs.cshtml", modelData)
+}
+<div class="modal fade" id="add-new-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="model-title-h4" add-title="Add New Attempt" edit-title="Modify Selected Attempt"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add New Attempt</h4>
+            </div>
+            <form action="#" method="post" class="box" id="frm-add-edit-form">
+                <div class="modal-body">
+                      <div class="form-group">
+                        <label for="ID">ID</label>
+                        @Html.TextBoxFor(P => P.ID, new { @class = "form-control", placeholder="ID" })
+                        @Html.ValidationMessageFor(P => P.ID)
+                    </div>
+  <div class="form-group">
+                        <label for="CompanyID">CompanyID</label>
+                        @Html.TextBoxFor(P => P.CompanyID, new { @class = "form-control", placeholder="CompanyID" })
+                        @Html.ValidationMessageFor(P => P.CompanyID)
+                    </div>
+  <div class="form-group">
+                        <label for="BatchID">BatchID</label>
+                        @Html.TextBoxFor(P => P.BatchID, new { @class = "form-control", placeholder="BatchID" })
+                        @Html.ValidationMessageFor(P => P.BatchID)
+                    </div>
+  <div class="form-group">
+                        <label for="UserID">UserID</label>
+                        @Html.TextBoxFor(P => P.UserID, new { @class = "form-control", placeholder="UserID" })
+                        @Html.ValidationMessageFor(P => P.UserID)
+                    </div>
+  <div class="form-group">
+                        <label for="QuizID">QuizID</label>
+                        @Html.TextBoxFor(P => P.QuizID, new { @class = "form-control", placeholder="QuizID" })
+                        @Html.ValidationMessageFor(P => P.QuizID)
+                    </div>
+  <div class="form-group">
+                        <label for="OtherDetails">OtherDetails</label>
+                        @Html.TextBoxFor(P => P.OtherDetails, new { @class = "form-control", placeholder="OtherDetails" })
+                        @Html.ValidationMessageFor(P => P.OtherDetails)
+                    </div>
+  <div class="form-group">
+                        <label for="CreationDate">CreationDate</label>
+                        @Html.TextBoxFor(P => P.CreationDate, new { @class = "form-control", placeholder="CreationDate" })
+                        @Html.ValidationMessageFor(P => P.CreationDate)
+                    </div>
+  <div class="form-group">
+                        <label for="CreationTime">CreationTime</label>
+                        @Html.TextBoxFor(P => P.CreationTime, new { @class = "form-control", placeholder="CreationTime" })
+                        @Html.ValidationMessageFor(P => P.CreationTime)
+                    </div>
+  <div class="form-group">
+                        <label for="ModificationDate">ModificationDate</label>
+                        @Html.TextBoxFor(P => P.ModificationDate, new { @class = "form-control", placeholder="ModificationDate" })
+                        @Html.ValidationMessageFor(P => P.ModificationDate)
+                    </div>
+  <div class="form-group">
+                        <label for="CreatedBy">CreatedBy</label>
+                        @Html.TextBoxFor(P => P.CreatedBy, new { @class = "form-control", placeholder="CreatedBy" })
+                        @Html.ValidationMessageFor(P => P.CreatedBy)
+                    </div>
+  <div class="form-group">
+                        <label for="ModifiedBy">ModifiedBy</label>
+                        @Html.TextBoxFor(P => P.ModifiedBy, new { @class = "form-control", placeholder="ModifiedBy" })
+                        @Html.ValidationMessageFor(P => P.ModifiedBy)
+                    </div>
+  <div class="form-group">
+                        <label for="ModificationTime">ModificationTime</label>
+                        @Html.TextBoxFor(P => P.ModificationTime, new { @class = "form-control", placeholder="ModificationTime" })
+                        @Html.ValidationMessageFor(P => P.ModificationTime)
+                    </div>
+  <div class="form-group">
+                        <label for="IsActive">IsActive</label>
+                        @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder="IsActive" })
+                        @Html.ValidationMessageFor(P => P.IsActive)
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat fa fa-close" data-dismiss="modal">&nbsp;&nbsp;&nbsp;Close</button>
+                    <button type="button" class="btn btn-primary btn-flat fa fa-save" onclick="fnSubmit();">&nbsp;&nbsp;&nbsp;Save changes</button>
+                </div>
+                <div class="overlay"></div>
+                <div class="loading-img"></div>
+            </form>
+        </div>
+    </div>
+</div>

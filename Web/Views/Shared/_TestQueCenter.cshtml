@@ -1,0 +1,59 @@
+﻿@model List<VMSection>
+@{
+    var sections = Model;
+}
+
+@for (int i = 0; i < sections.Count; i++)
+{
+    <div class="section_wrapper  @Html.IIf((i == 0), "active_section", "hidden")  @Html.Raw((sections[i].Id+ "_center").ToLower())" data-section-id="@Model[i].Id" data-section-name="@Model[i].Name">
+        @for (int j = 0; j < sections[i].Questions.Count; j++)
+        {
+            <div id="@sections[i].Questions[j].Id" class="question_basic @Html.IIf((i == 0 && j == 0), "active_question", "hidden") @Html.IIf((sections[i].Questions[j].HasParagraph), "paragraph_based_question", "") " data-current-state="unseen" data-time-spent="0" data-topic="">
+                <span class="question_basic_counter">
+                    <strong>
+                        Question @(j+1) @if (sections[i].Questions[j].HasParagraph) { Html.Raw("< small class='text-gray-dark'> ( Paragraph Type ) </small>"); }
+                    </strong>
+                </span>
+                @if (sections[i].Questions[j].HasParagraph)
+                {
+                    <div class="paragraph_text">
+                        <p class="font-14 text-bold no-margin">Directions for Below Question : </p>
+                        <div>@Html.Raw(sections[i].Questions[j].Paragraph)</div>
+                        <div class="text-center show_more_paragraph "> <button class="btn btn-sm btn-default">Show Full Paragraph </button></div>
+                    </div>
+                    <p class="font-14 text-bold">Question : </p>
+                }
+
+                <div class="question_text margin-b-10">
+                    @Html.Raw(sections[i].Questions[j].Text)
+                </div>
+                <table class="question_option_table table no-border online_test ">
+                    <tbody>
+                        @{ var option_char = 65;}
+                        @for (int k = 0; k < sections[i].Questions[j].Options.Count; k++)
+                        {
+                            <tr class="question_option">
+                                <td class="q_tbl_optn_col_1">
+                                    @if (sections[i].Questions[j].HasMultipleCorrectAnswer)
+                                    {
+                                        <input type="checkbox" name="@Html.Raw(sections[i].Questions[j].Options[k].Id + "_checkbox")" class="option_input custom_checkbox " data-option-id="@sections[i].Questions[j].Options[k].Id" data-option-alpha="@sections[i].Questions[j].Options[k].SeqNoChar">
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" name="@Html.Raw(sections[i].Questions[j].Options[k].Id + "_radio")" class="option_input custom_checkbox " data-option-id="@sections[i].Questions[j].Options[k].Id" data-option-alpha="@sections[i].Questions[j].Options[k].SeqNoChar">
+                                    }
+                                </td>
+                                <td class="q_tbl_optn_col_2"> <strong>@Html.Raw(sections[i].Questions[j].Options[k].SeqNoChar+".")</strong> </td>
+                                <td class="q_tbl_optn_col_3 option_text">
+                                    <p>@Html.Raw(sections[i].Questions[j].Options[k].Text)</p>
+                                </td>
+                            </tr>
+                            option_char = option_char + 1;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+         }
+    </div>
+}

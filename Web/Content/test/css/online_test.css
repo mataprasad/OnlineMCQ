@@ -1,0 +1,422 @@
+/* ###########3 ONLINE TEST ###############*/
+#secure_test_sheen{
+  position: fixed;
+  
+}
+#test_all_data_container{
+  background-color: #f5f8fa;
+}
+#my_camera,#my_result{
+  width:320px;
+  height:240px;
+  max-width: 100%;
+
+}
+.test_q_list{
+  border-right:1px solid #ddd;
+  /*border-top:1px solid #ddd;*/
+  /*border-bottom:1px solid #ddd;*/
+  overflow-y: auto;
+  padding:10px;
+  height:100%;
+}
+
+.test_q_list_item{
+  padding:8px;
+  border-radius:5px;
+  margin-bottom:5px;
+  border:1px solid #ddd;
+  background: #f9f9f9;
+  position: relative;
+}
+.test_q_list_section{
+  text-align: center;
+  font-size: 14px;
+  margin-top:5px;
+  margin-bottom:5px;
+  padding-bottom:5px;
+  /*border-bottom: 1px solid #ddd;*/
+}
+.test_q_list_item:hover{
+  cursor: pointer;
+  background: #fff;
+}
+.test_q_list_item .div_details{
+  font-size: 13px;
+}
+.test_q_list_item .icon{
+  top:8px;
+  padding-top: 6px;
+  
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  border:1px solid transparent;
+  background: #eee;
+  border:1px solid #eee;
+
+}
+.test_q_list_item.active{
+  border: 1px solid #1BA9F9;
+  background: #fff;
+
+}
+.test_q_list_item .icon.unseen, .test_icons.unseen{
+  background: #ddd;
+  border:1px solid #ddd;
+}
+.test_q_list_item.active .icon,
+.test_q_list_item.active .icon:hover,
+.test_question_btns .test_icons.active,
+.test_question_btns .test_icons:hover{
+  /*border : 2px solid #31B0D5;*/
+  /*padding-top: 5px;*/
+  box-shadow: 0px 0px 5px 1px #31B0D5;
+}
+.test_q_list_item .icon.skipped, .test_icons.skipped{
+  background: #D9534F;
+  border : 1px solid transparent;
+  color:#fff;
+}
+.test_q_list_item .icon.answered, .test_icons.answered{
+  background: #55BBEA;
+  background: #5cb85c;
+  border:1px solid transparent;
+  color:#fff;
+}
+
+.test_q_list_item .icon.marked, .test_icons.marked{
+  background: #9B59B6;
+  border:1px solid transparent;
+  color:#fff;
+}
+.test_q_list_item .icon.marked.answered, .test_icons.marked.answered{
+  background: #5cb85c;
+  border:4px solid #9B59B6;
+  color:#fff;
+  padding-top:3px;
+}
+.test_sections_list ul{
+  list-style-type: none;
+}
+.test_sections_list ul li{
+  display: inline-block;
+  padding:3px;
+}
+.online_test .question_option {}
+
+tr.question_option td:first-child { border-top-left-radius: 5px; }
+tr.question_option td:last-child { border-top-right-radius: 5px; }
+tr.question_option td:first-child { border-bottom-left-radius: 5px; }
+tr.question_option td:last-child { border-bottom-right-radius: 5px; }
+
+.online_test .question_option:hover  {
+  background: #f2f2f2;
+  cursor: pointer;
+}
+.online_test_bottom_strip {
+  position: absolute;
+  bottom:0px;
+  background: #eee;
+  height: 50px;
+  width: 100%;
+  border-top: 0px solid #ddd;
+}
+.online_test_bottom_strip>div{
+  /*border-right:1px solid #ddd;*/
+  height:50px;
+}
+ul.countdown {
+  list-style: none;
+  padding: 0;
+  display: inline-block;
+  text-align: center;
+}
+ul.countdown li {
+  display: inline-block;
+}
+ul.countdown li span {
+}
+ul.countdown li.seperator {
+  line-height: 1.5;
+}
+ul.countdown li p {
+  color: #a7abb1;
+}
+.countdown_timer{
+  background: #4A5967;
+  padding:5px;
+  color:#fff;
+}
+.test_timer_box{
+  background: #666;
+  color: #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+.test_timer_box .countdown{
+  color:#fff;
+}
+.test_right_col{
+  /*background: #DEE6F0;*/
+}
+.test_icons{
+  padding-top: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius:50%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  border: 1px solid transparent;
+  background: #eee;
+  border: 1px solid #eee;
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor:pointer;
+}
+.test_icons:hover{
+  box-shadow: 0px 0px 5px 1px #31B0D5;
+}
+.test_icons.lg{
+  width:32px;
+  height:32px;
+  padding-top:6px;
+}
+.test_actions{
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:165px;
+  border-top:1px solid #ddd;
+  padding:10px;
+  font-size:12.5px;
+  background: #F5F8FA;
+}
+.test_center_wrapper{
+  padding:10px;
+  padding-top:0px;
+}
+.test_timer_top{
+  color: rgba(255, 255, 255, 0.8);
+  text-align: right !important;
+  padding-right: 10px;
+  padding-top: 10px;
+  text-transform: uppercase;
+}
+.test_timer_top .countdown{
+  color:#fff;
+}
+.test_question_btns{
+  padding-left:0px;
+  list-style-type: none;
+}
+.test_question_btns .test_icons{
+  margin-left:14px;
+  margin-right:14px;
+  margin-bottom:12px;
+}
+.section_q_btn_wrapper{
+  display: block;
+}
+.test_instructions_fade, .custom_modal{
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background: #333;
+  z-index:1001;
+  overflow-y:scroll;
+}
+.test_instructions{
+  line-height: 1.7;
+}
+.summary_table{
+  text-align: center;
+  /*background: #eee;*/
+}
+
+.summary_table .test_icons{
+  width: 18px;
+  height: 18px;
+}
+
+.edit_reason_form_group,
+.edit_form .hide_in_edit_form{
+  display: none;
+}
+
+.edit_form .edit_reason_form_group{
+  display: block;
+}
+
+.test_report_title_wrapper{
+  padding-top:20px;
+  padding-bottom:20px;
+  color:#5E83A2;
+  color:#30BBD1;
+  color:#D1BD30;
+}
+.test_report_title_wrapper img{
+  width:100px;
+}
+
+
+.test_report_box{
+  padding-left:30px;
+  padding-right:30px;
+  font-size:20px;
+  letter-spacing: 1px;
+}
+.test_report_box div{
+  padding-top:5px;
+  padding-bottom:5px;
+}
+.test_report_box .report_data{
+  color:#fff;
+}
+
+.test_report_box .report_title{
+  border-top:1px solid #343C42;
+  font-size:16px;
+  color: #888;
+}
+.section_report_summary{
+  background: #fff;
+  padding: 15px 0px;
+  border: 1px solid #ddd;
+}
+.section_report_summary .test_report_box{
+  padding-left:10px;
+  padding-right:10px;
+  font-size: 18px;
+}
+.section_report_summary .test_report_box .report_data{
+  color:#888;
+}
+.section_report_summary .test_report_box .report_title{
+  border-top:1px solid #ddd;
+  font-size:15px;
+}
+
+.test_report_title{
+  line-height: 1.5;
+  margin-top:10px;
+  font-size: 26px;
+}
+
+.report_tabs.nav-tabs > li > a{
+  color:#888;
+}
+.report_tabs.nav-tabs > li.active > a{
+  color:#333;
+}
+.report_tabs.nav-tabs {
+  text-align: center;
+}
+.report_tabs.nav-tabs > li{
+  float: none;
+  display: inline-block;
+}
+#time_taken_chart,#accuracy_chart{
+  width:50%;
+}
+.pie_chart_description{
+    color: #777;
+    font-size: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+  margin-top:10px;
+}
+.pie_chart_legend span.color_box{
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+}
+.pie_chart_legend p{
+  margin-bottom:10px;
+}
+
+.chart_right_label{
+  padding: 10px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  color:#666;
+  font-size: 18px;
+}
+.score_dist_table{
+  text-align: center;
+
+}
+.score_dist_table.table > tbody > tr > td{
+  vertical-align: middle;
+  color:#888;
+}
+
+.score_dist_score{
+  font-size:32px;
+}
+.score_dist_total{
+  font-size:18px;
+}
+.score_dist_op{
+  font-size: 32px;
+}
+
+
+.navbar-inverse{
+  background-color: #37799E;
+  margin-bottom: 0px;
+}
+
+#current_question_paragraph{
+  padding:5px;
+}
+#current_paragraph{
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  background: #fff;
+  position: relative;
+}
+.question_basic .paragraph_text{
+  position: relative;
+  height:150px;
+  overflow: hidden;
+  margin-bottom:10px;
+}
+.show_more_paragraph{
+  position: absolute;
+  color:#fff;
+  text-align: center;
+  top:0px;
+  bottom:0px;
+  left:0;
+  right:0;
+  padding:5px;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+100 */
+  background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+  border-radius: 5px;
+}
+.show_more_paragraph .btn{
+  font-weight: 600;
+  position: relative;
+  bottom: -110px;
+  left: 0px;
+  color:#666;
+  cursor: pointer;
+}

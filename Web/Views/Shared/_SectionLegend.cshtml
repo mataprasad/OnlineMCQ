@@ -1,0 +1,15 @@
+﻿@model List<VMSection>
+<fieldset class="custom no-margin">
+    <legend> Sections </legend>
+    <ul>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <li>
+                
+                <span class="btn btn-sm  @Html.IIf((i == 0), "btn-info active_section", "btn-default") @Model[i].Id top_section_btns" data-section-id="@Model[i].Id">
+                    <strong>@Model[i].Name (@Model[i].QuestionCount) </strong>
+                </span>
+            </li>
+        }
+    </ul>
+</fieldset>

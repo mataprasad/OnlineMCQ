@@ -1,0 +1,12 @@
+﻿@model VMTestPage
+<div class="test_q_list styled_scrollbar auto height_100_percent">
+    <h4 class="dark_header margin-bottom-15">
+        <strong>Question List </strong>
+    </h4>
+    <div id="test_left_snippets_wrapper">
+        @for (int i = 0; i < Model.Sections.Count; i++)
+        {
+            @Html.Partial("~/Views/Shared/QuePrev/_QpSection.cshtml", new Tuple<VMSection,int>(Model.Sections[i],i))
+        }
+    </div>
+</div>
