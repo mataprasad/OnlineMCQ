@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Web.Models
 {
-    public partial class  Quiz
+    public partial class Quiz
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
@@ -24,7 +24,7 @@ namespace Web.Models
         public bool? IsActive { get; set; }
     }
 
-    public partial class  BatchQuizMap
+    public partial class BatchQuizMap
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
@@ -40,7 +40,7 @@ namespace Web.Models
         public bool? IsActive { get; set; }
     }
 
-    public partial class  BatchUserMap
+    public partial class BatchUserMap
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
@@ -56,7 +56,7 @@ namespace Web.Models
         public bool? IsActive { get; set; }
     }
 
-    public partial class  Attempt
+    public partial class Attempt
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
@@ -73,7 +73,7 @@ namespace Web.Models
         public bool? IsActive { get; set; }
     }
 
-    public partial class  AttemptDetail
+    public partial class AttemptDetail
     {
         public string ID { get; set; }
         public string AttemptID { get; set; }
@@ -88,14 +88,14 @@ namespace Web.Models
         public bool? IsActive { get; set; }
     }
 
-    public partial class  webpages_OAuthMembership
+    public partial class webpages_OAuthMembership
     {
         public string Provider { get; set; }
         public string ProviderUserId { get; set; }
         public int? UserId { get; set; }
     }
 
-    public partial class  webpages_Membership
+    public partial class webpages_Membership
     {
         public int? UserId { get; set; }
         public DateTime? CreateDate { get; set; }
@@ -110,19 +110,19 @@ namespace Web.Models
         public DateTime? PasswordVerificationTokenExpirationDate { get; set; }
     }
 
-    public partial class  webpages_Roles
+    public partial class webpages_Roles
     {
         public int? RoleId { get; set; }
         public string RoleName { get; set; }
     }
 
-    public partial class  webpages_UsersInRoles
+    public partial class webpages_UsersInRoles
     {
         public int? UserId { get; set; }
         public int? RoleId { get; set; }
     }
 
-    public partial class  Company
+    public partial class Company
     {
         public string ID { get; set; }
         [Required]
@@ -142,7 +142,7 @@ namespace Web.Models
         public bool? IsActive { get; set; }
     }
 
-    public partial class  Batch
+    public partial class Batch
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
@@ -160,7 +160,7 @@ namespace Web.Models
         public bool? IsActive { get; set; }
     }
 
-    public partial class  Student
+    public partial class Student
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
@@ -182,5 +182,236 @@ namespace Web.Models
         public bool? IsActive { get; set; }
     }
 
+    public static class DbEntityExt
+    {
+        public static List<Quiz> ToListOfQuiz(this System.Data.IDataReader reader)
+        {
+            using (reader)
+            {
+                var result = new List<Quiz>();
+                var obj = new Quiz();
+                while (reader.Read())
+                {
+                    obj = new Quiz();
+                    obj.ID = reader["ID"] != DBNull.Value ? (string)reader["ID"] : default(string);
+                    obj.CompanyID = reader["CompanyID"] != DBNull.Value ? (string)reader["CompanyID"] : null;
+                    obj.Title = reader["Title"] != DBNull.Value ? (string)reader["Title"] : null;
+                    obj.Code = reader["Code"] != DBNull.Value ? (string)reader["Code"] : null;
+                    obj.Desciption = reader["Desciption"] != DBNull.Value ? (string)reader["Desciption"] : null;
+                    obj.QuestionDbFile = reader["QuestionDbFile"] != DBNull.Value ? (string)reader["QuestionDbFile"] : null;
+                    obj.OtherDetails = reader["OtherDetails"] != DBNull.Value ? (string)reader["OtherDetails"] : null;
+                    obj.CreationDate = reader["CreationDate"] != DBNull.Value ? (long?)reader["CreationDate"] : null;
+                    obj.CreationTime = reader["CreationTime"] != DBNull.Value ? (long?)reader["CreationTime"] : null;
+                    obj.ModificationDate = reader["ModificationDate"] != DBNull.Value ? (long?)reader["ModificationDate"] : null;
+                    obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
+                    obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
+                    obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
 
+                    result.Add(obj);
+                }
+                return result;
+            }
+        }
+        public static List<BatchQuizMap> ToListOfBatchQuizMap(this System.Data.IDataReader reader)
+        {
+            using (reader)
+            {
+                var result = new List<BatchQuizMap>();
+                var obj = new BatchQuizMap();
+                while (reader.Read())
+                {
+                    obj = new BatchQuizMap();
+                    obj.ID = reader["ID"] != DBNull.Value ? (string)reader["ID"] : default(string);
+                    obj.CompanyID = reader["CompanyID"] != DBNull.Value ? (string)reader["CompanyID"] : null;
+                    obj.BatchID = reader["BatchID"] != DBNull.Value ? (string)reader["BatchID"] : null;
+                    obj.QuizID = reader["QuizID"] != DBNull.Value ? (string)reader["QuizID"] : null;
+                    obj.OtherDetails = reader["OtherDetails"] != DBNull.Value ? (string)reader["OtherDetails"] : null;
+                    obj.CreationDate = reader["CreationDate"] != DBNull.Value ? (long?)reader["CreationDate"] : null;
+                    obj.CreationTime = reader["CreationTime"] != DBNull.Value ? (long?)reader["CreationTime"] : null;
+                    obj.ModificationDate = reader["ModificationDate"] != DBNull.Value ? (long?)reader["ModificationDate"] : null;
+                    obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
+                    obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
+                    obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+
+                    result.Add(obj);
+                }
+                return result;
+            }
+        }
+        public static List<BatchUserMap> ToListOfBatchUserMap(this System.Data.IDataReader reader)
+        {
+            using (reader)
+            {
+                var result = new List<BatchUserMap>();
+                var obj = new BatchUserMap();
+                while (reader.Read())
+                {
+                    obj = new BatchUserMap();
+                    obj.ID = reader["ID"] != DBNull.Value ? (string)reader["ID"] : default(string);
+                    obj.CompanyID = reader["CompanyID"] != DBNull.Value ? (string)reader["CompanyID"] : null;
+                    obj.BatchID = reader["BatchID"] != DBNull.Value ? (string)reader["BatchID"] : null;
+                    obj.UserID = reader["UserID"] != DBNull.Value ? (string)reader["UserID"] : null;
+                    obj.OtherDetails = reader["OtherDetails"] != DBNull.Value ? (string)reader["OtherDetails"] : null;
+                    obj.CreationDate = reader["CreationDate"] != DBNull.Value ? (long?)reader["CreationDate"] : null;
+                    obj.CreationTime = reader["CreationTime"] != DBNull.Value ? (long?)reader["CreationTime"] : null;
+                    obj.ModificationDate = reader["ModificationDate"] != DBNull.Value ? (long?)reader["ModificationDate"] : null;
+                    obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
+                    obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
+                    obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+
+                    result.Add(obj);
+                }
+                return result;
+            }
+        }
+        public static List<Attempt> ToListOfAttempt(this System.Data.IDataReader reader)
+        {
+            using (reader)
+            {
+                var result = new List<Attempt>();
+                var obj = new Attempt();
+                while (reader.Read())
+                {
+                    obj = new Attempt();
+                    obj.ID = reader["ID"] != DBNull.Value ? (string)reader["ID"] : default(string);
+                    obj.CompanyID = reader["CompanyID"] != DBNull.Value ? (string)reader["CompanyID"] : null;
+                    obj.BatchID = reader["BatchID"] != DBNull.Value ? (string)reader["BatchID"] : null;
+                    obj.UserID = reader["UserID"] != DBNull.Value ? (string)reader["UserID"] : null;
+                    obj.QuizID = reader["QuizID"] != DBNull.Value ? (string)reader["QuizID"] : null;
+                    obj.OtherDetails = reader["OtherDetails"] != DBNull.Value ? (string)reader["OtherDetails"] : null;
+                    obj.CreationDate = reader["CreationDate"] != DBNull.Value ? (long?)reader["CreationDate"] : null;
+                    obj.CreationTime = reader["CreationTime"] != DBNull.Value ? (long?)reader["CreationTime"] : null;
+                    obj.ModificationDate = reader["ModificationDate"] != DBNull.Value ? (long?)reader["ModificationDate"] : null;
+                    obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
+                    obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
+                    obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+
+                    result.Add(obj);
+                }
+                return result;
+            }
+        }
+        public static List<AttemptDetail> ToListOfAttemptDetail(this System.Data.IDataReader reader)
+        {
+            using (reader)
+            {
+                var result = new List<AttemptDetail>();
+                var obj = new AttemptDetail();
+                while (reader.Read())
+                {
+                    obj = new AttemptDetail();
+                    obj.ID = reader["ID"] != DBNull.Value ? (string)reader["ID"] : default(string);
+                    obj.AttemptID = reader["AttemptID"] != DBNull.Value ? (string)reader["AttemptID"] : null;
+                    obj.ResponseKey = reader["ResponseKey"] != DBNull.Value ? (string)reader["ResponseKey"] : null;
+                    obj.ResponseValue = reader["ResponseValue"] != DBNull.Value ? (string)reader["ResponseValue"] : null;
+                    obj.CreationDate = reader["CreationDate"] != DBNull.Value ? (long?)reader["CreationDate"] : null;
+                    obj.CreationTime = reader["CreationTime"] != DBNull.Value ? (long?)reader["CreationTime"] : null;
+                    obj.ModificationDate = reader["ModificationDate"] != DBNull.Value ? (long?)reader["ModificationDate"] : null;
+                    obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
+                    obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
+                    obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+
+                    result.Add(obj);
+                }
+                return result;
+            }
+        }
+        public static List<Company> ToListOfCompany(this System.Data.IDataReader reader)
+        {
+            using (reader)
+            {
+                var result = new List<Company>();
+                var obj = new Company();
+                while (reader.Read())
+                {
+                    obj = new Company();
+                    obj.ID = reader["ID"] != DBNull.Value ? (string)reader["ID"] : default(string);
+                    obj.Title = reader["Title"] != DBNull.Value ? (string)reader["Title"] : null;
+                    obj.Code = reader["Code"] != DBNull.Value ? (string)reader["Code"] : null;
+                    obj.Address = reader["Address"] != DBNull.Value ? (string)reader["Address"] : null;
+                    obj.Contact = reader["Contact"] != DBNull.Value ? (string)reader["Contact"] : null;
+                    obj.OtherDetails = reader["OtherDetails"] != DBNull.Value ? (string)reader["OtherDetails"] : null;
+                    obj.CreationDate = reader["CreationDate"] != DBNull.Value ? (long?)reader["CreationDate"] : null;
+                    obj.CreationTime = reader["CreationTime"] != DBNull.Value ? (long?)reader["CreationTime"] : null;
+                    obj.ModificationDate = reader["ModificationDate"] != DBNull.Value ? (long?)reader["ModificationDate"] : null;
+                    obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
+                    obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
+                    obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
+                    obj.LicenceFrom = reader["LicenceFrom"] != DBNull.Value ? (long?)reader["LicenceFrom"] : null;
+                    obj.LicenceTo = reader["LicenceTo"] != DBNull.Value ? (long?)reader["LicenceTo"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+
+                    result.Add(obj);
+                }
+                return result;
+            }
+        }
+        public static List<Batch> ToListOfBatch(this System.Data.IDataReader reader)
+        {
+            using (reader)
+            {
+                var result = new List<Batch>();
+                var obj = new Batch();
+                while (reader.Read())
+                {
+                    obj = new Batch();
+                    obj.ID = reader["ID"] != DBNull.Value ? (string)reader["ID"] : default(string);
+                    obj.CompanyID = reader["CompanyID"] != DBNull.Value ? (string)reader["CompanyID"] : null;
+                    obj.Title = reader["Title"] != DBNull.Value ? (string)reader["Title"] : null;
+                    obj.Code = reader["Code"] != DBNull.Value ? (string)reader["Code"] : null;
+                    obj.OtherDetails = reader["OtherDetails"] != DBNull.Value ? (string)reader["OtherDetails"] : null;
+                    obj.CreationDate = reader["CreationDate"] != DBNull.Value ? (long?)reader["CreationDate"] : null;
+                    obj.CreationTime = reader["CreationTime"] != DBNull.Value ? (long?)reader["CreationTime"] : null;
+                    obj.ModificationDate = reader["ModificationDate"] != DBNull.Value ? (long?)reader["ModificationDate"] : null;
+                    obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
+                    obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
+                    obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
+                    obj.StartFrom = reader["StartFrom"] != DBNull.Value ? (long?)reader["StartFrom"] : null;
+                    obj.EndTo = reader["EndTo"] != DBNull.Value ? (long?)reader["EndTo"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+
+                    result.Add(obj);
+                }
+                return result;
+            }
+        }
+        public static List<Student> ToListOfStudent(this System.Data.IDataReader reader)
+        {
+            using (reader)
+            {
+                var result = new List<Student>();
+                var obj = new Student();
+                while (reader.Read())
+                {
+                    obj = new Student();
+                    obj.ID = reader["ID"] != DBNull.Value ? (string)reader["ID"] : default(string);
+                    obj.CompanyID = reader["CompanyID"] != DBNull.Value ? (string)reader["CompanyID"] : null;
+                    obj.Email = reader["Email"] != DBNull.Value ? (string)reader["Email"] : null;
+                    obj.Password = reader["Password"] != DBNull.Value ? (string)reader["Password"] : null;
+                    obj.FirstName = reader["FirstName"] != DBNull.Value ? (string)reader["FirstName"] : null;
+                    obj.MiddleName = reader["MiddleName"] != DBNull.Value ? (string)reader["MiddleName"] : null;
+                    obj.LastName = reader["LastName"] != DBNull.Value ? (string)reader["LastName"] : null;
+                    obj.EnrollmentNo = reader["EnrollmentNo"] != DBNull.Value ? (string)reader["EnrollmentNo"] : null;
+                    obj.Contact = reader["Contact"] != DBNull.Value ? (string)reader["Contact"] : null;
+                    obj.Address = reader["Address"] != DBNull.Value ? (string)reader["Address"] : null;
+                    obj.OtherDetails = reader["OtherDetails"] != DBNull.Value ? (string)reader["OtherDetails"] : null;
+                    obj.CreationDate = reader["CreationDate"] != DBNull.Value ? (long?)reader["CreationDate"] : null;
+                    obj.CreationTime = reader["CreationTime"] != DBNull.Value ? (long?)reader["CreationTime"] : null;
+                    obj.ModificationDate = reader["ModificationDate"] != DBNull.Value ? (long?)reader["ModificationDate"] : null;
+                    obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
+                    obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
+                    obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+
+                    result.Add(obj);
+                }
+                return result;
+            }
+        }
+    }
 }
