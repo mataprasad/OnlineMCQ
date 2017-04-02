@@ -5,14 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Web.Models;
+using Web.Data.SQLite;
 
 namespace Web.Service
 {
     public class CommonService
     {
         private static CommonService _instance = null;
+        private static List<string> _roles = null;
+        private SQLiteHelper _systemDb = null;
 
-        private CommonService() { }
+        private CommonService()
+        {
+            _systemDb = new SQLiteHelper(GetSystemDbFilePath());
+        }
 
         public static CommonService Instance
         {
@@ -77,7 +84,7 @@ namespace Web.Service
                 return value;
             }
         }
-        
+
         #endregion
 
         public string GetTemporaryDirectoryBasePath()
@@ -92,12 +99,44 @@ namespace Web.Service
 
         public string GetSQLiteQuestionsTemplateDatabaseFile()
         {
-           return System.Web.Hosting.HostingEnvironment.MapPath("~/Data/DB_FILES/QUE-DB-QUESTIONS.s3db");
+            return System.Web.Hosting.HostingEnvironment.MapPath("~/Data/DB_FILES/QUE-DB-QUESTIONS.s3db");
         }
 
         public string GetRandomSQLiteDbFileName()
         {
             return string.Concat(DateTime.UtcNow.ToString("ddMMyyyyHHmmssfff_", System.Globalization.CultureInfo.InvariantCulture), Guid.NewGuid().ToString(), ".s3db").ToLower();
         }
+
+        public string GetSystemDbFilePath()
+        {
+            return System.Web.Hosting.HostingEnvironment.MapPath("~/Data/DB_FILES/SYS-DB.s3db");
+        }
+
+        public List<string> GetAllRoles()
+        {
+            if (_roles == null)
+            {
+                _roles = new List<string>();
+                _roles.AddRange(Enum.GetNames(typeof(AppUserRoles)));
+            }
+            return _roles;
+        }
+
+        public List<Company> GetAllCompanies()
+        {
+            return _systemDb.GetAllCompanies();
+        }
     }
+
+    #region Application Roles
+
+    public enum AppUserRoles
+    {
+        SYSTEM_ADMIN,
+        COMPANY_ADMIN,
+        STUDENT,
+        GUEST
+    }
+
+    #endregion
 }

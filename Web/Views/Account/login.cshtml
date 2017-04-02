@@ -75,6 +75,10 @@
                     }
                 }
                 <div class="form-group">
+                    @Html.DropDownListFor(P => P.Company, ViewBag.CompanyList as List<SelectListItem>, "--SELECT INSTITUTE--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(P => P.Company)
+                </div>
+                <div class="form-group">
                     @Html.TextBoxFor(P => P.UserName, new { @class = "form-control", placeholder = "User Name" })
                     @Html.ValidationMessageFor(P => P.UserName)
                 </div>
@@ -89,8 +93,8 @@
             <div class="footer">
                 <button type="submit" name="error" class="btn bg-primary btn-block">Sign me in</button>
 
-                <p><a href="#">I forgot my password</a></p>
-                <a href="@Url.Action("register","account")" class="text-center">Register a new membership</a>
+                @*<p><a href="#">I forgot my password</a></p>
+                <a href="@Url.Action("register","account")" class="text-center">Register a new membership</a>*@
             </div>
         </form>
     </div>

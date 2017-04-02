@@ -11,15 +11,24 @@ using WebMatrix.WebData;
 using Web.Filters;
 using Web.Models;
 using Web.Helper;
+using Web.Service;
 
 namespace Web.Controllers
 {
     public class AccountController : Web.Helper.AdminBaseController
     {
+        private AccountService accountService;
+
+        public AccountController()
+        {
+            accountService = new AccountService(CommonService);
+        }
+
         [AllowAnonymous]
         public ActionResult login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.CompanyList = this.CommonService.GetAllCompanies().Select(P => new SelectListItem() { Text = P.Code, Value = P.ID }).ToList();
             return View();
         }
 
@@ -27,7 +36,8 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult login(LoginModel model)
         {
-            if (true)// (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            this.ChangeComapny(model.Company);
+            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
                 return RedirectToAction("loginSuccess", "account");
             }
@@ -54,7 +64,7 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult logoff()
         {
-            //WebSecurity.Logout();
+            WebSecurity.Logout();
             Session[Common.SessionKey.LOGGED_USER.ToKey()] = null;
             Session.Clear();
             Session.Abandon();

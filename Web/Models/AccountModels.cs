@@ -11,6 +11,10 @@ namespace Web.Models
     public class LoginModel
     {
         [Required]
+        [Display(Name = "Institute")]
+        public string Company { get; set; }
+
+        [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Dapper;
-using System.Data.SQLite;
 using System.Data;
+using System.Data.SQLite;
+using System.Linq;
+using Web.Models;
 
 namespace Web.Data.SQLite
 {
@@ -120,6 +120,11 @@ namespace Web.Data.SQLite
                 }
             }
             return true;
+        }
+
+        public List<Company> GetAllCompanies()
+        {
+            return _con.Query<Company>("SELECT * FROM COMPANY;").ToList();
         }
     }
 }

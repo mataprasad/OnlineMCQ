@@ -5,6 +5,8 @@ using System.Threading;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 using Web.Models;
+using System.Web;
+using Web.Helper;
 
 namespace Web.Filters
 {
@@ -19,6 +21,7 @@ namespace Web.Filters
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            HttpContext.Current.Items[AppContext.EXECUTING_CONTROLLER_KEY] = filterContext.Controller;
             Web.Helper.Logger.Instance.LogTrace(String.Format("Entered in Action Method '{0}.{1}'", 
                 filterContext.ActionDescriptor.ControllerDescriptor.ControllerName, 
                 filterContext.ActionDescriptor.ActionName));

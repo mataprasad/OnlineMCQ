@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Web.Models;
+using Web.Service;
 
 namespace Web.Helper
 {
@@ -14,10 +15,23 @@ namespace Web.Helper
 
     public class AppWebView<T> : WebViewPage<T>, IAppContext
     {
+        private CommonService _commonService = CommonService.Instance;
         private IAppContext _appContext = null;
+
         public AppWebView()
         {
-            _appContext = ObjectFactory.CreateAppContext();
+            if (this.ViewContext == null || !(this.ViewContext.Controller is AdminBaseController))
+            {
+                _appContext = ObjectFactory.CreateAppContext(_commonService);
+            }
+            else
+            {
+                var currentController = this.ViewContext.Controller as AdminBaseController;
+                if (currentController != null)
+                {
+                    _appContext = currentController as IAppContext;
+                }
+            }
         }
 
         public override void Execute()
@@ -38,6 +52,23 @@ namespace Web.Helper
         public int LoggedUserID
         {
             get { return _appContext.LoggedUserID; }
+        }
+
+        public CommonService CommonService
+        {
+            get { return _appContext.CommonService; }
+        }
+
+        public string Company
+        {
+            get
+            {
+                return _appContext.Company;
+            }
+            set
+            {
+                _appContext.Company = value;
+            }
         }
     }
 }
