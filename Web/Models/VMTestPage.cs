@@ -12,6 +12,8 @@ namespace Web.Model
         public static VMTestPage LoadTestData()
         {
             VMTestPage data = new VMTestPage();
+            data.AttemptId = Guid.NewGuid().ToString();
+            data.QuizId = Guid.NewGuid().ToString();
             data.Sections = new List<VMSection>();
 
             int queCount = 0;
@@ -69,6 +71,9 @@ namespace Web.Model
             }
             return data;
         }
+
+        public string QuizId { get; set; }
+        public string AttemptId { get; set; }
     }
 
     public class VMSection

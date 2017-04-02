@@ -234,6 +234,7 @@
     <Compile Include="Models\ModelValidation\UserLogin.cs" />
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\VMTestPage.cs" />
+    <Compile Include="Models\VMTestSubmit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CommonService.cs" />
     <Compile Include="Service\QuizService.cs" />

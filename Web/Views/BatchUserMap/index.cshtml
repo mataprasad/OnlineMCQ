@@ -16,7 +16,7 @@
     </h1>
 </section>
 <section class="content">
-  <script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $(".btnDownload").click(function () {
                 var format = $(this).attr("data-download-format");
@@ -62,20 +62,20 @@
                     <table id="example" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                               <th>ID</th>
-<th>CompanyID</th>
-<th>BatchID</th>
-<th>UserID</th>
-<th>OtherDetails</th>
-<th>CreationDate</th>
-<th>CreationTime</th>
-<th>ModificationDate</th>
-<th>CreatedBy</th>
-<th>ModifiedBy</th>
-<th>ModificationTime</th>
-<th>IsActive</th>
+                                <th>ID</th>
+                                <th>CompanyID</th>
+                                <th>BatchID</th>
+                                <th>UserID</th>
+                                <th>OtherDetails</th>
+                                <th>CreationDate</th>
+                                <th>CreationTime</th>
+                                <th>ModificationDate</th>
+                                <th>CreatedBy</th>
+                                <th>ModifiedBy</th>
+                                <th>ModificationTime</th>
+                                <th>IsActive</th>
 
-							   <th>Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -86,57 +86,57 @@
 </section>
 @{
     var data = new List<Web.Helper.GridHelper>();
-data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "BatchID" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "UserID" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
-data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "BatchID" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "UserID" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
 
-var modelData=new Tuple<IEnumerable<Web.Helper.GridHelper>,String>(data,"BatchUserMap");
+    var modelData = new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "BatchUserMap");
 }
 @section scripts {
-<script type="text/javascript">
-function fnClearForm(){
-$('#ID').val('');
-$('#CompanyID').val('');
-$('#BatchID').val('');
-$('#UserID').val('');
-$('#OtherDetails').val('');
-$('#CreationDate').val('');
-$('#CreationTime').val('');
-$('#ModificationDate').val('');
-$('#CreatedBy').val('');
-$('#ModifiedBy').val('');
-$('#ModificationTime').val('');
-$('#IsActive').val('');
+    <script type="text/javascript">
+        function fnClearForm() {
+            $('#ID').val('');
+            $('#CompanyID').val('');
+            $('#BatchID').val('');
+            $('#UserID').val('');
+            $('#OtherDetails').val('');
+            $('#CreationDate').val('');
+            $('#CreationTime').val('');
+            $('#ModificationDate').val('');
+            $('#CreatedBy').val('');
+            $('#ModifiedBy').val('');
+            $('#ModificationTime').val('');
+            $('#IsActive').val('');
 
-}
-function fnSetupForm(obj){
-$('#ID').val(obj.ID);
-$('#CompanyID').val(obj.CompanyID);
-$('#BatchID').val(obj.BatchID);
-$('#UserID').val(obj.UserID);
-$('#OtherDetails').val(obj.OtherDetails);
-$('#CreationDate').val(obj.CreationDate);
-$('#CreationTime').val(obj.CreationTime);
-$('#ModificationDate').val(obj.ModificationDate);
-$('#CreatedBy').val(obj.CreatedBy);
-$('#ModifiedBy').val(obj.ModifiedBy);
-$('#ModificationTime').val(obj.ModificationTime);
-$('#IsActive').val(obj.IsActive);
+        }
+        function fnSetupForm(obj) {
+            $('#ID').val(obj.ID);
+            $('#CompanyID').val(obj.CompanyID);
+            $('#BatchID').val(obj.BatchID);
+            $('#UserID').val(obj.UserID);
+            $('#OtherDetails').val(obj.OtherDetails);
+            $('#CreationDate').val(obj.CreationDate);
+            $('#CreationTime').val(obj.CreationTime);
+            $('#ModificationDate').val(obj.ModificationDate);
+            $('#CreatedBy').val(obj.CreatedBy);
+            $('#ModifiedBy').val(obj.ModifiedBy);
+            $('#ModificationTime').val(obj.ModificationTime);
+            $('#IsActive').val(obj.IsActive);
 
-}
-function fnSubmit() {
-        $("#frm-add-edit-form").submit();
-}
-</script>
+        }
+        function fnSubmit() {
+            $("#frm-add-edit-form").submit();
+        }
+    </script>
     @Html.Partial("~/Views/_CrudGridJs.cshtml", modelData)
 }
 <div class="modal fade" id="add-new-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -148,64 +148,64 @@ function fnSubmit() {
             </div>
             <form action="#" method="post" class="box" id="frm-add-edit-form">
                 <div class="modal-body">
-                      <div class="form-group">
+                    <div class="form-group">
                         <label for="ID">ID</label>
-                        @Html.TextBoxFor(P => P.ID, new { @class = "form-control", placeholder="ID" })
+                        @Html.TextBoxFor(P => P.ID, new { @class = "form-control", placeholder = "ID" })
                         @Html.ValidationMessageFor(P => P.ID)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="CompanyID">CompanyID</label>
-                        @Html.TextBoxFor(P => P.CompanyID, new { @class = "form-control", placeholder="CompanyID" })
+                        @Html.TextBoxFor(P => P.CompanyID, new { @class = "form-control", placeholder = "CompanyID" })
                         @Html.ValidationMessageFor(P => P.CompanyID)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="BatchID">BatchID</label>
-                        @Html.TextBoxFor(P => P.BatchID, new { @class = "form-control", placeholder="BatchID" })
+                        @Html.TextBoxFor(P => P.BatchID, new { @class = "form-control", placeholder = "BatchID" })
                         @Html.ValidationMessageFor(P => P.BatchID)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="UserID">UserID</label>
-                        @Html.TextBoxFor(P => P.UserID, new { @class = "form-control", placeholder="UserID" })
+                        @Html.TextBoxFor(P => P.UserID, new { @class = "form-control", placeholder = "UserID" })
                         @Html.ValidationMessageFor(P => P.UserID)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="OtherDetails">OtherDetails</label>
-                        @Html.TextBoxFor(P => P.OtherDetails, new { @class = "form-control", placeholder="OtherDetails" })
+                        @Html.TextBoxFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "OtherDetails" })
                         @Html.ValidationMessageFor(P => P.OtherDetails)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="CreationDate">CreationDate</label>
-                        @Html.TextBoxFor(P => P.CreationDate, new { @class = "form-control", placeholder="CreationDate" })
+                        @Html.TextBoxFor(P => P.CreationDate, new { @class = "form-control", placeholder = "CreationDate" })
                         @Html.ValidationMessageFor(P => P.CreationDate)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="CreationTime">CreationTime</label>
-                        @Html.TextBoxFor(P => P.CreationTime, new { @class = "form-control", placeholder="CreationTime" })
+                        @Html.TextBoxFor(P => P.CreationTime, new { @class = "form-control", placeholder = "CreationTime" })
                         @Html.ValidationMessageFor(P => P.CreationTime)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="ModificationDate">ModificationDate</label>
-                        @Html.TextBoxFor(P => P.ModificationDate, new { @class = "form-control", placeholder="ModificationDate" })
+                        @Html.TextBoxFor(P => P.ModificationDate, new { @class = "form-control", placeholder = "ModificationDate" })
                         @Html.ValidationMessageFor(P => P.ModificationDate)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="CreatedBy">CreatedBy</label>
-                        @Html.TextBoxFor(P => P.CreatedBy, new { @class = "form-control", placeholder="CreatedBy" })
+                        @Html.TextBoxFor(P => P.CreatedBy, new { @class = "form-control", placeholder = "CreatedBy" })
                         @Html.ValidationMessageFor(P => P.CreatedBy)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="ModifiedBy">ModifiedBy</label>
-                        @Html.TextBoxFor(P => P.ModifiedBy, new { @class = "form-control", placeholder="ModifiedBy" })
+                        @Html.TextBoxFor(P => P.ModifiedBy, new { @class = "form-control", placeholder = "ModifiedBy" })
                         @Html.ValidationMessageFor(P => P.ModifiedBy)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="ModificationTime">ModificationTime</label>
-                        @Html.TextBoxFor(P => P.ModificationTime, new { @class = "form-control", placeholder="ModificationTime" })
+                        @Html.TextBoxFor(P => P.ModificationTime, new { @class = "form-control", placeholder = "ModificationTime" })
                         @Html.ValidationMessageFor(P => P.ModificationTime)
                     </div>
-  <div class="form-group">
+                    <div class="form-group">
                         <label for="IsActive">IsActive</label>
-                        @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder="IsActive" })
+                        @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "IsActive" })
                         @Html.ValidationMessageFor(P => P.IsActive)
                     </div>
 

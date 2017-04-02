@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web.Models;
 using Web.Service;
 
 namespace Web.Controllers
@@ -15,6 +17,14 @@ namespace Web.Controllers
         {
             var data = service.GetQuiz(id, lang);
             return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult Submit(VMTestSubmit obj)
+        {
+            var successResponse = new { success = true, redirect_url = "/home/" };// for success return this object
+            var errorsResponse = new { errors = "" };// for error return this object
+            return Json(successResponse, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@model VMTestPage
-@{ 
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -12,11 +12,11 @@
     <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon">
     <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon">
     <!-- Disable Cache -->
-    <meta http-equiv="cache-control" content="max-age=0" />
+    @*<meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="pragma" content="no-cache" />*@
     <noscript>
         <meta http-equiv="refresh" content="1; URL=@Url.Content("~/")" />
     </noscript>
@@ -63,7 +63,8 @@
                 <span class="font-16">Submitting your Test, Please wait ...</span>
             </p>
         </div>
-        <div id="attempt_id" class="hidden">58d358462527e4039f8ef4d7</div>
+        <div id="attempt_id" class="hidden">@Model.AttemptId</div>
+        <div id="quiz_id" class="hidden">@Model.QuizId</div>
         <div id="sections_json" class="hidden"></div>
         <div id="test_details_json" class="hidden"></div>
         <div class="col-sm-9 no-padding height_100_percent position-relative ">
@@ -202,7 +203,7 @@
                         </div>
                     </div>
                     <div class="modal-footer padding-5 text-center">
-                        <button class="btn btn-success" id="finish_test_btn" data-loading-text="Submitting Test" data-submit-test-url="/submit-online-test/"> Submit Test </button>
+                        <button class="btn btn-success" id="finish_test_btn" data-loading-text="Submitting Test" data-submit-test-url="@Url.Action("submit","test")"> Submit Test </button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -270,9 +271,9 @@
     <script src="@Url.Content("~/content/test/js/jquery.scrollTo.min.js")"></script>
     <script src="@Url.Content("~/content/test/js/visibility.min.js")"></script>
     <script src="@Url.Content("~/content/test/js/prj_timer.js?v=10")"></script>
-    <script src="@Url.Content("~/content/test/js/online_test.js?v=10")"></script>
+    <script src="@Url.Content("~/content/test/js/online_test.js?v=13")"></script>
     <script>
-         start_test_timer();
+        start_test_timer();
     </script>
     <script></script>
 </body>

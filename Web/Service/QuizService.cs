@@ -34,6 +34,8 @@ namespace Web.Service
             var testData = _sqliteDb.GetAllQuestions();
 
             VMTestPage data = new VMTestPage();
+            data.AttemptId = Guid.NewGuid().ToString();
+            data.QuizId = Guid.NewGuid().ToString();
             data.Sections = new List<VMSection>();
 
             var sections = testData.GroupBy(P => P.SECTION_NAME).Select(P => P).ToList();
