@@ -70,5 +70,17 @@ namespace Web.Helper
                 _appContext.Company = value;
             }
         }
+
+        public string CompanyCode
+        {
+            get
+            {
+                return _appContext.Company;
+            }
+            set
+            {
+                _appContext.Company = value;
+            }
+        }
     }
 }

@@ -105,9 +105,24 @@ namespace Web.Service
             return System.Web.Hosting.HostingEnvironment.MapPath("~/Data/DB_FILES/QUE-DB-QUESTIONS.s3db");
         }
 
-        public string GetRandomSQLiteDbFileName()
+        public string GetSQLiteCompanyTemplateDatabaseFile()
         {
-            return string.Concat(DateTime.UtcNow.ToString("ddMMyyyyHHmmssfff_", System.Globalization.CultureInfo.InvariantCulture), Guid.NewGuid().ToString(), ".s3db").ToLower();
+            return System.Web.Hosting.HostingEnvironment.MapPath("~/Data/DB_FILES/COM-DB-TEMPLATE.s3db");
+        }
+
+        //public string GetRandomSQLiteDbFileName()
+        //{
+        //    return string.Concat(DateTime.UtcNow.ToString("ddMMyyyyHHmmssfff_", System.Globalization.CultureInfo.InvariantCulture), Guid.NewGuid().ToString(), ".s3db").ToLower();
+        //}
+
+        public bool CreatNewCompanyDb(string companyId)
+        {
+            var companyFileName = GetSQLiteCompanyTemplateDatabaseFile().Replace("TEMPLATE", companyId.ToLower()).ToLower();
+            if (!File.Exists(companyFileName))
+            {
+                File.Copy(GetSQLiteCompanyTemplateDatabaseFile(), companyFileName);
+            }
+            return true;
         }
 
         public string GetSystemDbFilePath()

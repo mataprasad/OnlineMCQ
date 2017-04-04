@@ -2269,6 +2269,7 @@
     <Content Include="Content\test\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\test\fonts\fontawesome-webfont.woff2" />
     <Content Include="Data\DB_FILES\COM-DB-15b7092a-641d-4e16-888e-66c019f6918a.s3db" />
+    <Content Include="Data\DB_FILES\COM-DB-TEMPLATE.s3db" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\app\utility.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

@@ -24,11 +24,11 @@ namespace Web.Data.SQLite
             if (_con.State == ConnectionState.Closed)
             {
                 _con.Open();
-            }
-            _con.Trace += new SQLiteTraceEventHandler((o, e) =>
-            {
-                var sql = (e as System.Data.SQLite.TraceEventArgs).Statement;
-            });
+                _con.Trace += new SQLiteTraceEventHandler((o, e) =>
+                {
+                    var sql = (e as System.Data.SQLite.TraceEventArgs).Statement;
+                });
+            }            
         }
 
         public List<McqQuestion> GetAllQuestions()

@@ -9,11 +9,16 @@ namespace Web.Models
     public class Biz
     {
         private DbService _db = null;
+        private CommonService commonService = null;
 
-        public Biz()
+        public Biz() { }
+
+        public Biz(CommonService commonService, string company)
         {
-            _db = new DbService();
+            _db = new DbService(commonService, company);
+            this.commonService = commonService;
         }
+
         #region Quiz Mathods
 
         public List<Quiz> GetAllQuizs()
@@ -361,30 +366,31 @@ namespace Web.Models
             return _db.GetAllCompanies();
         }
 
-        public Company GetCompany(object id)
+        public List<Company> GetAllCompanies(string query)
         {
-            return null;// _db.Companies.Find(id);
+            return _db.GetAllCompanies(query);
+        }
+
+        public Company GetCompany(string id)
+        {
+            return _db.GetCompany(id);
         }
 
         public Company AddCompany(Company obj)
         {
-            //_db.Companies.Add(obj);
-            //_db.SaveChanges();
+            obj= _db.AddCompany(obj);
+            commonService.CreatNewCompanyDb(obj.ID);
             return obj;
         }
 
         public Company EditCompany(Company obj)
         {
-            //_db.Entry<Company>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
+            return _db.EditCompany(obj);
         }
 
-        public Company DeleteCompany(Company obj)
+        public bool DeleteCompany(string id)
         {
-            //_db.Companies.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.DeleteCompany(id);
         }
 
         #endregion
@@ -429,30 +435,29 @@ namespace Web.Models
             return _db.GetAllStudents();
         }
 
-        public Student GetStudent(object id)
+        public List<Student> GetAllStudents(string query)
         {
-            return null;// _db.Students.Find(id);
+            return _db.GetAllStudents(query);
+        }
+
+        public Student GetStudent(string id)
+        {
+            return _db.GetStudent(id);
         }
 
         public Student AddStudent(Student obj)
         {
-            //_db.Students.Add(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.AddStudent(obj);
         }
 
         public Student EditStudent(Student obj)
         {
-            //_db.Entry<Student>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
+            return _db.EditStudent(obj);
         }
 
-        public Student DeleteStudent(Student obj)
+        public bool DeleteStudent(string id)
         {
-            //_db.Students.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.DeleteStudent(id);
         }
 
         #endregion

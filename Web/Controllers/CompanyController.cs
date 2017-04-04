@@ -10,7 +10,13 @@ namespace Web.Controllers
 {
     public class CompanyController : Web.Helper.AdminBaseController
     {
-        private Biz _db = new Biz();
+        private Biz _db;
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            _db = this.InitBiz();
+        }
+
         public ActionResult index()
         {
             return View();
@@ -18,20 +24,28 @@ namespace Web.Controllers
 
         public ActionResult list(string query = null)
         {
-            var data = _db.GetAllCompanies();
+            var data = new List<Company>();
             if (!String.IsNullOrWhiteSpace(query))
             {
-                return new JsonNetResult(new { aaData = data.Where(P => true).ToList() });
+                data = _db.GetAllCompanies(query);
             }
             else
             {
-                return new JsonNetResult(new { aaData = data.ToList() });
+                data = _db.GetAllCompanies();
             }
+            return new JsonNetResult(new { aaData = data });
         }
 
         [HttpPost]
         public ActionResult add(Company obj)
         {
+            obj.ID = Guid.NewGuid().ToString().ToLower();
+            obj.CreatedBy = LoggedUserID;
+            obj.CreationDate = Utility.GetCurrentDateInt();
+            obj.CreationTime = Utility.GetCurrentTimeInt();
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.AddCompany(obj);
             return RedirectToAction("index");
         }
@@ -44,13 +58,16 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult edit(Company obj)
         {
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.EditCompany(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult delete(string id)
         {
-            _db.DeleteCompany(_db.GetCompany(id));
+            _db.DeleteCompany(id);
             return RedirectToAction("index");
         }
     }

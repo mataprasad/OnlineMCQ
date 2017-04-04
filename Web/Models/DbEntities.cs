@@ -127,8 +127,11 @@ namespace Web.Models
         public string ID { get; set; }
         [Required]
         public string Title { get; set; }
+        [Required]
         public string Code { get; set; }
+        [Required]
         public string Address { get; set; }
+        [Required]
         public string Contact { get; set; }
         public string OtherDetails { get; set; }
         public long? CreationDate { get; set; }
@@ -137,8 +140,11 @@ namespace Web.Models
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
+        [Required]
         public long? LicenceFrom { get; set; }
+        [Required]
         public long? LicenceTo { get; set; }
+        [Required]
         public bool? IsActive { get; set; }
     }
 
@@ -164,12 +170,16 @@ namespace Web.Models
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
+        [Required]
         public string Email { get; set; }
         public string Password { get; set; }
+        [Required]
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
+        [Required]
         public string LastName { get; set; }
         public string EnrollmentNo { get; set; }
+        [Required]
         public string Contact { get; set; }
         public string Address { get; set; }
         public string OtherDetails { get; set; }
@@ -179,6 +189,7 @@ namespace Web.Models
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
+        [Required]
         public bool? IsActive { get; set; }
     }
 

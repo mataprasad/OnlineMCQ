@@ -7,12 +7,93 @@ namespace Web.Helper
 {
     public static class SQL
     {
+        #region Company
+
         public const string SelectAllCompany = @"SELECT * FROM COMPANY;";
+
+        public const string SelectAllCompanyLike = @"SELECT * FROM COMPANY WHERE Title LIKE @Term OR Code LIKE @Term OR 
+                                                        Address LIKE @Term OR Contact LIKE @Term;";
+
+        public const string SelectCompanyByID = @"SELECT * FROM COMPANY WHERE ID=@ID;";
+
+        public const string UpdateCompany = @"UPDATE Company
+                                               SET Title = @Title
+                                                  ,Code = @Code
+                                                  ,Address = @Address
+                                                  ,Contact = @Contact
+                                                  ,OtherDetails = @OtherDetails
+                                                  ,CreationDate = @CreationDate
+                                                  ,CreationTime = @CreationTime
+                                                  ,ModificationDate = @ModificationDate
+                                                  ,CreatedBy = @CreatedBy
+                                                  ,ModifiedBy = @ModifiedBy
+                                                  ,ModificationTime = @ModificationTime
+                                                  ,LicenceFrom = @LicenceFrom
+                                                  ,LicenceTo = @LicenceTo
+                                                  ,IsActive = @IsActive
+                                             WHERE ID = @ID;";
+
+        public const string InsertCompany = @"INSERT INTO Company(ID,Title,Code,Address,Contact,OtherDetails,CreationDate,CreationTime,
+                                                ModificationDate,CreatedBy,ModifiedBy,ModificationTime,LicenceFrom,LicenceTo,IsActive)
+                                                VALUES(@ID,@Title,@Code,@Address,@Contact,@OtherDetails,@CreationDate,@CreationTime,
+                                                @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@LicenceFrom,@LicenceTo,@IsActive)";
+
+        public const string DeleteCompany = @"DELETE FROM Company WHERE ID=@ID";
+
+        public const string SoftDeleteCompany = @"UPDATE Company SET IsActive=0 WHERE ID=@ID";
+
         public const string CheckCompanyActiveStatus = @"SELECT * FROM Company WHERE ID = @ID AND LicenceTo>= @LicenceTo AND IsActive =1;";
 
-        public const string UserLoginCheck = @"SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,'*' AS AccessLevel FROM Student WHERE Email = @Email AND Password = @Password AND IsActive=1;";
+        #endregion
+
+        #region Student
+
+
+
+        public const string SelectAllStudent = @"SELECT * FROM STUDENT;";
+
+        public const string SelectAllStudentLike = @"SELECT * FROM Student WHERE Email LIKE @Term OR FirstName LIKE @Term OR LastName LIKE @Term 
+	                                                    OR MiddleName LIKE @Term OR EnrollmentNo LIKE @Term OR Contact LIKE @Term 
+	                                                    OR Address LIKE @Term;";
+
+        public const string SelectStudentByID = @"SELECT * FROM STUDENT WHERE ID=@ID;";
+
+        public const string UpdateStudent = @"UPDATE Student
+                                               SET CompanyID = @CompanyID
+                                                  ,Email = @Email
+                                                  ,Password = @Password
+                                                  ,FirstName = @FirstName
+                                                  ,MiddleName = @MiddleName
+                                                  ,LastName = @LastName
+                                                  ,EnrollmentNo = @EnrollmentNo
+                                                  ,Contact = @Contact
+                                                  ,Address = @Address
+                                                  ,OtherDetails = @OtherDetails
+                                                  ,CreationDate = @CreationDate
+                                                  ,CreationTime = @CreationTime
+                                                  ,ModificationDate = @ModificationDate
+                                                  ,CreatedBy = @CreatedBy
+                                                  ,ModifiedBy = @ModifiedBy
+                                                  ,ModificationTime = @ModificationTime
+                                                  ,IsActive = @IsActive
+                                             WHERE ID = @ID";
+
+        public const string SoftDeleteStudent = @"UPDATE Student SET IsActive=0 WHERE ID=@ID";
+
+        public const string InsertStudent = @"INSERT INTO Student(ID,CompanyID,Email,Password,FirstName,MiddleName,
+                                                LastName,EnrollmentNo,Contact,Address,OtherDetails,CreationDate,CreationTime,
+                                                ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive)
+                                              VALUES(@ID,@CompanyID,@Email,@Password,@FirstName,@MiddleName,
+                                                @LastName,@EnrollmentNo,@Contact,@Address,@OtherDetails,@CreationDate,@CreationTime,
+                                                @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive)";
+
+        #endregion
+
+        public const string UserLoginCheck = @"SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,'*' AS AccessLevel 
+                                                FROM Student WHERE Email = @Email AND Password = @Password AND IsActive=1;";
 
         public const string ChangeUserPassword = @"UPDATE Student set Password=@NewPassword WHERE Email=@Email AND Password=@Password;
-                                                   SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,'*' AS AccessLevel FROM Student WHERE Email = @Email AND Password = @NewPassword;";
+                                                   SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,'*' AS AccessLevel 
+                                                        FROM Student WHERE Email = @Email AND Password = @NewPassword;";
     }
 }

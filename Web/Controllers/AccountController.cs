@@ -36,7 +36,7 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult login(LoginModel model)
         {
-            this.ChangeComapny(model.Company);
+            this.ChangeComapny(model.Company,"");
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
                 return loginSuccess(model);

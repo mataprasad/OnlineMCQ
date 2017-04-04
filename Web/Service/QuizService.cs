@@ -104,8 +104,8 @@ namespace Web.Service
 
         public bool CreateQuiz()
         {
-            string newDbFileName = _util.GetRandomSQLiteDbFileName();
-            File.Copy(_util.GetSQLiteQuestionsTemplateDatabaseFile(), Path.Combine(_util.GetSQLiteDbFileDirectoryBasePath(), newDbFileName), true);
+            //string newDbFileName = _util.GetRandomSQLiteDbFileName();
+            //File.Copy(_util.GetSQLiteQuestionsTemplateDatabaseFile(), Path.Combine(_util.GetSQLiteDbFileDirectoryBasePath(), newDbFileName), true);
             return true;
         }
     }

@@ -20,7 +20,8 @@ namespace Web.Helper
         public enum SessionKey
         {
             LOGGED_USER,
-            COMPANY
+            COMPANY,
+            COMPANY_CODE
         }
 
         public const string ApplicationName = "Online-MCQ";

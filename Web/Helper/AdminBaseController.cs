@@ -18,7 +18,7 @@ namespace Web.Helper
         private AccountService _accountService = null;
         private IAppContext _appContext = null;
 
-        public event Action<string> OnComapnyChange;
+        public event Action<string,string> OnComapnyChange;
 
         public AdminBaseController()
         {
@@ -27,9 +27,14 @@ namespace Web.Helper
             this.OnComapnyChange += AdminBaseController_OnComapnyChange;
         }
 
-        private void AdminBaseController_OnComapnyChange(string obj)
+        private void AdminBaseController_OnComapnyChange(string obj,string companyCode)
         {
             this.Company = obj;
+        }
+
+        public Biz InitBiz()
+        {
+          return new Biz(this.CommonService, this.Company);
         }
 
         public UserLogin LoggedUser
@@ -75,11 +80,23 @@ namespace Web.Helper
             }
         }
 
-        public void ChangeComapny(string company)
+        public string CompanyCode
+        {
+            get
+            {
+                return _appContext.Company;
+            }
+            set
+            {
+                _appContext.Company = value;
+            }
+        }
+
+        public void ChangeComapny(string company,string companyCode)
         {
             if (this.OnComapnyChange != null)
             {
-                OnComapnyChange(company);
+                OnComapnyChange(company, companyCode);
             }
         }
     }

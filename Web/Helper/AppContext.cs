@@ -18,6 +18,7 @@ namespace Web.Helper
         string LoggedUserID { get; }
         CommonService CommonService { get; }
         string Company { get; set; }
+        string CompanyCode { get; set; }
     }
 
     public class AppContext : IAppContext
@@ -96,6 +97,18 @@ namespace Web.Helper
             set
             {
                 HttpContext.Current.Session[Common.SessionKey.COMPANY.ToKey()] = value;
+            }
+        }
+
+        public string CompanyCode
+        {
+            get
+            {
+                return Convert.ToString(HttpContext.Current.Session[Common.SessionKey.COMPANY_CODE.ToKey()]);
+            }
+            set
+            {
+                HttpContext.Current.Session[Common.SessionKey.COMPANY_CODE.ToKey()] = value;
             }
         }
 
