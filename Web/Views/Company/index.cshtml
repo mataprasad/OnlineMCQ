@@ -62,22 +62,21 @@
                     <table id="example" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                @*<th>ID</th>*@
                                 <th>Title</th>
                                 <th>Code</th>
-                                <th>Address</th>
                                 <th>Contact</th>
+                                <th>LicenceFrom</th>
+                                <th>LicenceTo</th>
+                                <th>Address</th>
                                 <th>OtherDetails</th>
-                                <th>CreationDate</th>
+                                @*<th>CreationDate</th>
                                 <th>CreationTime</th>
                                 <th>ModificationDate</th>
                                 <th>CreatedBy</th>
                                 <th>ModifiedBy</th>
-                                <th>ModificationTime</th>
-                                <th>LicenceFrom</th>
-                                <th>LicenceTo</th>
-                                <th>IsActive</th>
-
+                                <th>ModificationTime</th>*@
+                                @*<th>IsActive</th>*@
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -89,20 +88,20 @@
 </section>
 @{
     var data = new List<Web.Helper.GridHelper>();
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "Title" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "Code" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "Address" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "Contact" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "LicenceFrom" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "LicenceTo" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "Address" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
 
     var modelData = new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Company");
@@ -153,89 +152,66 @@
 }
 <div class="modal fade" id="add-new-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width:800px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="model-title-h4" add-title="Add New Company" edit-title="Modify Selected Company"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add New Company</h4>
             </div>
             <form action="#" method="post" class="box" id="frm-add-edit-form">
+                <input type="hidden" name="ID" id="ID" value="" />
+                <input type="hidden" name="CreationDate" id="CreationDate" value="" />
+                <input type="hidden" name="CreationTime" id="CreationTime" value="" />
+                <input type="hidden" name="ModificationDate" id="ModificationDate" value="" />
+                <input type="hidden" name="CreatedBy" id="CreatedBy" value="" />
+                <input type="hidden" name="ModifiedBy" id="ModifiedBy" value="" />
+                <input type="hidden" name="ModificationTime" id="ModificationTime" value="" />
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="ID">ID</label>
-                        @Html.TextBoxFor(P => P.ID, new { @class = "form-control", placeholder = "ID" })
-                        @Html.ValidationMessageFor(P => P.ID)
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Title">Title @Html.ValidationMessageFor(P => P.Title)</label>
+                                @Html.TextBoxFor(P => P.Title, new { @class = "form-control", placeholder = "Title" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Code">Code @Html.ValidationMessageFor(P => P.Code)</label>
+                                @Html.TextBoxFor(P => P.Code, new { @class = "form-control", placeholder = "Code" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="LicenceFrom">Licence From @Html.ValidationMessageFor(P => P.LicenceFrom)</label>
+                                @Html.TextBoxFor(P => P.LicenceFrom, new { @class = "form-control", placeholder = "LicenceFrom" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="LicenceTo">Licence Upto @Html.ValidationMessageFor(P => P.LicenceTo)</label>
+                                @Html.TextBoxFor(P => P.LicenceTo, new { @class = "form-control", placeholder = "LicenceTo" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Contact">Contact Details @Html.ValidationMessageFor(P => P.Contact)</label>
+                                @Html.TextBoxFor(P => P.Contact, new { @class = "form-control", placeholder = "Contact" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
+                                @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "IsActive" })
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="Title">Title</label>
-                        @Html.TextBoxFor(P => P.Title, new { @class = "form-control", placeholder = "Title" })
-                        @Html.ValidationMessageFor(P => P.Title)
+                        <label for="Address">Address @Html.ValidationMessageFor(P => P.Address)</label>
+                        @Html.TextAreaFor(P => P.Address, new { @class = "form-control", placeholder = "Address" })
                     </div>
                     <div class="form-group">
-                        <label for="Code">Code</label>
-                        @Html.TextBoxFor(P => P.Code, new { @class = "form-control", placeholder = "Code" })
-                        @Html.ValidationMessageFor(P => P.Code)
+                        <label for="OtherDetails">Other Details @Html.ValidationMessageFor(P => P.OtherDetails)</label>
+                        @Html.TextAreaFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "OtherDetails" })
                     </div>
-                    <div class="form-group">
-                        <label for="Address">Address</label>
-                        @Html.TextBoxFor(P => P.Address, new { @class = "form-control", placeholder = "Address" })
-                        @Html.ValidationMessageFor(P => P.Address)
-                    </div>
-                    <div class="form-group">
-                        <label for="Contact">Contact</label>
-                        @Html.TextBoxFor(P => P.Contact, new { @class = "form-control", placeholder = "Contact" })
-                        @Html.ValidationMessageFor(P => P.Contact)
-                    </div>
-                    <div class="form-group">
-                        <label for="OtherDetails">OtherDetails</label>
-                        @Html.TextBoxFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "OtherDetails" })
-                        @Html.ValidationMessageFor(P => P.OtherDetails)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreationDate">CreationDate</label>
-                        @Html.TextBoxFor(P => P.CreationDate, new { @class = "form-control", placeholder = "CreationDate" })
-                        @Html.ValidationMessageFor(P => P.CreationDate)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreationTime">CreationTime</label>
-                        @Html.TextBoxFor(P => P.CreationTime, new { @class = "form-control", placeholder = "CreationTime" })
-                        @Html.ValidationMessageFor(P => P.CreationTime)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModificationDate">ModificationDate</label>
-                        @Html.TextBoxFor(P => P.ModificationDate, new { @class = "form-control", placeholder = "ModificationDate" })
-                        @Html.ValidationMessageFor(P => P.ModificationDate)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreatedBy">CreatedBy</label>
-                        @Html.TextBoxFor(P => P.CreatedBy, new { @class = "form-control", placeholder = "CreatedBy" })
-                        @Html.ValidationMessageFor(P => P.CreatedBy)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModifiedBy">ModifiedBy</label>
-                        @Html.TextBoxFor(P => P.ModifiedBy, new { @class = "form-control", placeholder = "ModifiedBy" })
-                        @Html.ValidationMessageFor(P => P.ModifiedBy)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModificationTime">ModificationTime</label>
-                        @Html.TextBoxFor(P => P.ModificationTime, new { @class = "form-control", placeholder = "ModificationTime" })
-                        @Html.ValidationMessageFor(P => P.ModificationTime)
-                    </div>
-                    <div class="form-group">
-                        <label for="LicenceFrom">LicenceFrom</label>
-                        @Html.TextBoxFor(P => P.LicenceFrom, new { @class = "form-control", placeholder = "LicenceFrom" })
-                        @Html.ValidationMessageFor(P => P.LicenceFrom)
-                    </div>
-                    <div class="form-group">
-                        <label for="LicenceTo">LicenceTo</label>
-                        @Html.TextBoxFor(P => P.LicenceTo, new { @class = "form-control", placeholder = "LicenceTo" })
-                        @Html.ValidationMessageFor(P => P.LicenceTo)
-                    </div>
-                    <div class="form-group">
-                        <label for="IsActive">IsActive</label>
-                        @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "IsActive" })
-                        @Html.ValidationMessageFor(P => P.IsActive)
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-flat fa fa-close" data-dismiss="modal">&nbsp;&nbsp;&nbsp;Close</button>

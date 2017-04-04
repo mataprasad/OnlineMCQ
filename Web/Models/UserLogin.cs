@@ -11,17 +11,42 @@ namespace Web.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using Web.Helper;
+
     public partial class UserLogin
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
+        public string CompanyID { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
         public string ScreenName { get; set; }
         public string AccessLevel { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public Nullable<System.DateTime> CreatedOn { get; set; }
-        public Nullable<System.DateTime> UpdatedOn { get; set; }
-        public Nullable<System.Guid> TransactionNo { get; set; }
+
+        public Common.ApplicationRole Role
+        {
+            get
+            {
+                if(AccessLevel.ToLower().Contains("*") || AccessLevel.ToLower().Contains("systemadministrator"))
+                {
+                    return Common.ApplicationRole.SystemAdministrator;
+                }
+
+                if (AccessLevel.ToLower().Contains("administrator"))
+                {
+                    return Common.ApplicationRole.Administrator;
+                }
+
+                if (AccessLevel.ToLower().Contains("companyadmin"))
+                {
+                    return Common.ApplicationRole.CompanyAdmin;
+                }
+
+                if (AccessLevel.ToLower().Contains("student"))
+                {
+                    return Common.ApplicationRole.Student;
+                }
+
+                return Common.ApplicationRole.Guest;
+            }
+        }
     }
 }

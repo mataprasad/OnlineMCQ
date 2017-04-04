@@ -39,23 +39,23 @@ namespace Web.Controllers
             this.ChangeComapny(model.Company);
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                return RedirectToAction("loginSuccess", "account");
+                return loginSuccess(model);
             }
             ModelState.AddModelError("error", "The user name or password provided is incorrect.");
+            ViewBag.CompanyList = this.CommonService.GetAllCompanies().Select(P => new SelectListItem() { Text = P.Code, Value = P.ID }).ToList();
             return View(model);
 
         }
 
-        public ActionResult loginSuccess()
+        public ActionResult loginSuccess(LoginModel model)
         {
             Web.Models.UserLogin _userLogin = null;
             if (User != null)
             {
-                _userLogin = new UserLogin();// new Web.Models.Biz().GetAllUserLogins().Where(P => P.ID == WebSecurity.CurrentUserId).FirstOrDefault();
+                _userLogin = accountService.LoginUser(model.UserName, model.Password, model.Company);
                 if (_userLogin != null)
                 {
                     Session[Common.SessionKey.LOGGED_USER.ToKey()] = _userLogin;
-                    //ViewBag.LoggedUserScreenName = _userLogin.ScreenName;
                 }
             }
             return RedirectToAction("index", "home");
@@ -64,10 +64,10 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult logoff()
         {
-            WebSecurity.Logout();
             Session[Common.SessionKey.LOGGED_USER.ToKey()] = null;
             Session.Clear();
             Session.Abandon();
+            WebSecurity.Logout();
             return RedirectToAction("login", "account");
         }
 
@@ -115,9 +115,10 @@ namespace Web.Controllers
             return View(new ChangePasswordModel());
         }
 
-        public ActionResult changePassword(String currentPassword, String newPassword)
+        public ActionResult changePassword(string currentPassword, string newPassword)
         {
-            var success = WebSecurity.ChangePassword(LoggedUser.UserName, currentPassword, newPassword);
+            accountService.SetCompanyContext(this.Company);
+            var success = accountService.ChangePassword(LoggedUser.UserName, currentPassword, newPassword);
             if (success)
             {
                 return new JsonNetResult("Password changed successfully");
@@ -130,7 +131,7 @@ namespace Web.Controllers
 
         public ActionResult generateResetPasswordLink()
         {
-            WebSecurity.GeneratePasswordResetToken(User.Identity.Name);
+            //WebSecurity.GeneratePasswordResetToken(User.Identity.Name);
             return View("500");
         }
     }

@@ -1,20 +1,34 @@
-﻿using Dapper;
+﻿#define DEBUG
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using Web.Models;
+using System.Data.Common;
 
 namespace Web.Data.SQLite
 {
-    public class SQLiteHelper
+    public class SQLiteHelper : IDbAccess, IDisposable
     {
         private SQLiteConnection _con = null;
 
         public SQLiteHelper(string dbFilePath)
         {
             _con = new SQLiteConnection(string.Format(@"Data Source={0};Version=3;UseUTF16Encoding=True;", dbFilePath));
+        }
+
+        public void Trace()
+        {
+            if (_con.State == ConnectionState.Closed)
+            {
+                _con.Open();
+            }
+            _con.Trace += new SQLiteTraceEventHandler((o, e) =>
+            {
+                var sql = (e as System.Data.SQLite.TraceEventArgs).Statement;
+            });
         }
 
         public List<McqQuestion> GetAllQuestions()
@@ -121,10 +135,33 @@ namespace Web.Data.SQLite
             }
             return true;
         }
-
-        public List<Company> GetAllCompanies()
+        
+        public List<T> GetQueryData<T>(string sql)
         {
-            return _con.Query<Company>("SELECT * FROM COMPANY;").ToList();
+            return _con.Query<T>(sql).ToList();
+        }
+
+        public List<T> GetQueryData<T>(string sql, object param)
+        {
+            return _con.Query<T>(sql, param).ToList();
+        }
+
+        public List<T> GetQueryData<T>(CommandDefinition cmdDef)
+        {
+            return _con.Query<T>(cmdDef).ToList();
+        }
+
+        public int Execute(string sql, object param)
+        {
+            return _con.Execute(sql, param);
+        }
+
+        public void Dispose()
+        {
+            if (_con != null)
+            {
+                _con.Dispose();
+            }
         }
     }
 }

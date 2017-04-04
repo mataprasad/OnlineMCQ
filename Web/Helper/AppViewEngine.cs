@@ -49,7 +49,7 @@ namespace Web.Helper
             get { return _appContext.LoggedUserScreenName; }
         }
 
-        public int LoggedUserID
+        public string LoggedUserID
         {
             get { return _appContext.LoggedUserID; }
         }

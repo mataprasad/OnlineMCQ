@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Web.Data;
+using Web.Data.SQLite;
 using Web.Models;
 using Web.Service;
 
@@ -13,7 +15,7 @@ namespace Web.Helper
     {
         UserLogin LoggedUser { get; }
         String LoggedUserScreenName { get; }
-        Int32 LoggedUserID { get; }
+        string LoggedUserID { get; }
         CommonService CommonService { get; }
         string Company { get; set; }
     }
@@ -36,13 +38,11 @@ namespace Web.Helper
             {
                 if (_loggedUser == null)
                 {
-                    _loggedUser = (UserLogin)HttpContext.Current.Session[Common.SessionKey.LOGGED_USER.ToKey()];
-                    _loggedUser = new UserLogin();
+                    _loggedUser = (UserLogin)HttpContext.Current.Session[Common.SessionKey.LOGGED_USER.ToKey()];                    
                     if (_loggedUser == null)
                     {
-                        _loggedUser = new UserLogin();
-                        //FormsAuthentication.SignOut();
-                        //FormsAuthentication.RedirectToLoginPage();
+                        FormsAuthentication.SignOut();
+                        FormsAuthentication.RedirectToLoginPage();
                     }
                 }
                 return _loggedUser;
@@ -64,7 +64,7 @@ namespace Web.Helper
             }
         }
 
-        public Int32 LoggedUserID
+        public string LoggedUserID
         {
             get
             {
@@ -74,7 +74,7 @@ namespace Web.Helper
                 }
                 else
                 {
-                    return -1;
+                    return string.Empty;
                 }
             }
         }
@@ -108,6 +108,11 @@ namespace Web.Helper
             }
             return null;
         }
+
+        public static AdminBaseController GetCurrentController()
+        {
+            return HttpContext.Current.Items[AppContext.EXECUTING_CONTROLLER_KEY] as AdminBaseController;
+        }
     }
 
     public static class ObjectFactory
@@ -115,6 +120,11 @@ namespace Web.Helper
         public static IAppContext CreateAppContext(CommonService commonService)
         {
             return new AppContext(commonService);
+        }
+
+        public static IDbAccess CreateDbContext(string connectionString)
+        {
+            return new SQLiteHelper(connectionString);
         }
     }
 }

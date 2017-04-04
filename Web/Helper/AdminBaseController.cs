@@ -15,7 +15,7 @@ namespace Web.Helper
     public class AdminBaseController : Controller, IAppContext
     {
         private CommonService _commonService = CommonService.Instance;
-
+        private AccountService _accountService = null;
         private IAppContext _appContext = null;
 
         public event Action<string> OnComapnyChange;
@@ -23,6 +23,7 @@ namespace Web.Helper
         public AdminBaseController()
         {
             _appContext = ObjectFactory.CreateAppContext(_commonService);
+            _accountService = new AccountService(_commonService);
             this.OnComapnyChange += AdminBaseController_OnComapnyChange;
         }
 
@@ -41,7 +42,7 @@ namespace Web.Helper
             get { return _appContext.LoggedUserScreenName; }
         }
 
-        public int LoggedUserID
+        public string LoggedUserID
         {
             get { return _appContext.LoggedUserID; }
         }
@@ -51,6 +52,14 @@ namespace Web.Helper
             get
             {
                 return _appContext.CommonService;
+            }
+        }
+
+        public AccountService AccountService
+        {
+            get
+            {
+                return _accountService;
             }
         }
 

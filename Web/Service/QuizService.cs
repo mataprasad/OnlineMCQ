@@ -7,19 +7,20 @@ using Web.Data;
 using Web.Data.SQLite;
 using System.Data;
 using System.IO;
+using Web.Helper;
 
 namespace Web.Service
 {
     public class QuizService
     {
-        private SQLiteHelper _sqliteDb = null;
+        private IDbAccess _db = null;
         private CommonService _util = CommonService.Instance;
         private string _temporaryDirectoryBasePath = null;
 
         public QuizService()
         {
             _temporaryDirectoryBasePath = _util.GetTemporaryDirectoryBasePath();
-            _sqliteDb = new SQLiteHelper(@"D:\CodeLib\Mcq.Online\Mcq.Test\bin\DbX.s3db");
+            _db = ObjectFactory.CreateDbContext(@"D:\CodeLib\Mcq.Online\Mcq.Test\bin\DbX.s3db");
         }
 
         public VMTestPage GetQuiz(string quizId, string language = "en")
@@ -31,7 +32,7 @@ namespace Web.Service
                 isHindi = true;
             }
 
-            var testData = _sqliteDb.GetAllQuestions();
+            var testData = _db.GetAllQuestions();
 
             VMTestPage data = new VMTestPage();
             data.AttemptId = Guid.NewGuid().ToString();
@@ -98,7 +99,7 @@ namespace Web.Service
         public bool UploadQuizQuestions(string excelFileName)
         {
             DataTable dt = _util.GetDataTableFromExcelSheat(Path.Combine(_temporaryDirectoryBasePath, excelFileName));
-            return _sqliteDb.BulkInsertQuestions(dt);
+            return _db.BulkInsertQuestions(dt);
         }
 
         public bool CreateQuiz()

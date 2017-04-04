@@ -9,21 +9,21 @@ using System.Web.Mvc;
 
 namespace Web.Helper
 {
-    public class Utility
+    public static class Utility
     {
-        public void ToXml(String GridData, String fileName = null)
+        public static void ToXml(String GridData, String fileName = null)
         {
             XmlNode xml = XmlFromJsonString(GridData);
             string strXml = xml.OuterXml;
             HttpContext.Current.Response.Clear();
-            HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename="+(fileName??"TransactionData.xml"));
+            HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=" + (fileName ?? "TransactionData.xml"));
             HttpContext.Current.Response.AddHeader("Content-Length", strXml.Length.ToString());
             HttpContext.Current.Response.ContentType = "application/xml";
             HttpContext.Current.Response.Write(strXml);
             HttpContext.Current.Response.End();
         }
 
-        public void ToExcel(String GridData, String fileName = null)
+        public static void ToExcel(String GridData, String fileName = null)
         {
             XmlNode xml = XmlFromJsonString(GridData);
             HttpContext.Current.Response.Clear();
@@ -35,7 +35,7 @@ namespace Web.Helper
             HttpContext.Current.Response.End();
         }
 
-        public void ToCsv(String GridData, String fileName = null)
+        public static void ToCsv(String GridData, String fileName = null)
         {
             XmlNode xml = XmlFromJsonString(GridData);
             HttpContext.Current.Response.Clear();
@@ -47,9 +47,19 @@ namespace Web.Helper
             HttpContext.Current.Response.End();
         }
 
-        public XmlNode XmlFromJsonString(String jsonString)
+        public static XmlNode XmlFromJsonString(String jsonString)
         {
             return JsonConvert.DeserializeXmlNode("{records:{record:" + jsonString + "}}");
+        }
+
+        public static int GetCurrentDateInt()
+        {
+            return int.Parse(DateTime.UtcNow.ToString("yyyyMMdd"));
+        }
+
+        public static int GetCurrentTimeInt()
+        {
+            return int.Parse(DateTime.UtcNow.ToString("HHmmssfff"));
         }
     }
 }

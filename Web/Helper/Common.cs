@@ -12,10 +12,10 @@ namespace Web.Helper
         {
             SystemAdministrator,
             Administrator,
-            CasualUser,
-            Guest,
             CompanyAdmin,
-            Student
+            Student,
+            CasualUser,
+            Guest
         }
         public enum SessionKey
         {

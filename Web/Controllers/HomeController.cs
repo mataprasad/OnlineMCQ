@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web.Helper;
 
 namespace Web.Controllers
 {
@@ -37,17 +38,16 @@ namespace Web.Controllers
 
         public void DownloadGridData(String gridData, DownloadFormat format)
         {
-            var utility = new Web.Helper.Utility();
             switch (format)
             {
                 case DownloadFormat.XML:
-                    utility.ToXml(gridData);
+                    Utility.ToXml(gridData);
                     break;
                 case DownloadFormat.XLS:
-                    utility.ToExcel(gridData);
+                    Utility.ToExcel(gridData);
                     break;
                 case DownloadFormat.CSV:
-                    utility.ToCsv(gridData);
+                    Utility.ToCsv(gridData);
                     break;
                 default:
                     break;

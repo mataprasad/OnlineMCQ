@@ -2,22 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Web.Service;
 
 namespace Web.Models
 {
     public class Biz
     {
-        //private DbEntities _db = null;
+        private DbService _db = null;
 
         public Biz()
         {
-            //_db = new DbEntities();
+            _db = new DbService();
         }
         #region Quiz Mathods
 
-        public IQueryable<Quiz> GetAllQuizs()
+        public List<Quiz> GetAllQuizs()
         {
-            return null;// _db.Quizs.AsQueryable();
+            return _db.GetAllQuizs();
         }
 
         public Quiz GetQuiz(object id)
@@ -355,9 +356,9 @@ namespace Web.Models
         #endregion
         #region Company Mathods
 
-        public IQueryable<Company> GetAllCompanies()
+        public List<Company> GetAllCompanies()
         {
-            return new List<Company>().AsQueryable();// _db.Companies.AsQueryable();
+            return _db.GetAllCompanies();
         }
 
         public Company GetCompany(object id)
@@ -389,9 +390,9 @@ namespace Web.Models
         #endregion
         #region Batch Mathods
 
-        public IQueryable<Batch> GetAllBatches()
+        public List<Batch> GetAllBatches()
         {
-            return null;// _db.Batches.AsQueryable();
+            return _db.GetAllBatches();
         }
 
         public Batch GetBatch(object id)
@@ -423,9 +424,9 @@ namespace Web.Models
         #endregion
         #region Student Mathods
 
-        public IQueryable<Student> GetAllStudents()
+        public List<Student> GetAllStudents()
         {
-            return null;// _db.Students.AsQueryable();
+            return _db.GetAllStudents();
         }
 
         public Student GetStudent(object id)

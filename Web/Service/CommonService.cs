@@ -7,6 +7,9 @@ using System.Web;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Web.Models;
 using Web.Data.SQLite;
+using System.IO;
+using Web.Helper;
+using Web.Data;
 
 namespace Web.Service
 {
@@ -14,11 +17,11 @@ namespace Web.Service
     {
         private static CommonService _instance = null;
         private static List<string> _roles = null;
-        private SQLiteHelper _systemDb = null;
+        private IDbAccess _systemDb = null;
 
         private CommonService()
         {
-            _systemDb = new SQLiteHelper(GetSystemDbFilePath());
+            _systemDb = ObjectFactory.CreateDbContext(GetSystemDbFilePath()); //new SQLiteHelper(GetSystemDbFilePath());
         }
 
         public static CommonService Instance
@@ -109,7 +112,17 @@ namespace Web.Service
 
         public string GetSystemDbFilePath()
         {
-            return System.Web.Hosting.HostingEnvironment.MapPath("~/Data/DB_FILES/SYS-DB.s3db");
+            return GetCompanyDbFilePath("15b7092a-641d-4e16-888e-66c019f6918a");
+        }
+
+        public string GetCompanyDbFilePath(string companyId)
+        {
+            var path = System.Web.Hosting.HostingEnvironment.MapPath("~/Data/DB_FILES/COM-DB-" + companyId + ".s3db");
+            if (File.Exists(path))
+            {
+                return path;
+            }
+            throw new Exception("Db file not exists for company id : " + companyId);
         }
 
         public List<string> GetAllRoles()
@@ -124,7 +137,19 @@ namespace Web.Service
 
         public List<Company> GetAllCompanies()
         {
-            return _systemDb.GetAllCompanies();
+            return _systemDb.GetQueryData<Company>(SQL.SelectAllCompany).ToList();
+        }
+
+        public bool IsCompanyActive(string companyId)
+        {
+            var company = _systemDb.GetQueryData<Company>(SQL.CheckCompanyActiveStatus
+                 , new { ID = companyId, LicenceTo = Utility.GetCurrentDateInt() }).FirstOrDefault();
+            if (company != null && !string.IsNullOrWhiteSpace(company.ID))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 
