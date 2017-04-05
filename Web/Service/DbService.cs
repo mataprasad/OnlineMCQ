@@ -181,7 +181,7 @@ namespace Web.Service
         {
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                obj = db.GetQueryData<Batch>(SQL.UpdateBatch + " " + SQL.SelectBatchByID, obj).FirstOrDefault();
+                obj = db.GetQueryData<Batch>(SQL.UpdateBatch + "; " + SQL.SelectBatchByID, obj).FirstOrDefault();
             }
             return obj;
         }
