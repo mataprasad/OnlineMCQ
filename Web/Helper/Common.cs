@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -8,6 +9,8 @@ namespace Web.Helper
     public class Common
     {
         public const string DEFAULT_USER = "Guest";
+        public static readonly bool EmailEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["SendEmail"]);
+        public static readonly bool SmsEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["SendSms"]);
         public enum ApplicationRole
         {
             SystemAdministrator,

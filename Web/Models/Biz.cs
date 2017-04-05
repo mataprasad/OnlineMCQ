@@ -401,30 +401,29 @@ namespace Web.Models
             return _db.GetAllBatches();
         }
 
-        public Batch GetBatch(object id)
+        public List<Batch> GetAllBatches(string query)
         {
-            return null;// _db.Batches.Find(id);
+            return _db.GetAllBatches(query);
+        }
+
+        public Batch GetBatch(string id)
+        {
+            return _db.GetBatch(id);
         }
 
         public Batch AddBatch(Batch obj)
         {
-            //_db.Batches.Add(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.AddBatch(obj);
         }
 
         public Batch EditBatch(Batch obj)
         {
-            //_db.Entry<Batch>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
+            return _db.EditBatch(obj);
         }
 
-        public Batch DeleteBatch(Batch obj)
+        public bool DeleteBatch(string id)
         {
-            //_db.Batches.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.DeleteBatch(id);
         }
 
         #endregion

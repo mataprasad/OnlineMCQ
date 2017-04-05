@@ -145,7 +145,7 @@ namespace Web.Service
             if (_roles == null)
             {
                 _roles = new List<string>();
-                _roles.AddRange(Enum.GetNames(typeof(AppUserRoles)));
+                _roles.AddRange(Enum.GetNames(typeof(Web.Helper.Common.ApplicationRole)));
             }
             return _roles;
         }
@@ -166,17 +166,13 @@ namespace Web.Service
 
             return false;
         }
+
+        public bool ImportStudents(string excelFilePath,string companyId,string loggedUserId)
+        {
+            var dt = GetDataTableFromExcelSheat(excelFilePath);
+            var dbFilePath = GetCompanyDbFilePath(companyId);
+
+            return _systemDb.BulkInsertStudents(dt, companyId, loggedUserId, dbFilePath);
+        }
     }
-
-    #region Application Roles
-
-    public enum AppUserRoles
-    {
-        SYSTEM_ADMIN,
-        COMPANY_ADMIN,
-        STUDENT,
-        GUEST
-    }
-
-    #endregion
 }

@@ -238,10 +238,12 @@
     <Compile Include="Models\UserLogin.cs" />
     <Compile Include="Models\VMTestPage.cs" />
     <Compile Include="Models\VMTestSubmit.cs" />
+    <Compile Include="Models\VMUpload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AccountService.cs" />
     <Compile Include="Service\CommonService.cs" />
     <Compile Include="Service\DbService.cs" />
+    <Compile Include="Service\MessageService.cs" />
     <Compile Include="Service\QuizService.cs" />
     <Compile Include="Service\ServiceBase.cs" />
   </ItemGroup>
@@ -2322,6 +2324,9 @@
     <Content Include="Views\Shared\QuePrev\_QpSection.cshtml" />
     <Content Include="Views\Shared\QuePrev\_QpWrapper.cshtml" />
     <Content Include="Views\Test\Mcq.cshtml" />
+    <Content Include="Views\Home\FileImport.cshtml" />
+    <Content Include="Temp\QUES_UPLOAD_TEMPLATE.xlsx" />
+    <Content Include="Temp\STUDENTS_UPLOAD_TEMPLATE.xlsx" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

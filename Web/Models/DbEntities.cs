@@ -152,7 +152,9 @@ namespace Web.Models
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Code { get; set; }
         public string OtherDetails { get; set; }
         public long? CreationDate { get; set; }
@@ -161,8 +163,11 @@ namespace Web.Models
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
+        [Required]
         public long? StartFrom { get; set; }
+        [Required]
         public long? EndTo { get; set; }
+        [Required]
         public bool? IsActive { get; set; }
     }
 
@@ -191,6 +196,8 @@ namespace Web.Models
         public long? ModificationTime { get; set; }
         [Required]
         public bool? IsActive { get; set; }
+        [Required]
+        public long? DateOfBirth { get; set; }
     }
 
     public static class DbEntityExt

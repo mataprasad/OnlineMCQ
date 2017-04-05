@@ -10,7 +10,13 @@ namespace Web.Controllers
 {
     public class BatchController : Web.Helper.AdminBaseController
     {
-        private Biz _db = new Biz();
+        private Biz _db;
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            _db = this.InitBiz();
+        }
+
         public ActionResult index()
         {
             return View();
@@ -18,20 +24,30 @@ namespace Web.Controllers
 
         public ActionResult list(string query = null)
         {
-            var data = _db.GetAllBatches();
+            var data = new List<Batch>();
             if (!String.IsNullOrWhiteSpace(query))
             {
-                return new JsonNetResult(new { aaData = data.Where(P => true).ToList() });
+                data = _db.GetAllBatches(query);
             }
             else
             {
-                return new JsonNetResult(new { aaData = data.ToList() });
+                data = _db.GetAllBatches();
             }
+
+            return new JsonNetResult(new { aaData = data });
         }
 
         [HttpPost]
         public ActionResult add(Batch obj)
         {
+            obj.ID = Guid.NewGuid().ToString().ToLower();
+            obj.CompanyID = this.Company.ToLower();
+            obj.CreatedBy = LoggedUserID;
+            obj.CreationDate = Utility.GetCurrentDateInt();
+            obj.CreationTime = Utility.GetCurrentTimeInt();
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.AddBatch(obj);
             return RedirectToAction("index");
         }
@@ -44,13 +60,17 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult edit(Batch obj)
         {
+            obj.CompanyID = this.Company.ToLower();
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.EditBatch(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult delete(string id)
         {
-            _db.DeleteBatch(_db.GetBatch(id));
+            _db.DeleteBatch(id);
             return RedirectToAction("index");
         }
     }

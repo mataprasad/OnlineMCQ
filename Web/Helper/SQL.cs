@@ -76,16 +76,51 @@ namespace Web.Helper
                                                   ,ModifiedBy = @ModifiedBy
                                                   ,ModificationTime = @ModificationTime
                                                   ,IsActive = @IsActive
+                                                  ,DateOfBirth = @DateOfBirth
                                              WHERE ID = @ID";
 
         public const string SoftDeleteStudent = @"UPDATE Student SET IsActive=0 WHERE ID=@ID";
 
         public const string InsertStudent = @"INSERT INTO Student(ID,CompanyID,Email,Password,FirstName,MiddleName,
                                                 LastName,EnrollmentNo,Contact,Address,OtherDetails,CreationDate,CreationTime,
-                                                ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive)
+                                                ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive,DateOfBirth)
                                               VALUES(@ID,@CompanyID,@Email,@Password,@FirstName,@MiddleName,
                                                 @LastName,@EnrollmentNo,@Contact,@Address,@OtherDetails,@CreationDate,@CreationTime,
-                                                @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive)";
+                                                @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive,@DateOfBirth)";
+
+        #endregion
+
+        #region Batch
+
+        public const string SelectAllBatch = @"SELECT * FROM BATCH;";
+
+        public const string SelectAllBatchLike = @"SELECT * FROM BATCH WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
+
+        public const string SelectBatchByID = @"SELECT * FROM BATCH WHERE ID=@ID;";
+
+        public const string UpdateBatch = @"UPDATE Batch
+                                               SET CompanyID = @CompanyID
+                                                  ,Title = @Title
+                                                  ,Code = @Code
+                                                  ,OtherDetails = @OtherDetails
+                                                  ,CreationDate = @CreationDate
+                                                  ,CreationTime = @CreationTime
+                                                  ,ModificationDate = @ModificationDate
+                                                  ,CreatedBy = @CreatedBy
+                                                  ,ModifiedBy = @ModifiedBy
+                                                  ,ModificationTime = @ModificationTime
+                                                  ,StartFrom = @StartFrom
+                                                  ,EndTo = @EndTo
+                                                  ,IsActive = @IsActive
+                                             WHERE ID = @ID";
+
+        public const string SoftDeleteBatch = @"UPDATE BATCH SET IsActive=0 WHERE ID=@ID";
+
+        public const string InsertBatch = @"INSERT INTO Batch
+                                               (ID,CompanyID,Title,Code,OtherDetails,CreationDate,CreationTime,ModificationDate
+                                               ,CreatedBy,ModifiedBy,ModificationTime,StartFrom,EndTo,IsActive)
+                                                VALUES (@ID,@CompanyID,@Title,@Code,@OtherDetails,@CreationDate,@CreationTime,@ModificationDate
+                                               ,@CreatedBy,@ModifiedBy,@ModificationTime,@StartFrom,@EndTo,@IsActive)";
 
         #endregion
 

@@ -140,7 +140,62 @@ namespace Web.Service
 
         public List<Batch> GetAllBatches()
         {
-            return new List<Batch>();
+            var data = new List<Batch>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Batch>(SQL.SelectAllBatch).ToList();
+            }
+            return data;
+        }
+
+        public List<Batch> GetAllBatches(string query)
+        {
+            var data = new List<Batch>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Batch>(SQL.SelectAllBatchLike, new { Term = "%" + query + "%" }).ToList();
+            }
+            return data;
+        }
+
+        public Batch GetBatch(string id)
+        {
+            var data = new Batch();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Batch>(SQL.SelectBatchByID, new { ID = id }).FirstOrDefault();
+            }
+            return data;
+        }
+
+        public Batch AddBatch(Batch obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<Batch>(SQL.InsertBatch + "; " + SQL.SelectBatchByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public Batch EditBatch(Batch obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<Batch>(SQL.UpdateBatch + " " + SQL.SelectBatchByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public bool DeleteBatch(string id)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                if (db.Execute(SQL.SoftDeleteBatch, new { ID = id }) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public List<Quiz> GetAllQuizs()

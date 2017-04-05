@@ -1,5 +1,4 @@
-﻿#define DEBUG
-using Dapper;
+﻿using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,6 +6,7 @@ using System.Data.SQLite;
 using System.Linq;
 using Web.Models;
 using System.Data.Common;
+using Web.Helper;
 
 namespace Web.Data.SQLite
 {
@@ -28,7 +28,7 @@ namespace Web.Data.SQLite
                 {
                     var sql = (e as System.Data.SQLite.TraceEventArgs).Statement;
                 });
-            }            
+            }
         }
 
         public List<McqQuestion> GetAllQuestions()
@@ -135,7 +135,7 @@ namespace Web.Data.SQLite
             }
             return true;
         }
-        
+
         public List<T> GetQueryData<T>(string sql)
         {
             return _con.Query<T>(sql).ToList();
@@ -162,6 +162,61 @@ namespace Web.Data.SQLite
             {
                 _con.Dispose();
             }
+        }
+
+        public bool BulkInsertStudents(DataTable dt, string companyId, string loggedUserId, string dbFilePath)
+        {
+            try
+            {
+                using (var localConnection = new SQLiteConnection(string.Format(@"Data Source={0};Version=3;UseUTF16Encoding=True;", dbFilePath)))
+                {
+                    localConnection.Open();
+
+                    SQLiteCommand cmd = null;
+
+                    var currentDateInt = Utility.GetCurrentDateInt();
+                    var currentTimeInt = Utility.GetCurrentTimeInt();
+
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        cmd = new SQLiteCommand();
+                        cmd.Connection = localConnection;
+                        cmd.CommandText = SQL.InsertStudent;
+                        cmd.CommandType = CommandType.Text;
+
+                        cmd.Parameters.AddWithValue("@ID", Convert.ToString(Guid.NewGuid()).ToLower());
+                        cmd.Parameters.AddWithValue("@CompanyID", companyId);
+
+                        cmd.Parameters.AddWithValue("@CreatedBy", loggedUserId);
+                        cmd.Parameters.AddWithValue("@CreationDate", currentDateInt);
+                        cmd.Parameters.AddWithValue("@CreationTime", currentTimeInt);
+                        cmd.Parameters.AddWithValue("@ModifiedBy", loggedUserId);
+                        cmd.Parameters.AddWithValue("@ModificationDate", currentDateInt);
+                        cmd.Parameters.AddWithValue("@ModificationTime", currentTimeInt);
+                        cmd.Parameters.AddWithValue("@IsActive", true);
+
+                        cmd.Parameters.AddWithValue("@Email", Convert.ToString(item["Email"]));
+                        cmd.Parameters.AddWithValue("@Password", Convert.ToString(item["DateOfBirth"]));
+                        cmd.Parameters.AddWithValue("@FirstName", Convert.ToString(item["FirstName"]));
+                        cmd.Parameters.AddWithValue("@MiddleName", Convert.ToString(item["MiddleName"]));
+                        cmd.Parameters.AddWithValue("@LastName", Convert.ToString(item["LastName"]));
+                        cmd.Parameters.AddWithValue("@DateOfBirth", Convert.ToInt32(item["DateOfBirth"]));
+                        cmd.Parameters.AddWithValue("@EnrollmentNo", Convert.ToString(item["EnrollmentNo"]));
+                        cmd.Parameters.AddWithValue("@Contact", Convert.ToString(item["Contact"]));
+                        cmd.Parameters.AddWithValue("@Address", Convert.ToString(item["Address"]));
+                        cmd.Parameters.AddWithValue("@OtherDetails", Convert.ToString(item["OtherDetails"]));
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    cmd = null;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return true;
         }
     }
 }

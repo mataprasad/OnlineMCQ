@@ -1,0 +1,74 @@
+﻿@model Web.Models.VMUpload
+@{
+    ViewBag.Title = "Uploads";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var uploadTypes = new List<SelectListItem>();
+    uploadTypes.Add(new SelectListItem() { Text = "STUDENTS", Value = "S" });
+    uploadTypes.Add(new SelectListItem() { Text = "QUESTIONS", Value = "Q" });
+}
+
+<section class="content-header">
+    <h1>
+        Manage Uploads
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <form action="@Url.Action("fileimport","home")" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="UploadType">Select Upload Type @Html.ValidationMessageFor(P => P.UploadType)</label>
+                                    @Html.DropDownListFor(P => P.UploadType, uploadTypes, "--SELECT UPLOAD TYPE--", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="File">Browse File @Html.ValidationMessageFor(P => P.File)</label>
+                                    <input type="file" name="File" value="" id="File" class="form-control" data-val="true" data-val-required="*" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary btn-flat form-control" style="float: right;"><i class="fa fa-upload"></i>&nbsp;&nbsp;UPLOAD&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label>Download Sample Data file</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 form-group">
+                                <h2><a href="@Url.Action("fileimporttemplate","home")?id=S" class=""><i class="fa fa-download"></i>&nbsp;&nbsp;Students sample data file</a></h2>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <h2><a href="@Url.Action("fileimporttemplate","home")?id=Q" class=""><i class="fa fa-download"></i>&nbsp;&nbsp;Questions sample data file</a></h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @*<div class="col-lg-12 form-group">
+                                <div class="alert-dismissable callout callout-info">
+                                    <h4>I am an info callout!</h4>
+                                    <p>Follow the steps to continue to payment.</p>
+                                </div>
+                            </div>*@
+                            <div class="col-lg-12 form-group">
+                                <div class="alert alert-info alert-dismissable">
+                                    <i class="fa fa-info"></i>
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <b>Uploaded successfully!</b> Your upload is queued for import. You will be notify by email for the import status. Please note down your import reference. <h3><b>@Guid.NewGuid()</b></h3>.
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

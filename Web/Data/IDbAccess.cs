@@ -13,6 +13,7 @@ namespace Web.Data
     {
         List<McqQuestion> GetAllQuestions();
         bool BulkInsertQuestions(DataTable dt);
+        bool BulkInsertStudents(DataTable dt, string companyId, string loggedUserId, string dbFilePath);
         List<T> GetQueryData<T>(string sql);
         List<T> GetQueryData<T>(string sql, object param);
         List<T> GetQueryData<T>(CommandDefinition cmdDef);
