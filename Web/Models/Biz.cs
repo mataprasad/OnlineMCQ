@@ -28,7 +28,7 @@ namespace Web.Models
 
         public Quiz GetQuiz(object id)
         {
-            return null;// _db.Quizs.Find(id);
+            return null;// _db.Quizs.Find(id);//
         }
 
         public Quiz AddQuiz(Quiz obj)
