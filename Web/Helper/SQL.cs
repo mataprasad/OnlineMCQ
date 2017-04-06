@@ -112,7 +112,7 @@ namespace Web.Helper
                                                   ,StartFrom = @StartFrom
                                                   ,EndTo = @EndTo
                                                   ,IsActive = @IsActive
-                                             WHERE ID = @ID";
+                                             WHERE ID = @ID;";
 
         public const string SoftDeleteBatch = @"UPDATE BATCH SET IsActive=0 WHERE ID=@ID";
 
@@ -120,7 +120,47 @@ namespace Web.Helper
                                                (ID,CompanyID,Title,Code,OtherDetails,CreationDate,CreationTime,ModificationDate
                                                ,CreatedBy,ModifiedBy,ModificationTime,StartFrom,EndTo,IsActive)
                                                 VALUES (@ID,@CompanyID,@Title,@Code,@OtherDetails,@CreationDate,@CreationTime,@ModificationDate
-                                               ,@CreatedBy,@ModifiedBy,@ModificationTime,@StartFrom,@EndTo,@IsActive)";
+                                               ,@CreatedBy,@ModifiedBy,@ModificationTime,@StartFrom,@EndTo,@IsActive);";
+
+        #endregion
+
+
+        #region Quiz
+
+        public const string SelectAllQuiz = @"SELECT * FROM QUIZ;";
+
+        public const string SelectAllQuizLike = @"SELECT * FROM QUIZ WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
+
+        public const string SelectQuizByID = @"SELECT * FROM QUIZ WHERE ID=@ID;";
+
+        public const string UpdateQuiz = @"UPDATE Quiz
+                                               SET CompanyID = @CompanyID
+                                                  ,Title = @Title
+                                                  ,Code = @Code
+                                                  ,Desciption = @Desciption
+                                                  ,QuestionDbFile = @QuestionDbFile
+                                                  ,OtherDetails = @OtherDetails
+                                                  ,CreationDate = @CreationDate
+                                                  ,CreationTime = @CreationTime
+                                                  ,ModificationDate = @ModificationDate
+                                                  ,CreatedBy = @CreatedBy
+                                                  ,ModifiedBy = @ModifiedBy
+                                                  ,ModificationTime = @ModificationTime
+                                                  ,IsActive = @IsActive
+                                                  ,AvailableFromDate = @AvailableFromDate
+                                                  ,AvailableToDate = @AvailableToDate
+                                                  ,AvailableFromTime = @AvailableFromTime
+                                                  ,AvailableToTime = @AvailableToTime
+                                             WHERE ID = @ID;";
+
+        public const string SoftDeleteQuiz = @"UPDATE QUIZ SET IsActive=0 WHERE ID=@ID";
+
+        public const string InsertQuiz = @"INSERT INTO Quiz(ID,CompanyID,Title,Code,Desciption,QuestionDbFile,OtherDetails,CreationDate,CreationTime
+                                           ,ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive
+                                           ,AvailableFromDate,AvailableToDate,AvailableFromTime,AvailableToTime)
+                                            VALUES(@ID,@CompanyID,@Title,@Code,@Desciption,@QuestionDbFile,@OtherDetails
+                                           ,@CreationDate,@CreationTime,@ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive
+                                           ,@AvailableFromDate,@AvailableToDate,@AvailableFromTime,@AvailableToTime);";
 
         #endregion
 

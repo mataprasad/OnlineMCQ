@@ -197,10 +197,65 @@ namespace Web.Service
             }
             return false;
         }
-
-        public List<Quiz> GetAllQuizs()
+        
+        public List<Quiz> GetAllQuizzes()
         {
-            return new List<Quiz>();
+            var data = new List<Quiz>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Quiz>(SQL.SelectAllQuiz).ToList();
+            }
+            return data;
+        }
+
+        public List<Quiz> GetAllQuizzes(string query)
+        {
+            var data = new List<Quiz>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Quiz>(SQL.SelectAllQuizLike, new { Term = "%" + query + "%" }).ToList();
+            }
+            return data;
+        }
+
+        public Quiz GetQuiz(string id)
+        {
+            var data = new Quiz();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Quiz>(SQL.SelectQuizByID, new { ID = id }).FirstOrDefault();
+            }
+            return data;
+        }
+
+        public Quiz AddQuiz(Quiz obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<Quiz>(SQL.InsertQuiz + "; " + SQL.SelectQuizByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public Quiz EditQuiz(Quiz obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<Quiz>(SQL.UpdateQuiz + "; " + SQL.SelectQuizByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public bool DeleteQuiz(string id)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                if (db.Execute(SQL.SoftDeleteQuiz, new { ID = id }) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

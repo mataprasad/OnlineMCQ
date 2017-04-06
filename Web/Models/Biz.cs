@@ -21,35 +21,34 @@ namespace Web.Models
 
         #region Quiz Mathods
 
-        public List<Quiz> GetAllQuizs()
+        public List<Quiz> GetAllQuizzes()
         {
-            return _db.GetAllQuizs();
+            return _db.GetAllQuizzes();
         }
 
-        public Quiz GetQuiz(object id)
+        public List<Quiz> GetAllQuizzes(string query)
         {
-            return null;// _db.Quizs.Find(id);//
+            return _db.GetAllQuizzes(query);
+        }
+
+        public Quiz GetQuiz(string id)
+        {
+            return _db.GetQuiz(id);
         }
 
         public Quiz AddQuiz(Quiz obj)
         {
-            //_db.Quizs.Add(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.AddQuiz(obj);
         }
 
         public Quiz EditQuiz(Quiz obj)
         {
-            //_db.Entry<Quiz>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
+            return _db.EditQuiz(obj);
         }
 
-        public Quiz DeleteQuiz(Quiz obj)
+        public bool DeleteQuiz(string id)
         {
-            //_db.Quizs.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.DeleteQuiz(id);
         }
 
         #endregion

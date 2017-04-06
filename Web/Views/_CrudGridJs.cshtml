@@ -15,7 +15,7 @@
                 "bAutoWidth": false,
                 "iDisplayLength": 8,
                 "sAjaxSource": url,
-                "sServerMethod": "GET",                
+                "sServerMethod": "GET",
                 "aAjaxSourceLoadError": function(xhr, error, thrown){
                     alert(xhr.responseText);
                 },
@@ -24,21 +24,21 @@
 	                {
 	                    <text>
                             {
-                                "sTitle": "@item.ColumnName",
-                                "mData": "@item.ColumnHeader",
+                                "sTitle": "@item.ColumnHeader",
+                                "mData": "@item.ColumnName",
                                 "bSortable": @item.Sortable.ToString().ToLower(),
                                 "bVisible": @item.Visible.ToString().ToLower()
                                 },
-                        </text>
+        </text>
 	                }
-                    {
-                        "bSortable": false,
-                        "sTitle": "Action",
-                        "mData": null,
-                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            $(nTd).html('<a class="grid-action-edit" onclick="fnGridActionEdit(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="grid-action-delete" onclick="fnGridActionDelete(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-trash-o"></i></a>');
-                        }
-                    }]
+{
+    "bSortable": false,
+    "sTitle": "Action",
+    "mData": null,
+    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+        $(nTd).html('<a class="grid-action-edit" onclick="fnGridActionEdit(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="grid-action-delete" onclick="fnGridActionDelete(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-trash-o"></i></a>');
+    }
+}]
             });
         }
         fnInitTable("");

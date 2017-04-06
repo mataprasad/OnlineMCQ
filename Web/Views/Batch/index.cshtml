@@ -62,17 +62,17 @@
                     <table id="example" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>CompanyID</th>
+                                @*<th>ID</th>
+                                <th>CompanyID</th>*@
                                 <th>Title</th>
                                 <th>Code</th>
                                 <th>OtherDetails</th>
-                                <th>CreationDate</th>
+                                @*<th>CreationDate</th>
                                 <th>CreationTime</th>
                                 <th>ModificationDate</th>
                                 <th>CreatedBy</th>
                                 <th>ModifiedBy</th>
-                                <th>ModificationTime</th>
+                                <th>ModificationTime</th>*@
                                 <th>StartFrom</th>
                                 <th>EndTo</th>
                                 <th>IsActive</th>
@@ -88,17 +88,17 @@
 </section>
 @{
     var data = new List<Web.Helper.GridHelper>();
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "Title" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "Code" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "StartFrom" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "EndTo" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });

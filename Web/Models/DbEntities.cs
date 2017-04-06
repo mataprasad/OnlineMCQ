@@ -8,10 +8,18 @@ namespace Web.Models
 {
     public partial class Quiz
     {
+        public Quiz()
+        {
+            AvailableFromTime = 0;
+            AvailableToTime = 2359999;
+        }
         public string ID { get; set; }
         public string CompanyID { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Code { get; set; }
+        [Required]
         public string Desciption { get; set; }
         public string QuestionDbFile { get; set; }
         public string OtherDetails { get; set; }
@@ -21,7 +29,16 @@ namespace Web.Models
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
+        [Required]
         public bool? IsActive { get; set; }
+        [Required]
+        public long? AvailableFromDate { get; set; }
+        [Required]
+        public long? AvailableToDate { get; set; }
+        [Required]
+        public long? AvailableFromTime { get; set; }
+        [Required]
+        public long? AvailableToTime { get; set; }
     }
 
     public partial class BatchQuizMap
