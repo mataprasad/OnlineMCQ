@@ -30,7 +30,7 @@ namespace Web.Models
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
         [Required]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
         [Required]
         public long? AvailableFromDate { get; set; }
         [Required]
@@ -39,6 +39,17 @@ namespace Web.Models
         public long? AvailableFromTime { get; set; }
         [Required]
         public long? AvailableToTime { get; set; }
+
+        public long? TimeLimit { get; set; }
+        public long? CorrectAnswerMarks { get; set; }
+        public double? NegativeMarking { get; set; }
+        public double? PassingPercentage { get; set; }
+        public bool ShuffleQuestions { get; set; }
+        public bool ShuffleOptions { get; set; }
+        public bool ShowReportAfterTest { get; set; }
+        public bool RevealCorrectOptionAfterTest { get; set; }
+        public bool AllowMultipleAttempts { get; set; }
+        public bool PreventWindowAndTabChange { get; set; }
     }
 
     public partial class BatchQuizMap
@@ -241,7 +252,7 @@ namespace Web.Models
                     obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
                     obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
                     obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
-                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool)reader["IsActive"] : false;
 
                     result.Add(obj);
                 }

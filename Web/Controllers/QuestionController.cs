@@ -8,8 +8,7 @@ using Web.Helper;
 
 namespace Web.Controllers
 {
-    [Authorize(Roles = "SystemAdministrator")]
-    public class CompanyController : Web.Helper.AdminBaseController
+    public class QuestionController : Web.Helper.AdminBaseController
     {
         private Biz _db;
 
@@ -25,50 +24,53 @@ namespace Web.Controllers
 
         public ActionResult list(string query = null)
         {
-            var data = new List<Company>();
+            var data = new List<Quiz>();
             if (!String.IsNullOrWhiteSpace(query))
             {
-                data = _db.GetAllCompanies(query);
+                data = _db.GetAllQuizzes(query);
             }
             else
             {
-                data = _db.GetAllCompanies();
+                data = _db.GetAllQuizzes();
             }
+
             return new JsonNetResult(new { aaData = data });
         }
 
         [HttpPost]
-        public ActionResult add(Company obj)
+        public ActionResult add(Quiz obj)
         {
             obj.ID = Guid.NewGuid().ToString().ToLower();
+            obj.CompanyID = this.Company.ToLower();
             obj.CreatedBy = LoggedUserID;
             obj.CreationDate = Utility.GetCurrentDateInt();
             obj.CreationTime = Utility.GetCurrentTimeInt();
             obj.ModificationDate = Utility.GetCurrentDateInt();
             obj.ModificationTime = Utility.GetCurrentTimeInt();
             obj.ModifiedBy = LoggedUserID;
-            _db.AddCompany(obj);
+            _db.AddQuiz(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult edit(string id)
         {
-            return new JsonNetResult(_db.GetCompany(id));
+            return new JsonNetResult(_db.GetQuiz(id));
         }
 
         [HttpPost]
-        public ActionResult edit(Company obj)
+        public ActionResult edit(Quiz obj)
         {
+            obj.CompanyID = this.Company.ToLower();
             obj.ModificationDate = Utility.GetCurrentDateInt();
             obj.ModificationTime = Utility.GetCurrentTimeInt();
             obj.ModifiedBy = LoggedUserID;
-            _db.EditCompany(obj);
+            _db.EditQuiz(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult delete(string id)
         {
-            _db.DeleteCompany(id);
+            _db.DeleteQuiz(id);
             return RedirectToAction("index");
         }
     }

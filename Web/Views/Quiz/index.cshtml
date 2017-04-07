@@ -77,7 +77,17 @@
                                 <th>ModificationTime</th>*@
                                 <th>Available From</th>
                                 <th>Available Until</th>
-                                <th>IsActive</th>
+                                @*<th>TimeLimit</th>
+                                <th>CorrectAnswerMarks</th>
+                                <th>NegativeMarking</th>
+                                <th>PassingPercentage</th>
+                                <th>ShuffleQuestions</th>
+                                <th>ShuffleOptions</th>
+                                <th>ShowReportAfterTest</th>
+                                <th>RevealCorrectOptionAfterTest</th>
+                                <th>AllowMultipleAttempts</th>
+                                <th>PreventWindowAndTabChange</th>*@
+                                <th>Is Active</th>
 
                                 <th>Action</th>
                             </tr>
@@ -105,7 +115,17 @@
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "AvailableFromDate", ColumnHeader = "Available From" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "AvailableToDate", ColumnHeader = "Available Until" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "TimeLimit" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CorrectAnswerMarks" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "NegativeMarking" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "PassingPercentage" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ShuffleQuestions" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ShuffleOptions" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ShowReportAfterTest" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "RevealCorrectOptionAfterTest" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "AllowMultipleAttempts" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "PreventWindowAndTabChange" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive", ColumnHeader = "Is Active" });
 
     var modelData = new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Quiz");
 }
@@ -126,6 +146,18 @@
             $('#ModifiedBy').val('');
             $('#ModificationTime').val('');
             $('#IsActive').val('');
+            $('#AvailableFromDate').val('');
+            $('#AvailableToDate').val('');
+            $('#TimeLimit').val('');
+            $('#CorrectAnswerMarks').val('');
+            $('#NegativeMarking').val('');
+            $('#PassingPercentage').val('');
+            $('#ShuffleQuestions').prop("checked", false);
+            $('#ShuffleOptions').prop("checked", false);
+            $('#ShowReportAfterTest').prop("checked", false);
+            $('#RevealCorrectOptionAfterTest').prop("checked", false);
+            $('#AllowMultipleAttempts').prop("checked", false);
+            $('#PreventWindowAndTabChange').prop("checked", false);
 
         }
         function fnSetupForm(obj) {
@@ -143,6 +175,30 @@
             $('#ModifiedBy').val(obj.ModifiedBy);
             $('#ModificationTime').val(obj.ModificationTime);
             $('#IsActive').val(obj.IsActive);
+            $('#AvailableFromDate').val(obj.AvailableFromDate);
+            $('#AvailableToDate').val(obj.AvailableToDate);
+            $('#TimeLimit').val(obj.TimeLimit);
+            $('#CorrectAnswerMarks').val(obj.CorrectAnswerMarks);
+            $('#NegativeMarking').val(obj.NegativeMarking);
+            $('#PassingPercentage').val(obj.PassingPercentage);
+            if (obj.ShuffleQuestions == true) {
+                $('#ShuffleQuestions').prop("checked", true);
+            }
+            if (obj.ShuffleOptions == true) {
+                $('#ShuffleOptions').prop("checked", true);
+            }
+            if (obj.ShowReportAfterTest == true) {
+                $('#ShowReportAfterTest').prop("checked", true);
+            }
+            if (obj.RevealCorrectOptionAfterTest == true) {
+                $('#RevealCorrectOptionAfterTest').prop("checked", true);
+            }
+            if (obj.AllowMultipleAttempts == true) {
+                $('#AllowMultipleAttempts').prop("checked", true);
+            }
+            if (obj.PreventWindowAndTabChange == true) {
+                $('#PreventWindowAndTabChange').prop("checked", true);
+            }
 
         }
         function fnSubmit() {
@@ -153,84 +209,132 @@
 }
 <div class="modal fade" id="add-new-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width:800px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="model-title-h4" add-title="Add New Quiz" edit-title="Modify Selected Quiz"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add New Quiz</h4>
             </div>
             <form action="#" method="post" class="box" id="frm-add-edit-form">
+                <input type="hidden" name="ID" id="ID" value="" />
+                <input type="hidden" name="CompanyID" id="CompanyID" value="" />
+                <input type="hidden" name="QuestionDbFile" id="QuestionDbFile" value="" />
+                <input type="hidden" name="CreationDate" id="CreationDate" value="" />
+                <input type="hidden" name="CreationTime" id="CreationTime" value="" />
+                <input type="hidden" name="ModificationDate" id="ModificationDate" value="" />
+                <input type="hidden" name="CreatedBy" id="CreatedBy" value="" />
+                <input type="hidden" name="ModifiedBy" id="ModifiedBy" value="" />
+                <input type="hidden" name="ModificationTime" id="ModificationTime" value="" />
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="ID">ID</label>
-                        @Html.TextBoxFor(P => P.ID, new { @class = "form-control", placeholder = "ID" })
-                        @Html.ValidationMessageFor(P => P.ID)
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Title">Title @Html.ValidationMessageFor(P => P.Title)</label>
+                                @Html.TextBoxFor(P => P.Title, new { @class = "form-control", placeholder = "Title" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Code">Code @Html.ValidationMessageFor(P => P.Code)</label>
+                                @Html.TextBoxFor(P => P.Code, new { @class = "form-control", placeholder = "Code" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="CompanyID">CompanyID</label>
-                        @Html.TextBoxFor(P => P.CompanyID, new { @class = "form-control", placeholder = "CompanyID" })
-                        @Html.ValidationMessageFor(P => P.CompanyID)
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="AvailableFromDate">Available From @Html.ValidationMessageFor(P => P.AvailableFromDate)</label>
+                                @Html.TextBoxFor(P => P.AvailableFromDate, new { @class = "form-control", placeholder = "Available From" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="AvailableToDate">Available Until @Html.ValidationMessageFor(P => P.AvailableToDate)</label>
+                                @Html.TextBoxFor(P => P.AvailableToDate, new { @class = "form-control", placeholder = "Available Until" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="Title">Title</label>
-                        @Html.TextBoxFor(P => P.Title, new { @class = "form-control", placeholder = "Title" })
-                        @Html.ValidationMessageFor(P => P.Title)
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="TimeLimit">Time Limit @Html.ValidationMessageFor(P => P.TimeLimit)</label>
+                                @Html.TextBoxFor(P => P.TimeLimit, new { @class = "form-control", placeholder = "Time Limit" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="CorrectAnswerMarks">Correct Answer Marks @Html.ValidationMessageFor(P => P.CorrectAnswerMarks)</label>
+                                @Html.TextBoxFor(P => P.CorrectAnswerMarks, new { @class = "form-control", placeholder = "Correct Answer Marks" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="NegativeMarking">Negative Marking @Html.ValidationMessageFor(P => P.NegativeMarking)</label>
+                                @Html.TextBoxFor(P => P.NegativeMarking, new { @class = "form-control", placeholder = "Negative Marking" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="PassingPercentage">Passing Percentage @Html.ValidationMessageFor(P => P.PassingPercentage)</label>
+                                @Html.TextBoxFor(P => P.PassingPercentage, new { @class = "form-control", placeholder = "Passing Percentage" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="Code">Code</label>
-                        @Html.TextBoxFor(P => P.Code, new { @class = "form-control", placeholder = "Code" })
-                        @Html.ValidationMessageFor(P => P.Code)
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.ShuffleQuestions,new {@class="" })<label for="ShuffleQuestions">Shuffle Questions? @Html.ValidationMessageFor(P => P.ShuffleQuestions)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.ShuffleOptions)<label for="ShuffleOptions">Shuffle Options? @Html.ValidationMessageFor(P => P.ShuffleOptions)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.ShowReportAfterTest)<label for="ShowReportAfterTest">Show Report After Test? @Html.ValidationMessageFor(P => P.ShowReportAfterTest)</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="Desciption">Desciption</label>
-                        @Html.TextBoxFor(P => P.Desciption, new { @class = "form-control", placeholder = "Desciption" })
-                        @Html.ValidationMessageFor(P => P.Desciption)
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.RevealCorrectOptionAfterTest)<label for="RevealCorrectOptionAfterTest">Reveal Correct Option After Test? @Html.ValidationMessageFor(P => P.RevealCorrectOptionAfterTest)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.AllowMultipleAttempts)<label for="AllowMultipleAttempts">Allow Multiple Attempts? @Html.ValidationMessageFor(P => P.AllowMultipleAttempts)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.PreventWindowAndTabChange)<label for="PreventWindowAndTabChange">Prevent Window & Tab Change? @Html.ValidationMessageFor(P => P.PreventWindowAndTabChange)</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="QuestionDbFile">QuestionDbFile</label>
-                        @Html.TextBoxFor(P => P.QuestionDbFile, new { @class = "form-control", placeholder = "QuestionDbFile" })
-                        @Html.ValidationMessageFor(P => P.QuestionDbFile)
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="Desciption">Desciption @Html.ValidationMessageFor(P => P.Desciption)</label>
+                                @Html.TextBoxFor(P => P.Desciption, new { @class = "form-control", placeholder = "Desciption" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="OtherDetails">OtherDetails</label>
-                        @Html.TextBoxFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "OtherDetails" })
-                        @Html.ValidationMessageFor(P => P.OtherDetails)
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="OtherDetails">Other Details @Html.ValidationMessageFor(P => P.OtherDetails)</label>
+                                @Html.TextAreaFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "Other Details" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="CreationDate">CreationDate</label>
-                        @Html.TextBoxFor(P => P.CreationDate, new { @class = "form-control", placeholder = "CreationDate" })
-                        @Html.ValidationMessageFor(P => P.CreationDate)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreationTime">CreationTime</label>
-                        @Html.TextBoxFor(P => P.CreationTime, new { @class = "form-control", placeholder = "CreationTime" })
-                        @Html.ValidationMessageFor(P => P.CreationTime)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModificationDate">ModificationDate</label>
-                        @Html.TextBoxFor(P => P.ModificationDate, new { @class = "form-control", placeholder = "ModificationDate" })
-                        @Html.ValidationMessageFor(P => P.ModificationDate)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreatedBy">CreatedBy</label>
-                        @Html.TextBoxFor(P => P.CreatedBy, new { @class = "form-control", placeholder = "CreatedBy" })
-                        @Html.ValidationMessageFor(P => P.CreatedBy)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModifiedBy">ModifiedBy</label>
-                        @Html.TextBoxFor(P => P.ModifiedBy, new { @class = "form-control", placeholder = "ModifiedBy" })
-                        @Html.ValidationMessageFor(P => P.ModifiedBy)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModificationTime">ModificationTime</label>
-                        @Html.TextBoxFor(P => P.ModificationTime, new { @class = "form-control", placeholder = "ModificationTime" })
-                        @Html.ValidationMessageFor(P => P.ModificationTime)
-                    </div>
+                   
                     <div class="form-group">
                         <label for="IsActive">IsActive</label>
                         @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "IsActive" })
                         @Html.ValidationMessageFor(P => P.IsActive)
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-flat fa fa-close" data-dismiss="modal">&nbsp;&nbsp;&nbsp;Close</button>

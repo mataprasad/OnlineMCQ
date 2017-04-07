@@ -12,7 +12,7 @@
 }
 <section class="content-header">
     <h1>
-        Manage Batchs
+        Manage Batches
     </h1>
 </section>
 <section class="content">
@@ -63,16 +63,16 @@
                         <thead>
                             <tr>
                                 @*<th>ID</th>
-                                <th>CompanyID</th>*@
+                                    <th>CompanyID</th>*@
                                 <th>Title</th>
                                 <th>Code</th>
                                 <th>OtherDetails</th>
                                 @*<th>CreationDate</th>
-                                <th>CreationTime</th>
-                                <th>ModificationDate</th>
-                                <th>CreatedBy</th>
-                                <th>ModifiedBy</th>
-                                <th>ModificationTime</th>*@
+                                    <th>CreationTime</th>
+                                    <th>ModificationDate</th>
+                                    <th>CreatedBy</th>
+                                    <th>ModifiedBy</th>
+                                    <th>ModificationTime</th>*@
                                 <th>StartFrom</th>
                                 <th>EndTo</th>
                                 <th>IsActive</th>
@@ -149,84 +149,65 @@
 }
 <div class="modal fade" id="add-new-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width:800px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="model-title-h4" add-title="Add New Batch" edit-title="Modify Selected Batch"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add New Batch</h4>
             </div>
             <form action="#" method="post" class="box" id="frm-add-edit-form">
+                <input type="hidden" name="ID" id="ID" value="" />
+                <input type="hidden" name="CompanyID" id="CompanyID" value="" />
+                <input type="hidden" name="CreationDate" id="CreationDate" value="" />
+                <input type="hidden" name="CreationTime" id="CreationTime" value="" />
+                <input type="hidden" name="ModificationDate" id="ModificationDate" value="" />
+                <input type="hidden" name="CreatedBy" id="CreatedBy" value="" />
+                <input type="hidden" name="ModifiedBy" id="ModifiedBy" value="" />
+                <input type="hidden" name="ModificationTime" id="ModificationTime" value="" />
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="ID">ID</label>
-                        @Html.TextBoxFor(P => P.ID, new { @class = "form-control", placeholder = "ID" })
-                        @Html.ValidationMessageFor(P => P.ID)
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Title">Title @Html.ValidationMessageFor(P => P.Title)</label>
+                                @Html.TextBoxFor(P => P.Title, new { @class = "form-control", placeholder = "Title" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Code">Code @Html.ValidationMessageFor(P => P.Code)</label>
+                                @Html.TextBoxFor(P => P.Code, new { @class = "form-control", placeholder = "Code" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="CompanyID">CompanyID</label>
-                        @Html.TextBoxFor(P => P.CompanyID, new { @class = "form-control", placeholder = "CompanyID" })
-                        @Html.ValidationMessageFor(P => P.CompanyID)
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="StartFrom">Start From @Html.ValidationMessageFor(P => P.StartFrom)</label>
+                                @Html.TextBoxFor(P => P.StartFrom, new { @class = "form-control", placeholder = "Start From" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="EndTo">Runs Until @Html.ValidationMessageFor(P => P.EndTo)</label>
+                                @Html.TextBoxFor(P => P.EndTo, new { @class = "form-control", placeholder = "Runs Until" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="Title">Title</label>
-                        @Html.TextBoxFor(P => P.Title, new { @class = "form-control", placeholder = "Title" })
-                        @Html.ValidationMessageFor(P => P.Title)
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
+                                @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "Is Active?" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="Code">Code</label>
-                        @Html.TextBoxFor(P => P.Code, new { @class = "form-control", placeholder = "Code" })
-                        @Html.ValidationMessageFor(P => P.Code)
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="OtherDetails">Other Details @Html.ValidationMessageFor(P => P.OtherDetails)</label>
+                                @Html.TextAreaFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "Other Details" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="OtherDetails">OtherDetails</label>
-                        @Html.TextBoxFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "OtherDetails" })
-                        @Html.ValidationMessageFor(P => P.OtherDetails)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreationDate">CreationDate</label>
-                        @Html.TextBoxFor(P => P.CreationDate, new { @class = "form-control", placeholder = "CreationDate" })
-                        @Html.ValidationMessageFor(P => P.CreationDate)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreationTime">CreationTime</label>
-                        @Html.TextBoxFor(P => P.CreationTime, new { @class = "form-control", placeholder = "CreationTime" })
-                        @Html.ValidationMessageFor(P => P.CreationTime)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModificationDate">ModificationDate</label>
-                        @Html.TextBoxFor(P => P.ModificationDate, new { @class = "form-control", placeholder = "ModificationDate" })
-                        @Html.ValidationMessageFor(P => P.ModificationDate)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreatedBy">CreatedBy</label>
-                        @Html.TextBoxFor(P => P.CreatedBy, new { @class = "form-control", placeholder = "CreatedBy" })
-                        @Html.ValidationMessageFor(P => P.CreatedBy)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModifiedBy">ModifiedBy</label>
-                        @Html.TextBoxFor(P => P.ModifiedBy, new { @class = "form-control", placeholder = "ModifiedBy" })
-                        @Html.ValidationMessageFor(P => P.ModifiedBy)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModificationTime">ModificationTime</label>
-                        @Html.TextBoxFor(P => P.ModificationTime, new { @class = "form-control", placeholder = "ModificationTime" })
-                        @Html.ValidationMessageFor(P => P.ModificationTime)
-                    </div>
-                    <div class="form-group">
-                        <label for="StartFrom">StartFrom</label>
-                        @Html.TextBoxFor(P => P.StartFrom, new { @class = "form-control", placeholder = "StartFrom" })
-                        @Html.ValidationMessageFor(P => P.StartFrom)
-                    </div>
-                    <div class="form-group">
-                        <label for="EndTo">EndTo</label>
-                        @Html.TextBoxFor(P => P.EndTo, new { @class = "form-control", placeholder = "EndTo" })
-                        @Html.ValidationMessageFor(P => P.EndTo)
-                    </div>
-                    <div class="form-group">
-                        <label for="IsActive">IsActive</label>
-                        @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "IsActive" })
-                        @Html.ValidationMessageFor(P => P.IsActive)
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-flat fa fa-close" data-dismiss="modal">&nbsp;&nbsp;&nbsp;Close</button>

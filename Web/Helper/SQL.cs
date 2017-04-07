@@ -77,16 +77,17 @@ namespace Web.Helper
                                                   ,ModificationTime = @ModificationTime
                                                   ,IsActive = @IsActive
                                                   ,DateOfBirth = @DateOfBirth
+                                                  ,Roles = @Roles
                                              WHERE ID = @ID";
 
         public const string SoftDeleteStudent = @"UPDATE Student SET IsActive=0 WHERE ID=@ID";
 
         public const string InsertStudent = @"INSERT INTO Student(ID,CompanyID,Email,Password,FirstName,MiddleName,
                                                 LastName,EnrollmentNo,Contact,Address,OtherDetails,CreationDate,CreationTime,
-                                                ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive,DateOfBirth)
+                                                ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive,DateOfBirth,Roles)
                                               VALUES(@ID,@CompanyID,@Email,@Password,@FirstName,@MiddleName,
                                                 @LastName,@EnrollmentNo,@Contact,@Address,@OtherDetails,@CreationDate,@CreationTime,
-                                                @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive,@DateOfBirth)";
+                                                @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive,@DateOfBirth,@Roles)";
 
         #endregion
 
@@ -123,8 +124,7 @@ namespace Web.Helper
                                                ,@CreatedBy,@ModifiedBy,@ModificationTime,@StartFrom,@EndTo,@IsActive);";
 
         #endregion
-
-
+        
         #region Quiz
 
         public const string SelectAllQuiz = @"SELECT * FROM QUIZ;";
@@ -151,24 +151,38 @@ namespace Web.Helper
                                                   ,AvailableToDate = @AvailableToDate
                                                   ,AvailableFromTime = @AvailableFromTime
                                                   ,AvailableToTime = @AvailableToTime
+                                                  ,TimeLimit = @TimeLimit
+                                                  ,CorrectAnswerMarks = @CorrectAnswerMarks
+                                                  ,NegativeMarking = @NegativeMarking
+                                                  ,PassingPercentage = @PassingPercentage
+                                                  ,ShuffleQuestions = @ShuffleQuestions
+                                                  ,ShuffleOptions = @ShuffleOptions
+                                                  ,ShowReportAfterTest = @ShowReportAfterTest
+                                                  ,RevealCorrectOptionAfterTest = @RevealCorrectOptionAfterTest
+                                                  ,AllowMultipleAttempts = @AllowMultipleAttempts 
+                                                  ,PreventWindowAndTabChange = @PreventWindowAndTabChange
                                              WHERE ID = @ID;";
 
         public const string SoftDeleteQuiz = @"UPDATE QUIZ SET IsActive=0 WHERE ID=@ID";
 
         public const string InsertQuiz = @"INSERT INTO Quiz(ID,CompanyID,Title,Code,Desciption,QuestionDbFile,OtherDetails,CreationDate,CreationTime
                                            ,ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive
-                                           ,AvailableFromDate,AvailableToDate,AvailableFromTime,AvailableToTime)
+                                           ,AvailableFromDate,AvailableToDate,AvailableFromTime,AvailableToTime
+                                           ,TimeLimit,CorrectAnswerMarks,NegativeMarking,PassingPercentage,ShuffleQuestions,ShuffleOptions
+                                           ,ShowReportAfterTest,RevealCorrectOptionAfterTest,AllowMultipleAttempts,PreventWindowAndTabChange)
                                             VALUES(@ID,@CompanyID,@Title,@Code,@Desciption,@QuestionDbFile,@OtherDetails
                                            ,@CreationDate,@CreationTime,@ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive
-                                           ,@AvailableFromDate,@AvailableToDate,@AvailableFromTime,@AvailableToTime);";
+                                           ,@AvailableFromDate,@AvailableToDate,@AvailableFromTime,@AvailableToTime
+                                           ,@TimeLimit,@CorrectAnswerMarks,@NegativeMarking,@PassingPercentage,@ShuffleQuestions
+                                           ,@ShuffleOptions,@ShowReportAfterTest,@RevealCorrectOptionAfterTest,@AllowMultipleAttempts,@PreventWindowAndTabChange);";
 
         #endregion
 
-        public const string UserLoginCheck = @"SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,'*' AS AccessLevel 
+        public const string UserLoginCheck = @"SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,Roles AS AccessLevel 
                                                 FROM Student WHERE Email = @Email AND Password = @Password AND IsActive=1;";
 
         public const string ChangeUserPassword = @"UPDATE Student set Password=@NewPassword WHERE Email=@Email AND Password=@Password;
-                                                   SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,'*' AS AccessLevel 
+                                                   SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,Roles AS AccessLevel 
                                                         FROM Student WHERE Email = @Email AND Password = @NewPassword;";
     }
 }

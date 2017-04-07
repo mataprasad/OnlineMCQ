@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Web.Models;
 using WebMatrix.WebData;
 
 namespace Web.Helper
@@ -25,9 +26,14 @@ namespace Web.Helper
 
     public class AppRoleProvider : SimpleRoleProvider
     {
-        public override bool IsUserInRole(string username, string roleName)
+        public override string[] GetRolesForUser(string username)
         {
-            return true;
+            var loggedUser = (UserLogin)HttpContext.Current.Session[Common.SessionKey.LOGGED_USER.ToKey()];
+            if (loggedUser != null)
+            {
+                return loggedUser.AccessLevel.ToString().Split(',');
+            }
+            return new List<string>().ToArray();
         }
     }
 }

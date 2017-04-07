@@ -9,7 +9,7 @@ using Web.Service;
 
 namespace Web.Helper
 {
-    [Authorize]
+    //[Authorize]
     [Trace]
     [Error]
     public class AdminBaseController : Controller, IAppContext
