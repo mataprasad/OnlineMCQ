@@ -2381,6 +2381,7 @@
     <Content Include="Views\Home\FileImport.cshtml" />
     <Content Include="Temp\QUES_UPLOAD_TEMPLATE.xlsx" />
     <Content Include="Temp\STUDENTS_UPLOAD_TEMPLATE.xlsx" />
+    <Content Include="Views\Question\index_old.cshtml" />
     <Content Include="Views\Question\index.cshtml" />
   </ItemGroup>
   <ItemGroup />

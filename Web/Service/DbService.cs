@@ -78,22 +78,36 @@ namespace Web.Service
             return false;
         }
 
-        public List<Student> GetAllStudents()
+        public List<Student> GetAllStudents(bool isSysAdmin = false)
         {
             var data = new List<Student>();
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                data = db.GetQueryData<Student>(SQL.SelectAllStudent).ToList();
+                if (isSysAdmin)
+                {
+                    data = db.GetQueryData<Student>(SQL.SelectAllStudentADMIN).ToList();
+                }
+                else
+                {
+                    data = db.GetQueryData<Student>(SQL.SelectAllStudent).ToList();
+                }
             }
             return data;
         }
 
-        public List<Student> GetAllStudents(string query)
+        public List<Student> GetAllStudents(string query, bool isSysAdmin = false)
         {
             var data = new List<Student>();
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                data = db.GetQueryData<Student>(SQL.SelectAllStudentLike, new { Term = "%" + query + "%" }).ToList();
+                if (isSysAdmin)
+                {
+                    data = db.GetQueryData<Student>(SQL.SelectAllStudentLikeADMIN, new { Term = "%" + query + "%" }).ToList();
+                }
+                else
+                {
+                    data = db.GetQueryData<Student>(SQL.SelectAllStudentLike, new { Term = "%" + query + "%" }).ToList();
+                }
             }
             return data;
         }
@@ -127,6 +141,66 @@ namespace Web.Service
         }
 
         public bool DeleteStudent(string id)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                if (db.Execute(SQL.SoftDeleteStudent, new { ID = id }) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<Question> GetAllQuestions()
+        {
+            var data = new List<Question>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Question>(SQL.SelectAllStudent).ToList();
+            }
+            return data;
+        }
+
+        public List<Question> GetAllQuestions(string query)
+        {
+            var data = new List<Question>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Question>(SQL.SelectAllStudent, new { Term = "%" + query + "%" }).ToList();
+            }
+            return data;
+        }
+
+        public Question GetQuestion(string id)
+        {
+            var data = new Question();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Question>(SQL.SelectStudentByID, new { ID = id }).FirstOrDefault();
+            }
+            return data;
+        }
+
+        public Question AddQuestion(Question obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<Question>(SQL.InsertStudent + "; " + SQL.SelectStudentByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public Question EditQuestion(Question obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<Question>(SQL.UpdateStudent + "; " + SQL.SelectStudentByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public bool DeleteQuestion(string id)
         {
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
@@ -197,7 +271,7 @@ namespace Web.Service
             }
             return false;
         }
-        
+
         public List<Quiz> GetAllQuizzes()
         {
             var data = new List<Quiz>();

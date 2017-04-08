@@ -48,13 +48,16 @@ namespace Web.Helper
 
         #region Student
 
-
-
-        public const string SelectAllStudent = @"SELECT * FROM STUDENT;";
-
-        public const string SelectAllStudentLike = @"SELECT * FROM Student WHERE Email LIKE @Term OR FirstName LIKE @Term OR LastName LIKE @Term 
+        public const string SelectAllStudentADMIN = @"SELECT * FROM STUDENT;";
+        public const string SelectAllStudentLikeADMIN = @"SELECT * FROM Student WHERE Email LIKE @Term OR FirstName LIKE @Term OR LastName LIKE @Term 
 	                                                    OR MiddleName LIKE @Term OR EnrollmentNo LIKE @Term OR Contact LIKE @Term 
 	                                                    OR Address LIKE @Term;";
+
+        public const string SelectAllStudent = @"SELECT * FROM STUDENT WHERE ID<>'38f65c64-37b0-4a6a-b945-1f879a1e1c13';";
+
+        public const string SelectAllStudentLike = @"SELECT * FROM Student WHERE (Email LIKE @Term OR FirstName LIKE @Term OR LastName LIKE @Term 
+	                                                    OR MiddleName LIKE @Term OR EnrollmentNo LIKE @Term OR Contact LIKE @Term 
+	                                                    OR Address LIKE @Term) AND ID<>'38f65c64-37b0-4a6a-b945-1f879a1e1c13';";
 
         public const string SelectStudentByID = @"SELECT * FROM STUDENT WHERE ID=@ID;";
 

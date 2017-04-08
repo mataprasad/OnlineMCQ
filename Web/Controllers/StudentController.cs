@@ -27,11 +27,11 @@ namespace Web.Controllers
             var data = new List<Student>();
             if (!String.IsNullOrWhiteSpace(query))
             {
-                data = _db.GetAllStudents(query);
+                data = _db.GetAllStudents(query, LoggedUser.IsSystemAdministrator);
             }
             else
             {
-                data = _db.GetAllStudents();
+                data = _db.GetAllStudents(LoggedUser.IsSystemAdministrator);
             }
 
             return new JsonNetResult(new { aaData = data });

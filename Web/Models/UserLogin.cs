@@ -21,6 +21,14 @@ namespace Web.Models
         public string ScreenName { get; set; }
         public string AccessLevel { get; set; }
 
+        public bool IsSystemAdministrator
+        {
+            get
+            {
+                return "38f65c64-37b0-4a6a-b945-1f879a1e1c13".Equals(ID, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
         public Common.ApplicationRole Role
         {
             get

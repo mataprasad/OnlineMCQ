@@ -72,7 +72,7 @@ namespace Web.Controllers
                     var threadData = new Tuple<string, string, string>(tempPath, Company, LoggedUserID);
                     ThreadPool.QueueUserWorkItem((o) =>
                     {
-                        var input= o as Tuple<string, string, string>;
+                        var input = o as Tuple<string, string, string>;
                         if (input != null)
                         {
                             Web.Service.CommonService.Instance.ImportStudents(input.Item1, input.Item2, input.Item3);
@@ -89,18 +89,18 @@ namespace Web.Controllers
             return View("500");
         }
 
-        public void DownloadGridData(string gridData, DownloadFormat format)
+        public void DownloadGridData(string gridData, DownloadFormat format, string fileName = null)
         {
             switch (format)
             {
                 case DownloadFormat.XML:
-                    Utility.ToXml(gridData);
+                    Utility.ToXml(gridData, fileName);
                     break;
                 case DownloadFormat.XLS:
-                    Utility.ToExcel(gridData);
+                    Utility.ToExcel(gridData, fileName);
                     break;
                 case DownloadFormat.CSV:
-                    Utility.ToCsv(gridData);
+                    Utility.ToCsv(gridData, fileName);
                     break;
                 default:
                     break;

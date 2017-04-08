@@ -377,7 +377,7 @@ namespace Web.Models
 
         public Company AddCompany(Company obj)
         {
-            obj= _db.AddCompany(obj);
+            obj = _db.AddCompany(obj);
             commonService.CreatNewCompanyDb(obj.ID);
             return obj;
         }
@@ -428,14 +428,14 @@ namespace Web.Models
         #endregion
         #region Student Mathods
 
-        public List<Student> GetAllStudents()
+        public List<Student> GetAllStudents(bool isSysAdmin = false)
         {
-            return _db.GetAllStudents();
+            return _db.GetAllStudents(isSysAdmin);
         }
 
-        public List<Student> GetAllStudents(string query)
+        public List<Student> GetAllStudents(string query, bool isSysAdmin = false)
         {
-            return _db.GetAllStudents(query);
+            return _db.GetAllStudents(query, isSysAdmin);
         }
 
         public Student GetStudent(string id)
@@ -459,5 +459,39 @@ namespace Web.Models
         }
 
         #endregion
+        #region DT_QUESTIONS Mathods
+
+        public List<Question> GetAllQuestions()
+        {
+            return _db.GetAllQuestions();
+        }
+
+        public List<Question> GetAllQuestions(string query)
+        {
+            return _db.GetAllQuestions(query);
+        }
+
+        public Question GetQuestion(string id)
+        {
+            return _db.GetQuestion(id);
+        }
+
+        public Question AddQuestion(Question obj)
+        {
+            return _db.AddQuestion(obj);
+        }
+
+        public Question EditQuestion(Question obj)
+        {
+            return _db.EditQuestion(obj);
+        }
+
+        public bool DeleteQuestion(string id)
+        {
+            return _db.DeleteQuestion(id);
+        }
+
+        #endregion
+
     }
 }

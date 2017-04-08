@@ -6,6 +6,60 @@ using System.Web;
 
 namespace Web.Models
 {
+    public class Question
+    {
+        public string QUIZ_ID { get; set; }
+        public string QUESTION_ID { get; set; }
+        public string SECTION_NAME { get; set; }
+        public object QUESTION_TEXT_EN { get; set; }
+        public object QUESTION_TEXT_HI { get; set; }
+        public object OPTION_A_EN { get; set; }
+        public object OPTION_B_EN { get; set; }
+        public object OPTION_C_EN { get; set; }
+        public object OPTION_D_EN { get; set; }
+        public object OPTION_E_EN { get; set; }
+        public object OPTION_A_HI { get; set; }
+        public object OPTION_B_HI { get; set; }
+        public object OPTION_C_HI { get; set; }
+        public object OPTION_D_HI { get; set; }
+        public object OPTION_E_HI { get; set; }
+        public string OPTION_A_ID { get; set; }
+        public string OPTION_B_ID { get; set; }
+        public string OPTION_C_ID { get; set; }
+        public string OPTION_D_ID { get; set; }
+        public string OPTION_E_ID { get; set; }
+        public string CORRECT_OPTIONS { get; set; }
+    }
+    
+    public partial class Question1
+    {
+        public string QuestionTextHindi { get; set; }
+        public string QuestionTextEnglish { get; set; }
+        public string QuestionTextID { get; set; }
+
+        public string OptionATextHindi { get; set; }
+        public string OptionATextEnglish { get; set; }
+        public string OptionATextID { get; set; }
+
+        public string OptionBTextHindi { get; set; }
+        public string OptionBTextEnglish { get; set; }
+        public string OptionBTextID { get; set; }
+
+        public string OptionCTextHindi { get; set; }
+        public string OptionCTextEnglish { get; set; }
+        public string OptionCTextID { get; set; }
+
+        public string OptionDTextHindi { get; set; }
+        public string OptionDTextEnglish { get; set; }
+        public string OptionDTextID { get; set; }
+
+        public string OptionETextHindi { get; set; }
+        public string OptionETextEnglish { get; set; }
+        public string OptionETextID { get; set; }
+
+        public List<string> CorrectOptions { get; set; }
+    }
+
     public partial class Quiz
     {
         public Quiz()
@@ -201,6 +255,10 @@ namespace Web.Models
 
     public partial class Student
     {
+        public Student()
+        {
+            Roles = Web.Helper.Common.ApplicationRole.Student.ToString();
+        }
         public string ID { get; set; }
         public string CompanyID { get; set; }
         [Required]
@@ -226,6 +284,7 @@ namespace Web.Models
         public bool? IsActive { get; set; }
         [Required]
         public long? DateOfBirth { get; set; }
+        public string Roles { get; set; }
     }
 
     public static class DbEntityExt

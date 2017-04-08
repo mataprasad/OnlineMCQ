@@ -29,4 +29,10 @@ namespace Web.Helper
         public Boolean Sortable { get; set; }
         public Boolean Visible { get; set; }
     }
+
+    public class GridModelData
+    {
+        public List<GridHelper> ColumnDefinitions { get; set; }
+        public string ControllerName { get; set; }
+    }
 }

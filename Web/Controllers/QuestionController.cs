@@ -24,53 +24,42 @@ namespace Web.Controllers
 
         public ActionResult list(string query = null)
         {
-            var data = new List<Quiz>();
+            var data = new List<Question>();
+
             if (!String.IsNullOrWhiteSpace(query))
             {
-                data = _db.GetAllQuizzes(query);
+                data = _db.GetAllQuestions(query);
             }
             else
             {
-                data = _db.GetAllQuizzes();
+                data = _db.GetAllQuestions();
             }
 
             return new JsonNetResult(new { aaData = data });
         }
 
         [HttpPost]
-        public ActionResult add(Quiz obj)
+        public ActionResult add(Question obj)
         {
-            obj.ID = Guid.NewGuid().ToString().ToLower();
-            obj.CompanyID = this.Company.ToLower();
-            obj.CreatedBy = LoggedUserID;
-            obj.CreationDate = Utility.GetCurrentDateInt();
-            obj.CreationTime = Utility.GetCurrentTimeInt();
-            obj.ModificationDate = Utility.GetCurrentDateInt();
-            obj.ModificationTime = Utility.GetCurrentTimeInt();
-            obj.ModifiedBy = LoggedUserID;
-            _db.AddQuiz(obj);
+            _db.AddQuestion(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult edit(string id)
         {
-            return new JsonNetResult(_db.GetQuiz(id));
+            return new JsonNetResult(_db.GetQuestion(id));
         }
 
         [HttpPost]
-        public ActionResult edit(Quiz obj)
+        public ActionResult edit(Question obj)
         {
-            obj.CompanyID = this.Company.ToLower();
-            obj.ModificationDate = Utility.GetCurrentDateInt();
-            obj.ModificationTime = Utility.GetCurrentTimeInt();
-            obj.ModifiedBy = LoggedUserID;
-            _db.EditQuiz(obj);
+            _db.EditQuestion(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult delete(string id)
         {
-            _db.DeleteQuiz(id);
+            _db.DeleteQuestion(id);
             return RedirectToAction("index");
         }
     }
