@@ -2284,7 +2284,6 @@
     <Content Include="Content\js\plugins\ionicons-1.5.2\less\_ionicons-icons.less" />
     <Content Include="Content\js\plugins\ionicons-1.5.2\less\_ionicons-variables.less" />
     <Content Include="Content\js\plugins\ionicons-1.5.2\LICENSE" />
-    <Content Include="Content\js\plugins\ionicons-1.5.2\png\512\Thumbs.db" />
     <Content Include="Content\js\plugins\ionicons-1.5.2\readme.md" />
     <Content Include="Content\js\plugins\ionicons-1.5.2\scss\ionicons.scss" />
     <Content Include="Content\js\plugins\ionicons-1.5.2\scss\_ionicons-animation.scss" />
