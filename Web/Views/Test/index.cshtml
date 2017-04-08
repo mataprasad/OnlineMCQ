@@ -1,0 +1,149 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@Web.Helper.Common.ApplicationName</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon">
+    <link rel="icon" href="@Url.Content("~/favicon.ico")" type="image/x-icon">
+    <!-- Disable Cache -->
+    @*<meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />*@
+    <noscript>
+        <meta http-equiv="refresh" content="1; URL=@Url.Content("~/")" />
+    </noscript>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/content/test/css/bootstrap.css")">
+    <link href="@Url.Content("~/content/test/css/font-awesome.min.css") " rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script|Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="@Url.Content("~/content/test/css/helper_classes.css?v=10")">
+    <link rel="stylesheet" href="@Url.Content("~/content/test/css/app.css?v=11")">
+    <link rel="stylesheet" href="@Url.Content("~/content/test/css/online_test.css?v=10")">
+    <script type="text/javascript">
+        window.history.forward(1);
+    </script>
+</head>
+<body class="online_test_body">
+    <div class="main_container">
+        <div class="inner_page_header">
+            <h1 class="page_title">Speed Test 2</h1>
+        </div>
+        <div class="container clearfix">
+            <h2 class="header_title text-center"><i class="fa fa-info-circle margin-r-5 text-primary"></i> Please Read the Instructions Carefully</h2>
+            <div class="col-sm-8 col-sm-offset-2 bg-white padding-10 long_text">
+                <ol>
+                    <li>Please ensure that you have a reliable internet for the whole duration of the test.</li>
+                    <li>You <strong>can not pause</strong> the test.</li>
+                    <li>This test comprises of multiple-choice questions (MCQ).</li>
+                    <li> There are a total of <strong>25 Questions</strong> in the Test.</li>
+                    <li> Total Time Duration of the Test is <strong>10 minutes. </strong> </li>
+
+                    <li>You will get <strong> 1 marks </strong>   for every correct answer. </li>
+
+                    <li> There is No Negative Marking in this test.</li>
+
+
+                    <li>You are advised not to close the browser window before submitting the test.</li>
+
+                </ol>
+
+            </div>
+            <div class="text-left col-sm-8 col-sm-offset-2 no-padding">
+                <button class="start_test_btn btn btn-info btn-block  text-bold-600 font-22 go_full_screen">Double Click to Start Test</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade in" id="start_test_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="start_test_modal" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header modal-header-radius no-border round-radius">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>
+                    <h4 id="h4ModalTitle" class="modal-title text-center"> Start Test ? </h4>
+
+                </div>
+                <div class="modal-body">
+                    <div id="divModalContent" class="long_text text-center">
+                        <p> You will only get <strong>One Chance</strong> to attempt the test ! Please Attempt it carefully !</p>
+                        <div class="text-center">
+                            <form method="post" action="@Url.Action("exam","test")">
+                                <input type="hidden" name="lang" value="@ViewBag.Lang" />
+                                <input type="hidden" name="id" value="@ViewBag.ID" />
+                                <button type="submit" class="btn btn-info text-bold-600 ">Click Here to Start Test</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- jQuery first, then Bootstrap JS.-->
+    <script src="@Url.Content("~/content/test/js/jquery-2.1.4.min.js")"></script>
+    <script src="@Url.Content("~/content/test/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/content/test/js/slimscroll.js")"></script>
+    <script src="@Url.Content("~/content/test/js/jquery.scrollTo.min.js")"></script>
+    <script src="@Url.Content("~/content/test/js/visibility.min.js")"></script>
+    <script src="@Url.Content("~/content/test/js/prj_timer.js?v=10")"></script>
+    <script src="@Url.Content("~/content/test/js/online_test.js?v=13")"></script>
+    <script>
+        function isChrome() {
+            var isChromium = window.chrome,
+              winNav = window.navigator,
+              vendorName = winNav.vendor,
+              isOpera = winNav.userAgent.indexOf("OPR") > -1,
+              isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+              isIOSChrome = winNav.userAgent.match("CriOS");
+
+            if (isIOSChrome) {
+                return true;
+            } else if (isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        var clickCount = 0;
+        $(document).ready(function () {
+            $(".start_test_btn").click(function () {
+                clickCount++;
+                if (clickCount >= 2) {
+                    showStartDailog();
+                }
+            });
+            if (!isChrome()) {
+                $(".main_container").empty();
+                $("#h4ModalTitle").html("Only Google Chrome Browser is allowed");
+                $("#divModalContent").html("<h1 class='alert alert-danger'>This test is only available on Google Chrome browser.</h1>");
+                showStartDailog();
+            }
+        });
+        function showStartDailog() {
+            $("#start_test_modal").css("display", "block");
+            $("#start_test_modal").css("padding-right", "17px");
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Disable cut copy paste
+            $('body').bind('cut copy paste', function (e) {
+                e.preventDefault();
+            });
+
+            //Disable mouse right click
+            $("body").on("contextmenu", function (e) {
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

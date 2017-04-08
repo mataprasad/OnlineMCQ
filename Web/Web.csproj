@@ -2041,10 +2041,12 @@
     <Content Include="Content\test\css\online_test.css" />
     <Content Include="Content\test\css\Open-Sans.css" />
     <Content Include="Content\test\css\Source-Sans-Pro.css" />
+    <Content Include="Content\test\img\intro_bg_inner.jpg" />
     <Content Include="Content\test\js\bootstrap.min.js" />
     <Content Include="Content\test\js\jquery-2.1.4.min.js" />
     <Content Include="Content\test\js\jquery.scrollTo.min.js" />
     <Content Include="Content\test\js\online_test.js" />
+    <Content Include="Content\test\js\online_test_security.js" />
     <Content Include="Content\test\js\prj_timer.js" />
     <Content Include="Content\test\js\slimscroll.js" />
     <Content Include="Content\test\js\visibility.min.js" />
@@ -2342,6 +2344,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\shortcut.js" />
     <Content Include="Temp\temp-file.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -2383,6 +2386,7 @@
     <Content Include="Temp\STUDENTS_UPLOAD_TEMPLATE.xlsx" />
     <Content Include="Views\Question\index_old.cshtml" />
     <Content Include="Views\Question\index.cshtml" />
+    <Content Include="Views\Test\index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

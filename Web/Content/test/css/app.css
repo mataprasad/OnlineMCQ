@@ -1852,7 +1852,7 @@ table.tablesorter thead tr .headerSortUp{
 }
 .inner_page_header{
   min-height:200px;
-  background: url('/static/testpot/images/intro_bg_inner.jpg') no-repeat center center;
+  background: url('../img/intro_bg_inner.jpg') no-repeat center center;
   padding:50px 10px;
   background-size: cover;
 }

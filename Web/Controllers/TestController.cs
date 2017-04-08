@@ -9,15 +9,24 @@ using Web.Service;
 
 namespace Web.Controllers
 {
-    [Authorize(Roles = "SystemAdministrator,CompanyAdmin")]
+    [Authorize(Roles = "SystemAdministrator,CompanyAdmin,Student")]
     public class TestController : Web.Helper.AdminBaseController
     {
         private QuizService service = new QuizService();
 
         public ActionResult Mcq(string lang, string id)
         {
+            ViewBag.Lang = lang;
+            ViewBag.ID = id;
+
+            return View("index");
+        }
+
+        [HttpPost]
+        public ActionResult exam(string lang, string id)
+        {
             var data = service.GetQuiz(id, lang);
-            return View(data);
+            return View("mcq", data);
         }
 
         [HttpPost]
