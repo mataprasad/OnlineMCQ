@@ -138,7 +138,7 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebMatrix.Data">
-	  <Private>True</Private>
+      <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
     </Reference>
     <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -251,6 +251,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SimpleMembershipProvider_DbSchema.sql" />
+    <Content Include="bin\x64\SQLite.Interop.dll" />
+    <Content Include="bin\x86\SQLite.Interop.dll" />
     <Content Include="Content\css\AdminLTE.css" />
     <Content Include="Content\css\bootstrap-slider\slider.css" />
     <Content Include="Content\css\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
