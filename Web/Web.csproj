@@ -2330,6 +2330,7 @@
     <Content Include="Content\summernote\font\summernote.eot" />
     <Content Include="Content\summernote\font\summernote.ttf" />
     <Content Include="Content\summernote\font\summernote.woff" />
+    <Content Include="Data\DB_FILES\com-db-3acd4829-f525-49e7-a055-14cf25857ac3.s3db" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\app\utility.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
