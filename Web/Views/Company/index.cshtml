@@ -71,11 +71,11 @@
                                 <th>Address</th>
                                 <th>OtherDetails</th>
                                 @*<th>CreationDate</th>
-                                <th>CreationTime</th>
-                                <th>ModificationDate</th>
-                                <th>CreatedBy</th>
-                                <th>ModifiedBy</th>
-                                <th>ModificationTime</th>*@
+                                    <th>CreationTime</th>
+                                    <th>ModificationDate</th>
+                                    <th>CreatedBy</th>
+                                    <th>ModifiedBy</th>
+                                    <th>ModificationTime</th>*@
                                 <th>IsActive</th>
                                 <th>Action</th>
                             </tr>
@@ -108,6 +108,13 @@
 }
 @section scripts {
     <script type="text/javascript">
+        Sys.Application.add_init(appInit);
+        function appInit() {
+            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('LicenceFrom'));
+            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('LicenceTo'));
+        }
+    </script>
+    <script type="text/javascript">
         function fnClearForm() {
             $('#ID').val('');
             $('#Title').val('');
@@ -123,7 +130,7 @@
             $('#ModificationTime').val('');
             $('#LicenceFrom').val('');
             $('#LicenceTo').val('');
-            $('#IsActive').val('');
+            $('#IsActive').prop("checked", false);
 
         }
         function fnSetupForm(obj) {
@@ -141,7 +148,9 @@
             $('#ModificationTime').val(obj.ModificationTime);
             $('#LicenceFrom').val(obj.LicenceFrom);
             $('#LicenceTo').val(obj.LicenceTo);
-            $('#IsActive').val(obj.IsActive);
+            if (obj.IsActive == true) {
+                $('#IsActive').prop("checked", true);
+            }
 
         }
         function fnSubmit() {
@@ -181,13 +190,13 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="LicenceFrom">Licence From @Html.ValidationMessageFor(P => P.LicenceFrom)</label>
+                                <label for="LicenceFrom">Licence From(YYYYMMDD) @Html.ValidationMessageFor(P => P.LicenceFrom)</label>
                                 @Html.TextBoxFor(P => P.LicenceFrom, new { @class = "form-control", placeholder = "LicenceFrom" })
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="LicenceTo">Licence Upto @Html.ValidationMessageFor(P => P.LicenceTo)</label>
+                                <label for="LicenceTo">Licence Upto(YYYYMMDD) @Html.ValidationMessageFor(P => P.LicenceTo)</label>
                                 @Html.TextBoxFor(P => P.LicenceTo, new { @class = "form-control", placeholder = "LicenceTo" })
                             </div>
                         </div>
@@ -199,8 +208,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
-                                @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "IsActive" })
+                                @Html.CheckBoxFor(P => P.IsActive, new { @class = "" })<label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
                             </div>
                         </div>
                     </div>

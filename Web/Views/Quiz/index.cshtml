@@ -63,30 +63,30 @@
                         <thead>
                             <tr>
                                 @*<th>ID</th>
-                                <th>CompanyID</th>*@
+                                    <th>CompanyID</th>*@
                                 <th>Title</th>
                                 <th>Code</th>
                                 <th>Desciption</th>
                                 @*<th>QuestionDbFile</th>*@
                                 <th>OtherDetails</th>
                                 @*<th>CreationDate</th>
-                                <th>CreationTime</th>
-                                <th>ModificationDate</th>
-                                <th>CreatedBy</th>
-                                <th>ModifiedBy</th>
-                                <th>ModificationTime</th>*@
+                                    <th>CreationTime</th>
+                                    <th>ModificationDate</th>
+                                    <th>CreatedBy</th>
+                                    <th>ModifiedBy</th>
+                                    <th>ModificationTime</th>*@
                                 <th>Available From</th>
                                 <th>Available Until</th>
                                 @*<th>TimeLimit</th>
-                                <th>CorrectAnswerMarks</th>
-                                <th>NegativeMarking</th>
-                                <th>PassingPercentage</th>
-                                <th>ShuffleQuestions</th>
-                                <th>ShuffleOptions</th>
-                                <th>ShowReportAfterTest</th>
-                                <th>RevealCorrectOptionAfterTest</th>
-                                <th>AllowMultipleAttempts</th>
-                                <th>PreventWindowAndTabChange</th>*@
+                                    <th>CorrectAnswerMarks</th>
+                                    <th>NegativeMarking</th>
+                                    <th>PassingPercentage</th>
+                                    <th>ShuffleQuestions</th>
+                                    <th>ShuffleOptions</th>
+                                    <th>ShowReportAfterTest</th>
+                                    <th>RevealCorrectOptionAfterTest</th>
+                                    <th>AllowMultipleAttempts</th>
+                                    <th>PreventWindowAndTabChange</th>*@
                                 <th>Is Active</th>
 
                                 <th>Action</th>
@@ -131,6 +131,13 @@
 }
 @section scripts {
     <script type="text/javascript">
+        Sys.Application.add_init(appInit);
+        function appInit() {
+            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('AvailableFromDate'));
+            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('AvailableToDate'));
+        }
+    </script>
+    <script type="text/javascript">
         function fnClearForm() {
             $('#ID').val('');
             $('#CompanyID').val('');
@@ -145,7 +152,7 @@
             $('#CreatedBy').val('');
             $('#ModifiedBy').val('');
             $('#ModificationTime').val('');
-            $('#IsActive').val('');
+            $('#IsActive').prop("checked", false);
             $('#AvailableFromDate').val('');
             $('#AvailableToDate').val('');
             $('#TimeLimit').val('');
@@ -174,7 +181,9 @@
             $('#CreatedBy').val(obj.CreatedBy);
             $('#ModifiedBy').val(obj.ModifiedBy);
             $('#ModificationTime').val(obj.ModificationTime);
-            $('#IsActive').val(obj.IsActive);
+            if (obj.IsActive == true) {
+                $('#IsActive').prop("checked", true);
+            }
             $('#AvailableFromDate').val(obj.AvailableFromDate);
             $('#AvailableToDate').val(obj.AvailableToDate);
             $('#TimeLimit').val(obj.TimeLimit);
@@ -242,13 +251,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="AvailableFromDate">Available From @Html.ValidationMessageFor(P => P.AvailableFromDate)</label>
+                                <label for="AvailableFromDate">Available From(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableFromDate)</label>
                                 @Html.TextBoxFor(P => P.AvailableFromDate, new { @class = "form-control", placeholder = "Available From" })
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="AvailableToDate">Available Until @Html.ValidationMessageFor(P => P.AvailableToDate)</label>
+                                <label for="AvailableToDate">Available Until(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableToDate)</label>
                                 @Html.TextBoxFor(P => P.AvailableToDate, new { @class = "form-control", placeholder = "Available Until" })
                             </div>
                         </div>
@@ -282,7 +291,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                @Html.CheckBoxFor(P => P.ShuffleQuestions,new {@class="" })<label for="ShuffleQuestions">Shuffle Questions? @Html.ValidationMessageFor(P => P.ShuffleQuestions)</label>
+                                @Html.CheckBoxFor(P => P.ShuffleQuestions, new { @class = "" })<label for="ShuffleQuestions">Shuffle Questions? @Html.ValidationMessageFor(P => P.ShuffleQuestions)</label>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -329,11 +338,9 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="form-group">
-                        <label for="IsActive">IsActive</label>
-                        @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "IsActive" })
-                        @Html.ValidationMessageFor(P => P.IsActive)
+                        @Html.CheckBoxFor(P => P.IsActive, new { @class = "" })<label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -228,7 +228,7 @@ namespace Web.Models
         [Required]
         public long? LicenceTo { get; set; }
         [Required]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 
     public partial class Batch
@@ -251,7 +251,7 @@ namespace Web.Models
         [Required]
         public long? EndTo { get; set; }
         [Required]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 
     public partial class Student
@@ -282,7 +282,7 @@ namespace Web.Models
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
         [Required]
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
         [Required]
         public long? DateOfBirth { get; set; }
         public string Roles { get; set; }
@@ -450,7 +450,7 @@ namespace Web.Models
                     obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
                     obj.LicenceFrom = reader["LicenceFrom"] != DBNull.Value ? (long?)reader["LicenceFrom"] : null;
                     obj.LicenceTo = reader["LicenceTo"] != DBNull.Value ? (long?)reader["LicenceTo"] : null;
-                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool)reader["IsActive"] : false;
 
                     result.Add(obj);
                 }
@@ -479,7 +479,7 @@ namespace Web.Models
                     obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
                     obj.StartFrom = reader["StartFrom"] != DBNull.Value ? (long?)reader["StartFrom"] : null;
                     obj.EndTo = reader["EndTo"] != DBNull.Value ? (long?)reader["EndTo"] : null;
-                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool)reader["IsActive"] : false;
 
                     result.Add(obj);
                 }
@@ -512,7 +512,7 @@ namespace Web.Models
                     obj.CreatedBy = reader["CreatedBy"] != DBNull.Value ? (string)reader["CreatedBy"] : null;
                     obj.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? (string)reader["ModifiedBy"] : null;
                     obj.ModificationTime = reader["ModificationTime"] != DBNull.Value ? (long?)reader["ModificationTime"] : null;
-                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+                    obj.IsActive = reader["IsActive"] != DBNull.Value ? (bool)reader["IsActive"] : false;
 
                     result.Add(obj);
                 }
