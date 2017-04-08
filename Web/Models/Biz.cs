@@ -54,137 +54,133 @@ namespace Web.Models
         #endregion
         #region BatchQuizMap Mathods
 
-        public IQueryable<BatchQuizMap> GetAllBatchQuizMaps()
+        public List<BatchQuizMap> GetAllBatchQuizMappings()
         {
-            return null;// _db.BatchQuizMaps.AsQueryable();
+            return _db.GetAllBatchQuizMappings();
         }
 
-        public BatchQuizMap GetBatchQuizMap(object id)
+        public List<BatchQuizMap> GetAllBatchQuizMappings(string query)
         {
-            return null;// _db.BatchQuizMaps.Find(id);
+            return _db.GetAllBatchQuizMappings(query);
         }
 
-        public BatchQuizMap AddBatchQuizMap(BatchQuizMap obj)
+        public BatchQuizMap GetBatchQuizMapping(string id)
         {
-            //_db.BatchQuizMaps.Add(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.GetBatchQuizMapping(id);
         }
 
-        public BatchQuizMap EditBatchQuizMap(BatchQuizMap obj)
+        public BatchQuizMap AddBatchQuizMapping(BatchQuizMap obj)
         {
-            //_db.Entry<BatchQuizMap>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
+            return _db.AddBatchQuizMapping(obj);
         }
 
-        public BatchQuizMap DeleteBatchQuizMap(BatchQuizMap obj)
+        public BatchQuizMap EditBatchQuizMapping(BatchQuizMap obj)
         {
-            //_db.BatchQuizMaps.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.EditBatchQuizMapping(obj);
+        }
+
+        public bool DeleteBatchQuizMapping(string id)
+        {
+            return _db.DeleteBatchQuizMapping(id);
         }
 
         #endregion
         #region BatchUserMap Mathods
 
-        public IQueryable<BatchUserMap> GetAllBatchUserMaps()
+        public List<BatchUserMap> GetAllBatchUserMappings()
         {
-            return null;// _db.BatchUserMaps.AsQueryable();
+            return _db.GetAllBatchUserMappings();
         }
 
-        public BatchUserMap GetBatchUserMap(object id)
+        public List<BatchUserMap> GetAllBatchUserMappings(string query)
         {
-            return null;// _db.BatchUserMaps.Find(id);
+            return _db.GetAllBatchUserMappings(query);
         }
 
-        public BatchUserMap AddBatchUserMap(BatchUserMap obj)
+        public BatchUserMap GetBatchUserMapping(string id)
         {
-            //_db.BatchUserMaps.Add(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.GetBatchUserMapping(id);
         }
 
-        public BatchUserMap EditBatchUserMap(BatchUserMap obj)
+        public BatchUserMap AddBatchUserMapping(BatchUserMap obj)
         {
-            //_db.Entry<BatchUserMap>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
+            return _db.AddBatchUserMapping(obj);
         }
 
-        public BatchUserMap DeleteBatchUserMap(BatchUserMap obj)
+        public BatchUserMap EditBatchUserMapping(BatchUserMap obj)
         {
-            //_db.BatchUserMaps.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.EditBatchUserMapping(obj);
+        }
+
+        public bool DeleteBatchUserMapping(string id)
+        {
+            return _db.DeleteBatchUserMapping(id);
         }
 
         #endregion
         #region Attempt Mathods
 
-        public IQueryable<Attempt> GetAllAttempts()
+        public List<Attempt> GetAllAttempts()
         {
-            return null;// _db.Attempts.AsQueryable();
+            return _db.GetAllAttempts();
         }
 
-        public Attempt GetAttempt(object id)
+        public List<Attempt> GetAllAttempts(string query)
         {
-            return null;// _db.Attempts.Find(id);
+            return _db.GetAllAttempts(query);
+        }
+
+        public Attempt GetAttempt(string id)
+        {
+            return _db.GetAttempt(id);
         }
 
         public Attempt AddAttempt(Attempt obj)
         {
-            //_db.Attempts.Add(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.AddAttempt(obj);
         }
 
         public Attempt EditAttempt(Attempt obj)
         {
-            //_db.Entry<Attempt>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
+            return _db.EditAttempt(obj);
         }
 
-        public Attempt DeleteAttempt(Attempt obj)
+        public bool DeleteAttempt(string id)
         {
-            //_db.Attempts.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.DeleteAttempt(id);
         }
 
         #endregion
         #region AttemptDetail Mathods
 
-        public IQueryable<AttemptDetail> GetAllAttemptDetails()
+        public List<AttemptDetail> GetAllAttemptDetails()
         {
-            return null;// _db.AttemptDetails.AsQueryable();
+            return _db.GetAllAttemptDetails();
         }
 
-        public AttemptDetail GetAttemptDetail(object id)
+        public List<AttemptDetail> GetAllAttemptDetails(string query)
         {
-            return null;// _db.AttemptDetails.Find(id);
+            return _db.GetAllAttemptDetails(query);
+        }
+
+        public AttemptDetail GetAttemptDetail(string id)
+        {
+            return _db.GetAttemptDetail(id);
         }
 
         public AttemptDetail AddAttemptDetail(AttemptDetail obj)
         {
-            //_db.AttemptDetails.Add(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.AddAttemptDetail(obj);
         }
 
         public AttemptDetail EditAttemptDetail(AttemptDetail obj)
         {
-            //_db.Entry<AttemptDetail>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
+            return _db.EditAttemptDetail(obj);
         }
 
-        public AttemptDetail DeleteAttemptDetail(AttemptDetail obj)
+        public bool DeleteAttemptDetail(string id)
         {
-            //_db.AttemptDetails.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
+            return _db.DeleteAttemptDetail(id);
         }
 
         #endregion
@@ -217,142 +213,6 @@ namespace Web.Models
         public UserLogin DeleteUserLogin(UserLogin obj)
         {
             //_db.UserLogins.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
-        }
-
-        #endregion
-        #region webpages_OAuthMembership Mathods
-
-        public IQueryable<webpages_OAuthMembership> GetAllwebpages_OAuthMembership()
-        {
-            return null;// _db.webpages_OAuthMembership.AsQueryable();
-        }
-
-        public webpages_OAuthMembership Getwebpages_OAuthMembership(object id)
-        {
-            return null;// _db.webpages_OAuthMembership.Find(id);
-        }
-
-        public webpages_OAuthMembership Addwebpages_OAuthMembership(webpages_OAuthMembership obj)
-        {
-            //_db.webpages_OAuthMembership.Add(obj);
-            //_db.SaveChanges();
-            return obj;
-        }
-
-        public webpages_OAuthMembership Editwebpages_OAuthMembership(webpages_OAuthMembership obj)
-        {
-            //_db.Entry<webpages_OAuthMembership>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
-        }
-
-        public webpages_OAuthMembership Deletewebpages_OAuthMembership(webpages_OAuthMembership obj)
-        {
-            //_db.webpages_OAuthMembership.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
-        }
-
-        #endregion
-        #region webpages_Membership Mathods
-
-        public IQueryable<webpages_Membership> GetAllwebpages_Membership()
-        {
-            return null;// _db.webpages_Membership.AsQueryable();
-        }
-
-        public webpages_Membership Getwebpages_Membership(object id)
-        {
-            return null;// _db.webpages_Membership.Find(id);
-        }
-
-        public webpages_Membership Addwebpages_Membership(webpages_Membership obj)
-        {
-            //_db.webpages_Membership.Add(obj);
-            //_db.SaveChanges();
-            return obj;
-        }
-
-        public webpages_Membership Editwebpages_Membership(webpages_Membership obj)
-        {
-            //_db.Entry<webpages_Membership>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
-        }
-
-        public webpages_Membership Deletewebpages_Membership(webpages_Membership obj)
-        {
-            //_db.webpages_Membership.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
-        }
-
-        #endregion
-        #region webpages_Roles Mathods
-
-        public IQueryable<webpages_Roles> GetAllwebpages_Roles()
-        {
-            return null;// _db.webpages_Roles.AsQueryable();
-        }
-
-        public webpages_Roles Getwebpages_Roles(object id)
-        {
-            return null;// _db.webpages_Roles.Find(id);
-        }
-
-        public webpages_Roles Addwebpages_Roles(webpages_Roles obj)
-        {
-            //_db.webpages_Roles.Add(obj);
-            //_db.SaveChanges();
-            return obj;
-        }
-
-        public webpages_Roles Editwebpages_Roles(webpages_Roles obj)
-        {
-            //_db.Entry<webpages_Roles>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
-        }
-
-        public webpages_Roles Deletewebpages_Roles(webpages_Roles obj)
-        {
-            //_db.webpages_Roles.Remove(obj);
-            //_db.SaveChanges();
-            return obj;
-        }
-
-        #endregion
-        #region webpages_UsersInRoles Mathods
-
-        public IQueryable<webpages_UsersInRoles> GetAllwebpages_UsersInRoles()
-        {
-            return null;// _db.webpages_UsersInRoles.AsQueryable();
-        }
-
-        public webpages_UsersInRoles Getwebpages_UsersInRoles(object id)
-        {
-            return null;// _db.webpages_UsersInRoles.Find(id);
-        }
-
-        public webpages_UsersInRoles Addwebpages_UsersInRoles(webpages_UsersInRoles obj)
-        {
-            //_db.webpages_UsersInRoles.Add(obj);
-            //_db.SaveChanges();
-            return obj;
-        }
-
-        public webpages_UsersInRoles Editwebpages_UsersInRoles(webpages_UsersInRoles obj)
-        {
-            //_db.Entry<webpages_UsersInRoles>(obj).State = System.Data.EntityState.Modified;
-            // _db.SaveChanges();
-            return obj;
-        }
-
-        public webpages_UsersInRoles Deletewebpages_UsersInRoles(webpages_UsersInRoles obj)
-        {
-            //_db.webpages_UsersInRoles.Remove(obj);
             //_db.SaveChanges();
             return obj;
         }
@@ -459,7 +319,7 @@ namespace Web.Models
         }
 
         #endregion
-        #region DT_QUESTIONS Mathods
+        #region Question Mathods
 
         public List<Question> GetAllQuestions()
         {

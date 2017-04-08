@@ -50,7 +50,7 @@ namespace Web.Controllers
 
         public ActionResult delete(string id)
         {
-            _db.DeleteAttemptDetail(_db.GetAttemptDetail(id));
+            _db.DeleteAttemptDetail(id);
             return RedirectToAction("index");
         }
     }

@@ -18,7 +18,7 @@ namespace Web.Controllers
 
         public ActionResult list(string query = null)
         {
-            var data = _db.GetAllBatchUserMaps();
+            var data = _db.GetAllBatchUserMappings();
             if (!String.IsNullOrWhiteSpace(query))
             {
                 return new JsonNetResult(new { aaData = data.Where(P => true).ToList() });
@@ -32,25 +32,25 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult add(BatchUserMap obj)
         {
-            _db.AddBatchUserMap(obj);
+            _db.AddBatchUserMapping(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult edit(string id)
         {
-            return new JsonNetResult(_db.GetBatchUserMap(id));
+            return new JsonNetResult(_db.GetBatchUserMapping(id));
         }
 
         [HttpPost]
         public ActionResult edit(BatchUserMap obj)
         {
-            _db.EditBatchUserMap(obj);
+            _db.EditBatchUserMapping(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult delete(string id)
         {
-            _db.DeleteBatchUserMap(_db.GetBatchUserMap(id));
+            _db.DeleteBatchUserMapping(id);
             return RedirectToAction("index");
         }
     }

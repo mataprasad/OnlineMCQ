@@ -10,7 +10,13 @@ namespace Web.Controllers
 {
     public class BatchQuizMapController : Web.Helper.AdminBaseController
     {
-        private Biz _db = new Biz();
+        private Biz _db;
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            _db = this.InitBiz();
+        }
+
         public ActionResult index()
         {
             return View();
@@ -18,7 +24,7 @@ namespace Web.Controllers
 
         public ActionResult list(string query = null)
         {
-            var data = _db.GetAllBatchQuizMaps();
+            var data = _db.GetAllBatchQuizMappings();
             if (!String.IsNullOrWhiteSpace(query))
             {
                 return new JsonNetResult(new { aaData = data.Where(P => true).ToList() });
@@ -32,25 +38,25 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult add(BatchQuizMap obj)
         {
-            _db.AddBatchQuizMap(obj);
+            _db.AddBatchQuizMapping(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult edit(string id)
         {
-            return new JsonNetResult(_db.GetBatchQuizMap(id));
+            return new JsonNetResult(_db.GetBatchQuizMapping(id));
         }
 
         [HttpPost]
         public ActionResult edit(BatchQuizMap obj)
         {
-            _db.EditBatchQuizMap(obj);
+            _db.EditBatchQuizMapping(obj);
             return RedirectToAction("index");
         }
 
         public ActionResult delete(string id)
         {
-            _db.DeleteBatchQuizMap(_db.GetBatchQuizMap(id));
+            _db.DeleteBatchQuizMapping(id);
             return RedirectToAction("index");
         }
     }

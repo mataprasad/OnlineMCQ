@@ -127,7 +127,73 @@ namespace Web.Helper
                                                ,@CreatedBy,@ModifiedBy,@ModificationTime,@StartFrom,@EndTo,@IsActive);";
 
         #endregion
-        
+
+        #region BatchQuizMap
+
+        public const string SelectAllBatchQuizMap = @"SELECT * FROM BATCHQUIZMAP;";
+
+        public const string SelectAllBatchQuizMapLike = @"SELECT * FROM BATCHQUIZMAP WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
+
+        public const string SelectBatchQuizMapByID = @"SELECT * FROM BATCHQUIZMAP WHERE ID=@ID;";
+
+        public const string UpdateBatchQuizMap = @"UPDATE BatchQuizMap
+                                                       SET CompanyID = @CompanyID
+                                                          ,BatchID = @BatchID
+                                                          ,QuizID = @QuizID
+                                                          ,OtherDetails = @OtherDetails
+                                                          ,CreationDate = @CreationDate
+                                                          ,CreationTime = @CreationTime
+                                                          ,ModificationDate = @ModificationDate
+                                                          ,CreatedBy = @CreatedBy
+                                                          ,ModifiedBy = @ModifiedBy
+                                                          ,ModificationTime = @ModificationTime
+                                                          ,IsActive = @IsActive
+                                                     WHERE ID = @ID;";
+
+        public const string SoftDeleteBatchQuizMap = @"UPDATE BATCHQUIZMAP SET IsActive=0 WHERE ID=@ID";
+
+        public const string InsertBatchQuizMap = @"INSERT INTO BatchQuizMap
+                                                   (ID,CompanyID,BatchID,QuizID,OtherDetails,CreationDate,CreationTime,ModificationDate
+                                                   ,CreatedBy,ModifiedBy,ModificationTime,IsActive)
+                                             VALUES
+                                                   (@ID,@CompanyID,@BatchID,@QuizID,@OtherDetails,@CreationDate,@CreationTime,@ModificationDate
+                                                   ,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive);";
+
+        #endregion
+
+        #region BatchUserMap
+
+        public const string SelectAllBatchUserMap = @"SELECT * FROM BATCHUSERMAP;";
+
+        public const string SelectAllBatchUserMapLike = @"SELECT * FROM BATCHUSERMAP WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
+
+        public const string SelectBatchUserMapByID = @"SELECT * FROM BATCHUSERMAP WHERE ID=@ID;";
+
+        public const string UpdateBatchUserMap = @"UPDATE BatchUserMap
+                               SET CompanyID = @CompanyID
+                                  ,BatchID = @BatchID
+                                  ,UserID = @UserID
+                                  ,OtherDetails = @OtherDetails
+                                  ,CreationDate = @CreationDate
+                                  ,CreationTime = @CreationTime
+                                  ,ModificationDate = @ModificationDate
+                                  ,CreatedBy = @CreatedBy
+                                  ,ModifiedBy = @ModifiedBy
+                                  ,ModificationTime = @ModificationTime
+                                  ,IsActive = @IsActive
+                             WHERE ID = @ID;";
+
+        public const string SoftDeleteBatchUserMap = @"UPDATE BATCHUSERMAP SET IsActive=0 WHERE ID=@ID";
+
+        public const string InsertBatchUserMap = @"INSERT INTO BatchUserMap
+                                                   (ID,CompanyID,BatchID,UserID,OtherDetails,CreationDate,CreationTime
+                                                   ,ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive)
+                                                    VALUES
+                                                   (@ID,@CompanyID,@BatchID,@UserID,@OtherDetails,@CreationDate,@CreationTime,
+                                                   @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive)";
+
+        #endregion
+
         #region Quiz
 
         public const string SelectAllQuiz = @"SELECT * FROM QUIZ;";
@@ -181,6 +247,72 @@ namespace Web.Helper
 
         #endregion
 
+        #region Attempt
+
+        public const string SelectAllAttempt = @"SELECT * FROM ATTEMPT;";
+
+        public const string SelectAllAttemptLike = @"SELECT * FROM ATTEMPT WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
+
+        public const string SelectAttemptByID = @"SELECT * FROM ATTEMPT WHERE ID=@ID;";
+
+        public const string UpdateAttempt = @"UPDATE Attempt
+                                               SET CompanyID = @CompanyID
+                                                  ,BatchID = @BatchID
+                                                  ,UserID = @UserID
+                                                  ,QuizID = @QuizID
+                                                  ,OtherDetails = @OtherDetails
+                                                  ,CreationDate = @CreationDate
+                                                  ,CreationTime = @CreationTime
+                                                  ,ModificationDate = @ModificationDate
+                                                  ,CreatedBy = @CreatedBy
+                                                  ,ModifiedBy = @ModifiedBy
+                                                  ,ModificationTime = @ModificationTime
+                                                  ,IsActive = @IsActive
+                                             WHERE ID = @ID;";
+
+        public const string SoftDeleteAttempt = @"UPDATE ATTEMPT SET IsActive=0 WHERE ID=@ID";
+
+        public const string InsertAttempt = @"INSERT INTO Attempt
+                                               (ID,CompanyID,BatchID,UserID,QuizID,OtherDetails,CreationDate
+                                               ,CreationTime,ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive)
+                                                VALUES
+                                               (@ID,@CompanyID,@BatchID,@UserID,@QuizID,@OtherDetails,@CreationDate
+                                               ,@CreationTime,@ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive)";
+
+        #endregion
+
+        #region AttemptDetail
+
+        public const string SelectAllAttemptDetail = @"SELECT * FROM ATTEMPTDETAIL;";
+
+        public const string SelectAllAttemptDetailLike = @"SELECT * FROM ATTEMPTDETAIL WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
+
+        public const string SelectAttemptDetailByID = @"SELECT * FROM ATTEMPTDETAIL WHERE ID=@ID;";
+
+        public const string UpdateAttemptDetail = @"UPDATE AttemptDetail
+                                                       SET AttemptID = @AttemptID
+                                                          ,ResponseKey = @ResponseKey
+                                                          ,ResponseValue = @ResponseValue
+                                                          ,CreationDate = @CreationDate
+                                                          ,CreationTime = @CreationTime
+                                                          ,ModificationDate = @ModificationDate
+                                                          ,CreatedBy = @CreatedBy
+                                                          ,ModifiedBy = @ModifiedBy
+                                                          ,ModificationTime = @ModificationTime
+                                                          ,IsActive = @IsActive
+                                                     WHERE ID = @ID;";
+
+        public const string SoftDeleteAttemptDetail = @"UPDATE ATTEMPTDETAIL SET IsActive=0 WHERE ID=@ID";
+
+        public const string InsertAttemptDetail = @"INSERT INTO AttemptDetail
+                                                       (ID,AttemptID,ResponseKey,ResponseValue,CreationDate,CreationTime
+                                                       ,ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive)
+                                                 VALUES
+                                                       (@ID,@AttemptID,@ResponseKey,@ResponseValue,@CreationDate,@CreationTime
+                                                       ,@ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive);";
+
+        #endregion
+
         #region Question
 
         public const string SelectAllQuestion = @"SELECT * FROM DT_QUESTIONS;";
@@ -229,11 +361,15 @@ namespace Web.Helper
 
         #endregion
 
+        #region LoginInfo
+
         public const string UserLoginCheck = @"SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,Roles AS AccessLevel 
                                                 FROM Student WHERE Email = @Email AND Password = @Password AND IsActive=1;";
 
         public const string ChangeUserPassword = @"UPDATE Student set Password=@NewPassword WHERE Email=@Email AND Password=@Password;
                                                    SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,Roles AS AccessLevel 
                                                         FROM Student WHERE Email = @Email AND Password = @NewPassword;";
+
+        #endregion
     }
 }

@@ -18,6 +18,8 @@ namespace Web.Service
             this.company = company;
         }
 
+        #region Company
+
         public List<Company> GetAllCompanies(string query)
         {
             var data = new List<Company>();
@@ -77,6 +79,10 @@ namespace Web.Service
             }
             return false;
         }
+
+        #endregion
+
+        #region Student
 
         public List<Student> GetAllStudents(bool isSysAdmin = false)
         {
@@ -152,6 +158,10 @@ namespace Web.Service
             return false;
         }
 
+        #endregion
+
+        #region Question
+
         public List<Question> GetAllQuestions()
         {
             var data = new List<Question>();
@@ -211,6 +221,10 @@ namespace Web.Service
             }
             return false;
         }
+
+        #endregion
+
+        #region Batch
 
         public List<Batch> GetAllBatches()
         {
@@ -272,6 +286,10 @@ namespace Web.Service
             return false;
         }
 
+        #endregion
+
+        #region Quiz
+
         public List<Quiz> GetAllQuizzes()
         {
             var data = new List<Quiz>();
@@ -331,5 +349,263 @@ namespace Web.Service
             }
             return false;
         }
+
+        #endregion
+
+        #region BatchQuizMap
+
+        public List<BatchQuizMap> GetAllBatchQuizMappings()
+        {
+            var data = new List<BatchQuizMap>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<BatchQuizMap>(SQL.SelectAllBatchQuizMap).ToList();
+            }
+            return data;
+        }
+
+        public List<BatchQuizMap> GetAllBatchQuizMappings(string query)
+        {
+            var data = new List<BatchQuizMap>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<BatchQuizMap>(SQL.SelectAllBatchQuizMapLike, new { Term = "%" + query + "%" }).ToList();
+            }
+            return data;
+        }
+
+        public BatchQuizMap GetBatchQuizMapping(string id)
+        {
+            var data = new BatchQuizMap();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<BatchQuizMap>(SQL.SelectBatchQuizMapByID, new { ID = id }).FirstOrDefault();
+            }
+            return data;
+        }
+
+        public BatchQuizMap AddBatchQuizMapping(BatchQuizMap obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<BatchQuizMap>(SQL.InsertBatchQuizMap + "; " + SQL.SelectBatchQuizMapByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public BatchQuizMap EditBatchQuizMapping(BatchQuizMap obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<BatchQuizMap>(SQL.UpdateBatchQuizMap + "; " + SQL.SelectBatchQuizMapByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public bool DeleteBatchQuizMapping(string id)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                if (db.Execute(SQL.SoftDeleteBatchQuizMap, new { ID = id }) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region BatchUserMap
+
+        public List<BatchUserMap> GetAllBatchUserMappings()
+        {
+            var data = new List<BatchUserMap>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<BatchUserMap>(SQL.SelectAllBatchUserMap).ToList();
+            }
+            return data;
+        }
+
+        public List<BatchUserMap> GetAllBatchUserMappings(string query)
+        {
+            var data = new List<BatchUserMap>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<BatchUserMap>(SQL.SelectAllBatchUserMapLike, new { Term = "%" + query + "%" }).ToList();
+            }
+            return data;
+        }
+
+        public BatchUserMap GetBatchUserMapping(string id)
+        {
+            var data = new BatchUserMap();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<BatchUserMap>(SQL.SelectBatchUserMapByID, new { ID = id }).FirstOrDefault();
+            }
+            return data;
+        }
+
+        public BatchUserMap AddBatchUserMapping(BatchUserMap obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<BatchUserMap>(SQL.InsertBatchUserMap + "; " + SQL.SelectBatchUserMapByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public BatchUserMap EditBatchUserMapping(BatchUserMap obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<BatchUserMap>(SQL.UpdateBatchUserMap + "; " + SQL.SelectBatchUserMapByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public bool DeleteBatchUserMapping(string id)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                if (db.Execute(SQL.SoftDeleteBatchUserMap, new { ID = id }) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Attempt
+
+        public List<Attempt> GetAllAttempts()
+        {
+            var data = new List<Attempt>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Attempt>(SQL.SelectAllAttempt).ToList();
+            }
+            return data;
+        }
+
+        public List<Attempt> GetAllAttempts(string query)
+        {
+            var data = new List<Attempt>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Attempt>(SQL.SelectAllAttemptLike, new { Term = "%" + query + "%" }).ToList();
+            }
+            return data;
+        }
+
+        public Attempt GetAttempt(string id)
+        {
+            var data = new Attempt();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Attempt>(SQL.SelectAttemptByID, new { ID = id }).FirstOrDefault();
+            }
+            return data;
+        }
+
+        public Attempt AddAttempt(Attempt obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<Attempt>(SQL.InsertAttempt + "; " + SQL.SelectAttemptByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public Attempt EditAttempt(Attempt obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<Attempt>(SQL.UpdateAttempt + "; " + SQL.SelectAttemptByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public bool DeleteAttempt(string id)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                if (db.Execute(SQL.SoftDeleteAttempt, new { ID = id }) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region AttemptDetail
+
+        public List<AttemptDetail> GetAllAttemptDetails()
+        {
+            var data = new List<AttemptDetail>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<AttemptDetail>(SQL.SelectAllAttemptDetail).ToList();
+            }
+            return data;
+        }
+
+        public List<AttemptDetail> GetAllAttemptDetails(string query)
+        {
+            var data = new List<AttemptDetail>();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<AttemptDetail>(SQL.SelectAllAttemptDetailLike, new { Term = "%" + query + "%" }).ToList();
+            }
+            return data;
+        }
+
+        public AttemptDetail GetAttemptDetail(string id)
+        {
+            var data = new AttemptDetail();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<AttemptDetail>(SQL.SelectAttemptDetailByID, new { ID = id }).FirstOrDefault();
+            }
+            return data;
+        }
+
+        public AttemptDetail AddAttemptDetail(AttemptDetail obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<AttemptDetail>(SQL.InsertAttemptDetail + "; " + SQL.SelectAttemptDetailByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public AttemptDetail EditAttemptDetail(AttemptDetail obj)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                obj = db.GetQueryData<AttemptDetail>(SQL.UpdateAttemptDetail + "; " + SQL.SelectAttemptDetailByID, obj).FirstOrDefault();
+            }
+            return obj;
+        }
+
+        public bool DeleteAttemptDetail(string id)
+        {
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                if (db.Execute(SQL.SoftDeleteAttemptDetail, new { ID = id }) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
     }
 }
