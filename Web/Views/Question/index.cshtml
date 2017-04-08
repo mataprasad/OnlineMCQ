@@ -122,7 +122,7 @@
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "OPTION_E_ID" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "CORRECT_OPTIONS" });
 
-    var modelData = new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Question");
+    var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Question"),true);
 }
 @section scripts {
     <script type="text/javascript">

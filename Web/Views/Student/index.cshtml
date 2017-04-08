@@ -113,7 +113,7 @@
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
 
-    var modelData = new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Student");
+    var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Student"));
 }
 @section scripts {
     <script type="text/javascript">

@@ -32,7 +32,19 @@ namespace Web.Helper
 
     public class GridModelData
     {
+        public GridModelData()
+        {
+            ShowActionColumn = true;
+        }
+
+        public GridModelData(Tuple<IEnumerable<Web.Helper.GridHelper>, String> data, bool actionColumn = true)
+        {
+            ColumnDefinitions = data.Item1.ToList();
+            ControllerName = data.Item2;
+            ShowActionColumn = actionColumn;
+        }
         public List<GridHelper> ColumnDefinitions { get; set; }
         public string ControllerName { get; set; }
+        public bool ShowActionColumn { get; set; }
     }
 }

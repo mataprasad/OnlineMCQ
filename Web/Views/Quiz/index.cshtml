@@ -127,7 +127,7 @@
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "PreventWindowAndTabChange" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive", ColumnHeader = "Is Active" });
 
-    var modelData = new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Quiz");
+    var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Quiz"));
 }
 @section scripts {
     <script type="text/javascript">

@@ -8,6 +8,7 @@ namespace Web.Models
 {
     public class Question
     {
+        public string ID { get; set; }
         public string QUIZ_ID { get; set; }
         public string QUESTION_ID { get; set; }
         public string SECTION_NAME { get; set; }

@@ -157,7 +157,7 @@ namespace Web.Service
             var data = new List<Question>();
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                data = db.GetQueryData<Question>(SQL.SelectAllStudent).ToList();
+                data = db.GetQueryData<Question>(SQL.SelectAllQuestion).ToList();
             }
             return data;
         }
@@ -167,7 +167,7 @@ namespace Web.Service
             var data = new List<Question>();
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                data = db.GetQueryData<Question>(SQL.SelectAllStudent, new { Term = "%" + query + "%" }).ToList();
+                data = db.GetQueryData<Question>(SQL.SelectAllQuestionLike, new { Term = "%" + query + "%" }).ToList();
             }
             return data;
         }
@@ -177,7 +177,7 @@ namespace Web.Service
             var data = new Question();
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                data = db.GetQueryData<Question>(SQL.SelectStudentByID, new { ID = id }).FirstOrDefault();
+                data = db.GetQueryData<Question>(SQL.SelectQuizByID, new { ID = id }).FirstOrDefault();
             }
             return data;
         }
@@ -186,7 +186,7 @@ namespace Web.Service
         {
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                obj = db.GetQueryData<Question>(SQL.InsertStudent + "; " + SQL.SelectStudentByID, obj).FirstOrDefault();
+                obj = db.GetQueryData<Question>(SQL.InsertQuestion + "; " + SQL.SelectQuizByID, obj).FirstOrDefault();
             }
             return obj;
         }
@@ -195,7 +195,7 @@ namespace Web.Service
         {
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                obj = db.GetQueryData<Question>(SQL.UpdateStudent + "; " + SQL.SelectStudentByID, obj).FirstOrDefault();
+                obj = db.GetQueryData<Question>(SQL.UpdateQuestion + "; " + SQL.SelectQuestionByID, obj).FirstOrDefault();
             }
             return obj;
         }
@@ -204,7 +204,7 @@ namespace Web.Service
         {
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                if (db.Execute(SQL.SoftDeleteStudent, new { ID = id }) > 0)
+                if (db.Execute(SQL.SoftDeleteQuestion, new { ID = id }) > 0)
                 {
                     return true;
                 }

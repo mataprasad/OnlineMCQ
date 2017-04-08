@@ -1,8 +1,9 @@
-﻿@model Tuple<IEnumerable<Web.Helper.GridHelper>, String>
+﻿@*@model Tuple<IEnumerable<Web.Helper.GridHelper>, String>*@
+@model Web.Helper.GridModelData
 <script type="text/javascript">
     $(document).ready(function () {
         function fnInitTable(query) {
-            var url = "@Url.Action("list",Model.Item2)";
+            var url = "@Url.Action("list",Model.ControllerName)";
             if (query != null) {
                 url += "?query=" + query;
             }
@@ -16,88 +17,99 @@
                 "iDisplayLength": 8,
                 "sAjaxSource": url,
                 "sServerMethod": "GET",
-                "aAjaxSourceLoadError": function(xhr, error, thrown){
+                "aAjaxSourceLoadError": function (xhr, error, thrown) {
                     alert(xhr.responseText);
                 },
                 "aoColumns": [
-                    @foreach (var item in Model.Item1)
-	                {
-	                    <text>
+                    @for (int i = 0; i < Model.ColumnDefinitions.Count; i++)
+                    {
+                        var item = Model.ColumnDefinitions[i];
+                        if (i != 0)
+                        {
+                            @Html.Raw(",")
+                        }
+                        <text>
                             {
                                 "sTitle": "@item.ColumnHeader",
                                 "mData": "@item.ColumnName",
                                 "bSortable": @item.Sortable.ToString().ToLower(),
                                 "bVisible": @item.Visible.ToString().ToLower()
-                                },
-        </text>
-	                }
-{
-    "bSortable": false,
-    "sTitle": "Action",
-    "mData": null,
-    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-        $(nTd).html('<a class="grid-action-edit" onclick="fnGridActionEdit(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="grid-action-delete" onclick="fnGridActionDelete(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-trash-o"></i></a>');
-    }
-}]
+                             }
+                        </text>
+                    }
+                    @if(Model.ShowActionColumn)
+                    {
+                        <text>
+                        ,{
+                                "bSortable": false,
+                                "sTitle": "Action",
+                                "mData": null,
+                                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                                $(nTd).html('<a class="grid-action-edit" onclick="fnGridActionEdit(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="grid-action-delete" onclick="fnGridActionDelete(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-trash-o"></i></a>');
+                                }
+                        }
+                        </text>
+                    }
+    ]
             });
+    }
+    fnInitTable("");
+    $('#btn-search').click(function () {
+        if ($("#txt-search-query").val().trim() != "") {
+            $("#example").empty();
+            $('#example').dataTable().fnDestroy();
+            fnInitTable($("#txt-search-query").val());
         }
-        fnInitTable("");
-        $('#btn-search').click(function () {
-            if ($("#txt-search-query").val().trim() != "") {
-                $("#example").empty();
-                $('#example').dataTable().fnDestroy();
-                fnInitTable($("#txt-search-query").val());
-            }
-        })
-        $("#btn-refresh").click(function () {
-            if ($("#txt-search-query").val().trim() != "") {
-                $("#example").empty();
-                $('#example').dataTable().fnDestroy();
-                $("#txt-search-query").val("");
-                fnInitTable("");
-            }
-        });
-        $("#txt-search-query").keyup(function (event) {
-            if (event.which == 13) {
-                $('#btn-search').click();
-            }
-            if (event.which == 27) {
-                $("#btn-refresh").click();
-            }
-        });
-        $('#btn-add-new').click(function () {
-            fnClearValidation();
-            fnClearForm();
-            $("#frm-add-edit-form").attr("action","@Url.Action("add",Model.Item2)");
-            ToggleOverlayLoading(false);
-            $("#model-title-h4").html('<i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;'+$("#model-title-h4").attr("add-title"));
-            $("#btn-open-modal").trigger("click");
-        });
+    })
+    $("#btn-refresh").click(function () {
+        if ($("#txt-search-query").val().trim() != "") {
+            $("#example").empty();
+            $('#example').dataTable().fnDestroy();
+            $("#txt-search-query").val("");
+            fnInitTable("");
+        }
+    });
+    $("#txt-search-query").keyup(function (event) {
+        if (event.which == 13) {
+            $('#btn-search').click();
+        }
+        if (event.which == 27) {
+            $("#btn-refresh").click();
+        }
+    });
+    $('#btn-add-new').click(function () {
+        fnClearValidation();
+        fnClearForm();
+        $("#frm-add-edit-form").attr("action", "@Url.Action("add",Model.ControllerName)");
         ToggleOverlayLoading(false);
+        $("#model-title-h4").html('<i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;' + $("#model-title-h4").attr("add-title"));
+        $("#btn-open-modal").trigger("click");
+    });
+    ToggleOverlayLoading(false);
     });
     function fnGridActionEdit(obj) {
         fnClearValidation();
         ToggleOverlayLoading(true);
-        $("#model-title-h4").html('<i class="fa fa-edit"></i>&nbsp;&nbsp;&nbsp;'+$("#model-title-h4").attr("edit-title"));
+        $("#model-title-h4").html('<i class="fa fa-edit"></i>&nbsp;&nbsp;&nbsp;' + $("#model-title-h4").attr("edit-title"));
         $("#btn-open-modal").trigger("click");
         $.ajax({
-            url: "@Url.Action("edit",Model.Item2)?id=" + $(obj).attr("data-key"),
+            url: "@Url.Action("edit",Model.ControllerName)?id=" + $(obj).attr("data-key"),
             dataType: "json",
             type: "GET",
             contentType: "application/json",
-            success: function(response) {
+            success: function (response) {
                 fnClearForm();
                 fnSetupForm(response);
-                $("#frm-add-edit-form").attr("action","@Url.Action("edit",Model.Item2)");
+                $("#frm-add-edit-form").attr("action", "@Url.Action("edit",Model.ControllerName)");
                 ToggleOverlayLoading(false);
             },
-            error: function(a, b, c) {}
+            error: function (a, b, c) { }
         });
     }
-    function fnGridActionDelete(obj){
-        var decision=confirm("Are you sure to delete this item?");
-        if(decision){
-            window.location.href="@Url.Action("delete",Model.Item2)?id=" + $(obj).attr("data-key")
+    function fnGridActionDelete(obj) {
+        var decision = confirm("Are you sure to delete this item?");
+        if (decision) {
+            window.location.href = "@Url.Action("delete",Model.ControllerName)?id=" + $(obj).attr("data-key")
         }
     }
     function ToggleOverlayLoading(blocked) {
@@ -107,7 +119,7 @@
             $("#frm-add-edit-form .overlay,#frm-add-edit-form .loading-img").hide();
         }
     }
-    function fnClearValidation(){
+    function fnClearValidation() {
         $("input[data-val='true']").removeClass("input-validation-error");
         $(".field-validation-error").empty();
     }

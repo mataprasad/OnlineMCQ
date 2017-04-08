@@ -33,7 +33,7 @@ namespace Web.Data.SQLite
 
         public List<McqQuestion> GetAllQuestions()
         {
-            return _con.Query<McqQuestion>("SELECT * FROM DT_QUESTIONS;").ToList();
+            return _con.Query<McqQuestion>("SELECT * FROM DT_QUESTIONS WHERE IS_ACTIVE=1;").ToList();
         }
 
         public bool BulkInsertQuestions(DataTable dt)
@@ -66,7 +66,7 @@ namespace Web.Data.SQLite
                             OPTION_C_ID	,
                             OPTION_D_ID	,
                             OPTION_E_ID	,
-                            CORRECT_OPTIONS)
+                            CORRECT_OPTIONS,IS_ACTIVE)
                             VALUES (
                             @QUIZ_ID,
                             @QUESTION_ID,
@@ -88,7 +88,7 @@ namespace Web.Data.SQLite
                             @OPTION_C_ID,
                             @OPTION_D_ID,
                             @OPTION_E_ID,
-                            @CORRECT_OPTIONS)";
+                            @CORRECT_OPTIONS,1)";
                     cmd = new SQLiteCommand();
                     cmd.Connection = _con;
                     cmd.CommandText = sql;

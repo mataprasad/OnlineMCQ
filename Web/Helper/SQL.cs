@@ -181,6 +181,54 @@ namespace Web.Helper
 
         #endregion
 
+        #region Question
+
+        public const string SelectAllQuestion = @"SELECT * FROM DT_QUESTIONS;";
+
+        public const string SelectAllQuestionLike = @"SELECT * FROM DT_QUESTIONS WHERE QUESTION_TEXT_EN LIKE @Term OR SECTION_NAME LIKE @Term;";
+
+        public const string SelectQuestionByID = @"SELECT * FROM DT_QUESTIONS WHERE QUESTION_ID=@ID;";
+
+        public const string UpdateQuestion = @"UPDATE DT_QUESTIONS
+                                                   SET QUIZ_ID = @QUIZ_ID
+                                                      ,SECTION_NAME = @SECTION_NAME
+                                                      ,QUESTION_TEXT_EN = @QUESTION_TEXT_EN
+                                                      ,QUESTION_TEXT_HI = @QUESTION_TEXT_HI
+                                                      ,OPTION_A_EN = @OPTION_A_EN
+                                                      ,OPTION_B_EN = @OPTION_B_EN
+                                                      ,OPTION_C_EN = @OPTION_C_EN
+                                                      ,OPTION_D_EN = @OPTION_D_EN
+                                                      ,OPTION_E_EN = @OPTION_E_EN
+                                                      ,OPTION_A_HI = @OPTION_A_HI
+                                                      ,OPTION_B_HI = @OPTION_B_HI
+                                                      ,OPTION_C_HI = @OPTION_C_HI
+                                                      ,OPTION_D_HI = @OPTION_D_HI
+                                                      ,OPTION_E_HI = @OPTION_E_HI
+                                                      ,OPTION_A_ID = @OPTION_A_ID
+                                                      ,OPTION_B_ID = @OPTION_B_ID
+                                                      ,OPTION_C_ID = @OPTION_C_ID
+                                                      ,OPTION_D_ID = @OPTION_D_ID
+                                                      ,OPTION_E_ID = @OPTION_E_ID
+                                                      ,CORRECT_OPTIONS = @CORRECT_OPTIONS
+                                                 WHERE QUESTION_ID = @QUESTION_ID";
+
+        public const string SoftDeleteQuestion = @"UPDATE DT_QUESTIONS SET IS_ACTIVE=0 WHERE QUESTION_ID=@ID";
+
+        public const string InsertQuestion = @"INSERT INTO DT_QUESTIONS
+                                                   (QUIZ_ID,QUESTION_ID,SECTION_NAME,QUESTION_TEXT_EN,QUESTION_TEXT_HI
+                                                   ,OPTION_A_EN,OPTION_B_EN,OPTION_C_EN,OPTION_D_EN,OPTION_E_EN
+                                                   ,OPTION_A_HI,OPTION_B_HI,OPTION_C_HI,OPTION_D_HI,OPTION_E_HI
+                                                   ,OPTION_A_ID,OPTION_B_ID,OPTION_C_ID,OPTION_D_ID,OPTION_E_ID
+                                                   ,CORRECT_OPTIONS)
+                                             VALUES
+                                                   (@QUIZ_ID,@QUESTION_ID,@SECTION_NAME,@QUESTION_TEXT_EN,@QUESTION_TEXT_HI
+                                                   ,@OPTION_A_EN,@OPTION_B_EN,@OPTION_C_EN,@OPTION_D_EN,@OPTION_E_EN
+                                                   ,@OPTION_A_HI,@OPTION_B_HI,@OPTION_C_HI,@OPTION_D_HI,@OPTION_E_HI
+                                                   ,@OPTION_A_ID,@OPTION_B_ID,@OPTION_C_ID,@OPTION_D_ID,@OPTION_E_ID
+                                                   ,@CORRECT_OPTIONS)";
+
+        #endregion
+
         public const string UserLoginCheck = @"SELECT ID,CompanyID,Email AS UserName,Email AS ScreenName,Roles AS AccessLevel 
                                                 FROM Student WHERE Email = @Email AND Password = @Password AND IsActive=1;";
 
