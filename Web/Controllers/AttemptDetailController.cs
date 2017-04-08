@@ -8,9 +8,16 @@ using Web.Helper;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "SystemAdministrator,CompanyAdmin")]
     public class AttemptDetailController : Web.Helper.AdminBaseController
     {
-        private Biz _db = new Biz();
+        private Biz _db;
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            _db = this.InitBiz();
+        }
+
         public ActionResult index()
         {
             return View();
@@ -32,6 +39,13 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult add(AttemptDetail obj)
         {
+            obj.ID = Guid.NewGuid().ToString().ToLower();
+            obj.CreatedBy = LoggedUserID;
+            obj.CreationDate = Utility.GetCurrentDateInt();
+            obj.CreationTime = Utility.GetCurrentTimeInt();
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.AddAttemptDetail(obj);
             return RedirectToAction("index");
         }
@@ -44,6 +58,9 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult edit(AttemptDetail obj)
         {
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.EditAttemptDetail(obj);
             return RedirectToAction("index");
         }

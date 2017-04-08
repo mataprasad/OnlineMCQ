@@ -8,9 +8,16 @@ using Web.Helper;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "SystemAdministrator,CompanyAdmin")]
     public class BatchUserMapController : Web.Helper.AdminBaseController
     {
-        private Biz _db = new Biz();
+        private Biz _db;
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            _db = this.InitBiz();
+        }
+
         public ActionResult index()
         {
             return View();
@@ -32,6 +39,14 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult add(BatchUserMap obj)
         {
+            obj.ID = Guid.NewGuid().ToString().ToLower();
+            obj.CompanyID = this.Company.ToLower();
+            obj.CreatedBy = LoggedUserID;
+            obj.CreationDate = Utility.GetCurrentDateInt();
+            obj.CreationTime = Utility.GetCurrentTimeInt();
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.AddBatchUserMapping(obj);
             return RedirectToAction("index");
         }
@@ -44,6 +59,10 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult edit(BatchUserMap obj)
         {
+            obj.CompanyID = this.Company.ToLower();
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.EditBatchUserMapping(obj);
             return RedirectToAction("index");
         }

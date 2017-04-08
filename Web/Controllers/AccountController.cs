@@ -36,7 +36,7 @@ namespace Web.Controllers
         [AllowAnonymous]
         public ActionResult login(LoginModel model)
         {
-            this.ChangeComapny(model.Company,"");
+            this.ChangeComapny(model.Company, "");
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
                 return loginSuccess(model);
@@ -47,7 +47,7 @@ namespace Web.Controllers
 
         }
 
-        public ActionResult loginSuccess(LoginModel model)
+        private ActionResult loginSuccess(LoginModel model)
         {
             Web.Models.UserLogin _userLogin = null;
             if (User != null)
@@ -110,11 +110,14 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "SystemAdministrator,CompanyAdmin,Student")]
         public ActionResult manage()
         {
             return View(new ChangePasswordModel());
         }
 
+        [Authorize(Roles = "SystemAdministrator,CompanyAdmin,Student")]
+        [HttpPost]
         public ActionResult changePassword(string currentPassword, string newPassword)
         {
             accountService.SetCompanyContext(this.Company);

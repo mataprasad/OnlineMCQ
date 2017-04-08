@@ -8,6 +8,7 @@ using Web.Helper;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "SystemAdministrator,CompanyAdmin")]
     public class QuestionController : Web.Helper.AdminBaseController
     {
         private Biz _db;

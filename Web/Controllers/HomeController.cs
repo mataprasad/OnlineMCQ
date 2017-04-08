@@ -11,6 +11,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "SystemAdministrator,CompanyAdmin,Student")]
     public class HomeController : Web.Helper.AdminBaseController
     {
         public ActionResult Index()

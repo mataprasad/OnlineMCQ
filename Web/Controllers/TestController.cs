@@ -9,6 +9,7 @@ using Web.Service;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "SystemAdministrator,CompanyAdmin")]
     public class TestController : Web.Helper.AdminBaseController
     {
         private QuizService service = new QuizService();

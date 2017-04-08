@@ -8,6 +8,7 @@ using Web.Helper;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "SystemAdministrator,CompanyAdmin")]
     public class StudentController : Web.Helper.AdminBaseController
     {
         private Biz _db;

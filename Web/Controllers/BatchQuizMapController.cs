@@ -8,6 +8,7 @@ using Web.Helper;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "SystemAdministrator,CompanyAdmin")]
     public class BatchQuizMapController : Web.Helper.AdminBaseController
     {
         private Biz _db;
@@ -38,6 +39,14 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult add(BatchQuizMap obj)
         {
+            obj.ID = Guid.NewGuid().ToString().ToLower();
+            obj.CompanyID = this.Company.ToLower();
+            obj.CreatedBy = LoggedUserID;
+            obj.CreationDate = Utility.GetCurrentDateInt();
+            obj.CreationTime = Utility.GetCurrentTimeInt();
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.AddBatchQuizMapping(obj);
             return RedirectToAction("index");
         }
@@ -50,6 +59,10 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult edit(BatchQuizMap obj)
         {
+            obj.CompanyID = this.Company.ToLower();
+            obj.ModificationDate = Utility.GetCurrentDateInt();
+            obj.ModificationTime = Utility.GetCurrentTimeInt();
+            obj.ModifiedBy = LoggedUserID;
             _db.EditBatchQuizMapping(obj);
             return RedirectToAction("index");
         }
