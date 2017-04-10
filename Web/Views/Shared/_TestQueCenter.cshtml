@@ -43,7 +43,7 @@
                                         <input type="radio" name="@Html.Raw(sections[i].Questions[j].Options[k].Id + "_radio")" class="option_input custom_checkbox " data-option-id="@sections[i].Questions[j].Options[k].Id" data-option-alpha="@sections[i].Questions[j].Options[k].SeqNoChar">
                                     }
                                 </td>
-                                <td class="q_tbl_optn_col_2"> <strong>@Html.Raw(sections[i].Questions[j].Options[k].SeqNoChar+".")</strong> </td>
+                                <td class="q_tbl_optn_col_2"> <strong>@Html.Raw(((char)option_char) +".")</strong> </td>
                                 <td class="q_tbl_optn_col_3 option_text">
                                     <p>@Html.Raw(sections[i].Questions[j].Options[k].Text)</p>
                                 </td>

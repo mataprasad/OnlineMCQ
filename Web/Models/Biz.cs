@@ -147,6 +147,11 @@ namespace Web.Models
             return _db.GetAttempt(id);
         }
 
+        public Attempt GetAttempt(string quizId, string userId)
+        {
+            return _db.GetAttempt(quizId, userId);
+        }
+
         public Attempt AddAttempt(Attempt obj)
         {
             return _db.AddAttempt(obj);

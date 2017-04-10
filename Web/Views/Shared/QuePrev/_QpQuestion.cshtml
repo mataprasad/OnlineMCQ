@@ -1,5 +1,5 @@
 ﻿@model Tuple<VMQuestion, int>
 <div class="test_q_list_item div_with_left_icon @Model.Item1.Id  @Model.Item1.GetQpActiveCss(Model.Item2) " data-question-id="@Model.Item1.Id">
-    <div class="icon   @Model.Item1.GetQpQueNoActiveCss(Model.Item2)  "> @(Model.Item1.SeqNo+1)</div>
+    <div class="icon   @Model.Item1.GetQpQueNoActiveCss(Model.Item2)  "> @(Model.Item2+ 1)</div>
     <div class="div_details">@Model.Item1.Text</div>
 </div>

@@ -29,9 +29,12 @@ namespace Web.Data.SQLite
             }
         }
 
-        public List<McqQuestion> GetAllQuestions()
+        public List<McqQuestion> GetAllQuestions(string dbFilePath)
         {
-            return _con.Query<McqQuestion>("SELECT * FROM DT_QUESTIONS WHERE IS_ACTIVE=1;").ToList();
+            using (var localConnection = new SQLiteConnection(string.Format(@"Data Source={0};Version=3;UseUTF16Encoding=True;", dbFilePath)))
+            {
+                return localConnection.Query<McqQuestion>("SELECT * FROM DT_QUESTIONS WHERE IS_ACTIVE=1;").ToList();
+            }
         }
 
         public bool BulkInsertQuestions(DataTable dt,string dbFilePath, string loggedUserId,string quizId)

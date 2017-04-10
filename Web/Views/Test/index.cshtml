@@ -1,5 +1,8 @@
-﻿@{
+﻿@model Web.Models.VMStartExam
+@{
     Layout = null;
+    var quiz = ViewBag.Quiz as Web.Models.Quiz;
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -28,65 +31,113 @@
     <link rel="stylesheet" href="@Url.Content("~/content/test/css/helper_classes.css?v=10")">
     <link rel="stylesheet" href="@Url.Content("~/content/test/css/app.css?v=11")">
     <link rel="stylesheet" href="@Url.Content("~/content/test/css/online_test.css?v=10")">
+    <style type="text/css">
+        /* Styles for validation helpers-----------------------------------------------------------*/
+        .field-validation-error {
+            color: #ff0000;
+        }
+
+        .field-validation-valid {
+            display: none;
+        }
+
+        .input-validation-error {
+            border: 1px solid #ff0000;
+            background-color: #ffeeee;
+        }
+
+        .validation-summary-errors {
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        .validation-summary-valid {
+            display: none;
+        }
+    </style>
     <script type="text/javascript">
         window.history.forward(1);
     </script>
 </head>
 <body class="online_test_body">
-    <div class="main_container">
-        <div class="inner_page_header">
-            <h1 class="page_title">Speed Test 2</h1>
-        </div>
-        <div class="container clearfix">
-            <h2 class="header_title text-center"><i class="fa fa-info-circle margin-r-5 text-primary"></i> Please Read the Instructions Carefully</h2>
-            <div class="col-sm-8 col-sm-offset-2 bg-white padding-10 long_text">
-                <ol>
-                    <li>Please ensure that you have a reliable internet for the whole duration of the test.</li>
-                    <li>You <strong>can not pause</strong> the test.</li>
-                    <li>This test comprises of multiple-choice questions (MCQ).</li>
-                    <li> There are a total of <strong>25 Questions</strong> in the Test.</li>
-                    <li> Total Time Duration of the Test is <strong>10 minutes. </strong> </li>
-
-                    <li>You will get <strong> 1 marks </strong>   for every correct answer. </li>
-
-                    <li> There is No Negative Marking in this test.</li>
-
-
-                    <li>You are advised not to close the browser window before submitting the test.</li>
-
-                </ol>
-
+    <form method="post" action="@Url.Action("exam","test")">
+        <input type="hidden" name="QuizId" id="QuizId" value="@quiz.ID" />
+        <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="@ViewBag.csrfmiddlewaretoken" />
+        <div class="main_container">
+            <div class="inner_page_header">
+                <h1 class="page_title">@quiz.Title [@quiz.Code]</h1>
             </div>
-            <div class="text-left col-sm-8 col-sm-offset-2 no-padding">
-                <button class="start_test_btn btn btn-info btn-block  text-bold-600 font-22 go_full_screen">Double Click to Start Test</button>
-            </div>
+            <div class="container clearfix">
+                <h2 class="header_title text-center"><i class="fa fa-info-circle margin-r-5 text-primary"></i> Please Read the Instructions Carefully</h2>
+                <div class="col-sm-8 col-sm-offset-2 bg-white padding-10 long_text">
+                    <ol>
+                        <li>Please ensure that you have a reliable internet for the whole duration of the test.</li>
+                        <li>You <strong>can not pause</strong> the test.</li>
+                        <li>This test comprises of multiple-choice questions (MCQ).</li>
+                        <li> There are a total of <strong>@quiz.QuestionCount Questions</strong> in the Test.</li>
+                        <li> Total Time Duration of the Test is <strong>@quiz.TimeLimit minutes. </strong> </li>
 
-        </div>
-    </div>
-    <div class="modal fade in" id="start_test_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="start_test_modal" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header modal-header-radius no-border round-radius">
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>
-                    <h4 id="h4ModalTitle" class="modal-title text-center"> Start Test ? </h4>
+                        <li>You will get <strong> @quiz.CorrectAnswerMarks marks </strong>   for every correct answer. </li>
 
+                        @if (quiz.NegativeMarking == 0)
+                        {
+                            <li> There is No Negative Marking in this test.</li>
+                        }
+                        else
+                        {
+                            <li> This test has <strong>negative marking</strong>. <strong class="text-red">@quiz.NegativeMarking marks </strong>  will be deducted for every incorrect answer.</li>
+                        }
+
+
+                        <li>You are advised not to close the browser window before submitting the test.</li>
+
+
+                    </ol>
+                    @if (quiz.HindiEnabled)
+                    {
+                        List<SelectListItem> langList = new List<SelectListItem>();
+                        langList.Add(new SelectListItem { Text = "ENGLISH", Value = "en" });
+                        langList.Add(new SelectListItem { Text = "HINDI", Value = "hi" });
+                        <div class="form-group">
+                            <label for="Otp">Choose language of exam. @Html.ValidationMessageFor(P => P.Lang)</label>
+                            @Html.DropDownListFor(P => P.Lang, langList, "--SELECT LANGUAGE--", new { @class = "form-control" })
+                        </div>
+                    }
+                    @if (quiz.IsOnlyInClass)
+                    {
+                        <div class="form-group">
+                            <label for="Otp">You will need to provide OTP to access this exam. @Html.ValidationMessageFor(P => P.Otp)</label>
+                            @Html.TextBoxFor(P => P.Otp, new { @class = "form-control", placeholder = "OTP" })
+                        </div>
+                    }
                 </div>
-                <div class="modal-body">
-                    <div id="divModalContent" class="long_text text-center">
-                        <p> You will only get <strong>One Chance</strong> to attempt the test ! Please Attempt it carefully !</p>
-                        <div class="text-center">
-                            <form method="post" action="@Url.Action("exam","test")">
-                                <input type="hidden" name="lang" value="@ViewBag.Lang" />
-                                <input type="hidden" name="id" value="@ViewBag.ID" />
+                <div class="text-left col-sm-8 col-sm-offset-2 no-padding">
+                    <button type="button" class="start_test_btn btn btn-info btn-block  text-bold-600 font-22 go_full_screen">Double Click to Start Test</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade in" id="start_test_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="start_test_modal" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-radius no-border round-radius">
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>
+                        <h4 id="h4ModalTitle" class="modal-title text-center"> Start Test ? </h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <div id="divModalContent" class="long_text text-center">
+                            <p> You will only get <strong>One Chance</strong> to attempt the test ! Please Attempt it carefully !</p>
+                            <div class="text-center">
                                 <button type="submit" class="btn btn-info text-bold-600 ">Click Here to Start Test</button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
+    </form>
     <!-- jQuery first, then Bootstrap JS.-->
     <script src="@Url.Content("~/content/test/js/jquery-2.1.4.min.js")"></script>
     <script src="@Url.Content("~/content/test/js/bootstrap.min.js")"></script>
@@ -95,6 +146,9 @@
     <script src="@Url.Content("~/content/test/js/visibility.min.js")"></script>
     <script src="@Url.Content("~/content/test/js/prj_timer.js?v=10")"></script>
     <script src="@Url.Content("~/content/test/js/online_test.js?v=13")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
     <script>
         function isChrome() {
             var isChromium = window.chrome,
@@ -115,9 +169,12 @@
         var clickCount = 0;
         $(document).ready(function () {
             $(".start_test_btn").click(function () {
-                clickCount++;
-                if (clickCount >= 2) {
-                    showStartDailog();
+                $("form").validate();
+                if ($("form").valid()) {
+                    clickCount++;
+                    if (clickCount >= 2) {
+                        showStartDailog();
+                    }
                 }
             });
             if (!isChrome()) {

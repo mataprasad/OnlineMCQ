@@ -1,6 +1,7 @@
 ﻿@model VMTestPage
 @{
     Layout = null;
+    var quiz = ViewBag.Quiz as Web.Models.Quiz;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -231,21 +232,32 @@
                     <div class="padding-5 text-gray-black">
                         <ol>
                             <li>Please ensure that you have a reliable internet for the whole duration of the test.</li>
-                            <li>You <strong>can not pause</strong> the test.</li>
-                            <li>This test comprises of multiple-choice questions (MCQ).</li>
-                            <li> There are a total of <strong>30 Questions</strong> in the Test.</li>
-                            <li> Total Time Duration of the Test is <strong>30 minutes. </strong> </li>
-                            <li>You will get <span class="text-bold"> 4.0 marks </span> for every correct answer. </li>
-                            <li> This test has <span class="text-bold">negative marking. <span class="text-red">1.0 marks </span> </span> will be deducted for every incorrect answer.</li>
-                            <li>
+                        <li>You <strong>can not pause</strong> the test.</li>
+                        <li>This test comprises of multiple-choice questions (MCQ).</li>
+                        <li> There are a total of <strong>@quiz.QuestionCount Questions</strong> in the Test.</li>
+                        <li> Total Time Duration of the Test is <strong>@quiz.TimeLimit minutes. </strong> </li>
+
+                        <li>You will get <strong> @quiz.CorrectAnswerMarks marks </strong>   for every correct answer. </li>
+
+                        @if (quiz.NegativeMarking == 0)
+                        {
+                            <li> There is No Negative Marking in this test.</li>
+                        }
+                        else
+                        {
+                            <li> This test has <strong>negative marking</strong>. <strong class="text-red">@quiz.NegativeMarking marks </strong>  will be deducted for every incorrect answer.</li>
+                        }
+
+
+                        <li>You are advised not to close the browser window before submitting the test.</li>@*<li>
                                 Test Sections :
                                 <ul>
                                     <li> Quantitative Aptitude : 10 Questions</li>
                                     <li> Reasoning Ability : 10 Questions</li>
                                     <li> English Language : 10 Questions</li>
                                 </ul>
-                            </li>
-                            <li>You are advised not to close the browser window before submitting the test.</li>
+                            </li>*@
+                            
                         </ol>
                     </div>
                 </div>
@@ -275,7 +287,7 @@
     <script src="@Url.Content("~/content/test/js/visibility.min.js")"></script>
     <script src="@Url.Content("~/content/test/js/prj_timer.js?v=10")"></script>
     <script src="@Url.Content("~/content/test/js/online_test.js?v=13")"></script>
-    @if (true)
+    @if (quiz.PreventWindowAndTabChange)
     {
         <script src="@Url.Content("~/content/test/js/online_test_security.js?v=13")"></script>
     }

@@ -8,6 +8,7 @@ using Web.Data.SQLite;
 using System.Data;
 using System.IO;
 using Web.Helper;
+using Web.Models;
 
 namespace Web.Service
 {
@@ -15,15 +16,17 @@ namespace Web.Service
     {
         private IDbAccess _db = null;
         private CommonService _util = CommonService.Instance;
-        private string _temporaryDirectoryBasePath = null;
+        private string _questionDbFileName = string.Empty;
+        private Quiz quiz = null;
 
-        public QuizService()
+        public QuizService(Quiz quiz)
         {
-            _temporaryDirectoryBasePath = _util.GetTemporaryDirectoryBasePath();
-            _db = ObjectFactory.CreateDbContext(@"D:\CodeLib\Mcq.Online\Mcq.Test\bin\DbX.s3db");
+            _questionDbFileName = Path.Combine(_util.GetSQLiteDbFileDirectoryBasePath(), quiz.QuestionDbFile);
+            _db = ObjectFactory.CreateDbContext(_questionDbFileName);
+            this.quiz = quiz;
         }
 
-        public VMTestPage GetQuiz(string quizId, string language = "en")
+        public VMTestPage GetQuizData(string language = "en", string attemptId = "")
         {
             bool isHindi = false;
 
@@ -32,14 +35,14 @@ namespace Web.Service
                 isHindi = true;
             }
 
-            var testData = _db.GetAllQuestions();
+            var testData = _db.GetAllQuestions(_questionDbFileName);
 
             VMTestPage data = new VMTestPage();
-            data.AttemptId = Guid.NewGuid().ToString();
-            data.QuizId = Guid.NewGuid().ToString();
+            data.AttemptId = attemptId;
+            data.QuizId = quiz.ID;
             data.Sections = new List<VMSection>();
 
-            var sections = testData.GroupBy(P => P.SECTION_NAME).Select(P => P).ToList();
+            var sections = testData.Select(P => { P.SECTION_NAME = P.SECTION_NAME.ToUpper(); return P; }).GroupBy(P => P.SECTION_NAME).Select(P => P).ToList();
 
             int sectionSeq = 0;
 
@@ -85,10 +88,18 @@ namespace Web.Service
                         question.Options.Add(new VMOption() { Id = item1.OPTION_E_ID, IsCorrect = false, SeqNo = 4, Text = item1.OPTION_E_EN });
                     }
 
+                    if (quiz.ShuffleOptions)
+                    {
+                        question.Options = question.Options.OrderBy(P => Guid.NewGuid()).ToList();
+                    }
+
                     section.Questions.Add(question);
                     questionSeq++;
                 }
-
+                if (quiz.ShuffleQuestions)
+                {
+                    section.Questions = section.Questions.OrderBy(P => Guid.NewGuid()).ToList();
+                }
                 data.Sections.Add(section);
                 sectionSeq++;
             }
@@ -96,17 +107,5 @@ namespace Web.Service
             return data;
         }
 
-        public bool UploadQuizQuestions(string excelFileName)
-        {
-            DataTable dt = _util.GetDataTableFromExcelSheat(Path.Combine(_temporaryDirectoryBasePath, excelFileName));
-            return _db.BulkInsertQuestions(dt,"","","");
-        }
-
-        public bool CreateQuiz()
-        {
-            //string newDbFileName = _util.GetRandomSQLiteDbFileName();
-            //File.Copy(_util.GetSQLiteQuestionsTemplateDatabaseFile(), Path.Combine(_util.GetSQLiteDbFileDirectoryBasePath(), newDbFileName), true);
-            return true;
-        }
     }
 }

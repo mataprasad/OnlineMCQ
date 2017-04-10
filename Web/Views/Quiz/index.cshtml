@@ -172,6 +172,7 @@
             $('#IsOnlyInClass').prop("checked", false);
             $('#IsPublished').prop("checked", false);
             $('#Otp').val('');
+            $('#QuestionCount').val('');
 
         }
         function fnSetupForm(obj) {
@@ -225,6 +226,7 @@
             if (obj.IsPublished == true) {
                 $('#IsPublished').prop("checked", true);
             }
+            $('#QuestionCount').val(obj.QuestionCount);
         }
         function fnSubmit() {
             $("#frm-add-edit-form").submit();
@@ -386,6 +388,12 @@
                             <div class="form-group">
                                 <label for="Otp">OTP @Html.ValidationMessageFor(P => P.Otp)<a href="javascript:fnGetOpt();">Generate</a></label>
                                 @Html.TextBoxFor(P => P.Otp, new { @class = "form-control", placeholder = "OTP" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="QuestionCount">Total Questions @Html.ValidationMessageFor(P => P.QuestionCount)</label>
+                                @Html.TextBoxFor(P => P.QuestionCount, new { @class = "form-control", placeholder = "Total Questions" })
                             </div>
                         </div>
                     </div>

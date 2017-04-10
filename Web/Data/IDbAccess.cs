@@ -11,7 +11,7 @@ namespace Web.Data
 {
     public interface IDbAccess : IDisposable
     {
-        List<McqQuestion> GetAllQuestions();
+        List<McqQuestion> GetAllQuestions(string dbFilePath);
         bool BulkInsertQuestions(DataTable dt, string dbFilePath, string loggedUserId, string quizId);
         bool BulkInsertStudents(DataTable dt, string companyId, string loggedUserId, string dbFilePath);
         List<T> GetQueryData<T>(string sql);

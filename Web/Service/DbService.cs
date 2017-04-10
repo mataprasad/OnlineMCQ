@@ -514,6 +514,16 @@ namespace Web.Service
             return data;
         }
 
+        public Attempt GetAttempt(string quizId, string userId)
+        {
+            var data = new Attempt();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                data = db.GetQueryData<Attempt>(SQL.SelectAttemptByUserAndQuiz, new { QuizID = quizId, UserID= userId }).FirstOrDefault();
+            }
+            return data;
+        }
+
         public Attempt AddAttempt(Attempt obj)
         {
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))

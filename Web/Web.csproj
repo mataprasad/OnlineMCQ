@@ -238,6 +238,7 @@
     <Compile Include="Models\DbEntities.cs" />
     <Compile Include="Models\ModelValidation\UserLogin.cs" />
     <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Models\VMStartExam.cs" />
     <Compile Include="Models\VMTestPage.cs" />
     <Compile Include="Models\VMTestSubmit.cs" />
     <Compile Include="Models\VMUpload.cs" />

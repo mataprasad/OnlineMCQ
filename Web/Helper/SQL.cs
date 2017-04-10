@@ -234,6 +234,7 @@ namespace Web.Helper
                                                   ,IsOnlyInClass = @IsOnlyInClass
                                                   ,Otp = @Otp
                                                   ,IsPublished = @IsPublished
+                                                  ,QuestionCount = @QuestionCount
                                              WHERE ID = @ID;";
 
         public const string SoftDeleteQuiz = @"UPDATE QUIZ SET IsActive=0 WHERE ID=@ID";
@@ -243,13 +244,13 @@ namespace Web.Helper
                                            ,AvailableFromDate,AvailableToDate,AvailableFromTime,AvailableToTime
                                            ,TimeLimit,CorrectAnswerMarks,NegativeMarking,PassingPercentage,ShuffleQuestions,ShuffleOptions
                                            ,ShowReportAfterTest,RevealCorrectOptionAfterTest,AllowMultipleAttempts,PreventWindowAndTabChange,HindiEnabled
-                                           ,IsOnlyInClass,Otp,IsPublished)
+                                           ,IsOnlyInClass,Otp,IsPublished,QuestionCount)
                                             VALUES(@ID,@CompanyID,@Title,@Code,@Desciption,@QuestionDbFile,@OtherDetails
                                            ,@CreationDate,@CreationTime,@ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive
                                            ,@AvailableFromDate,@AvailableToDate,@AvailableFromTime,@AvailableToTime
                                            ,@TimeLimit,@CorrectAnswerMarks,@NegativeMarking,@PassingPercentage,@ShuffleQuestions
                                            ,@ShuffleOptions,@ShowReportAfterTest,@RevealCorrectOptionAfterTest,@AllowMultipleAttempts,@PreventWindowAndTabChange,@HindiEnabled
-                                           ,@IsOnlyInClass,@Otp,@IsPublished);";
+                                           ,@IsOnlyInClass,@Otp,@IsPublished,@QuestionCount);";
 
         #endregion
 
@@ -260,6 +261,8 @@ namespace Web.Helper
         public const string SelectAllAttemptLike = @"SELECT * FROM ATTEMPT WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
 
         public const string SelectAttemptByID = @"SELECT * FROM ATTEMPT WHERE ID=@ID;";
+
+        public const string SelectAttemptByUserAndQuiz = @"SELECT * FROM ATTEMPT WHERE QuizID=@QuizID AND UserID=@UserID;";
 
         public const string UpdateAttempt = @"UPDATE Attempt
                                                SET CompanyID = @CompanyID

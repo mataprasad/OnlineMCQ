@@ -140,6 +140,7 @@ namespace Web.Models
         public bool IsOnlyInClass { get; set; }
         public string Otp { get; set; }
         public bool IsPublished { get; set; }
+        public long? QuestionCount { get; set; }
     }
 
     public partial class BatchQuizMap
