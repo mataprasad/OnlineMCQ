@@ -230,6 +230,10 @@ namespace Web.Helper
                                                   ,RevealCorrectOptionAfterTest = @RevealCorrectOptionAfterTest
                                                   ,AllowMultipleAttempts = @AllowMultipleAttempts 
                                                   ,PreventWindowAndTabChange = @PreventWindowAndTabChange
+                                                  ,HindiEnabled = @HindiEnabled
+                                                  ,IsOnlyInClass = @IsOnlyInClass
+                                                  ,Otp = @Otp
+                                                  ,IsPublished = @IsPublished
                                              WHERE ID = @ID;";
 
         public const string SoftDeleteQuiz = @"UPDATE QUIZ SET IsActive=0 WHERE ID=@ID";
@@ -238,12 +242,14 @@ namespace Web.Helper
                                            ,ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive
                                            ,AvailableFromDate,AvailableToDate,AvailableFromTime,AvailableToTime
                                            ,TimeLimit,CorrectAnswerMarks,NegativeMarking,PassingPercentage,ShuffleQuestions,ShuffleOptions
-                                           ,ShowReportAfterTest,RevealCorrectOptionAfterTest,AllowMultipleAttempts,PreventWindowAndTabChange)
+                                           ,ShowReportAfterTest,RevealCorrectOptionAfterTest,AllowMultipleAttempts,PreventWindowAndTabChange,HindiEnabled
+                                           ,IsOnlyInClass,Otp,IsPublished)
                                             VALUES(@ID,@CompanyID,@Title,@Code,@Desciption,@QuestionDbFile,@OtherDetails
                                            ,@CreationDate,@CreationTime,@ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive
                                            ,@AvailableFromDate,@AvailableToDate,@AvailableFromTime,@AvailableToTime
                                            ,@TimeLimit,@CorrectAnswerMarks,@NegativeMarking,@PassingPercentage,@ShuffleQuestions
-                                           ,@ShuffleOptions,@ShowReportAfterTest,@RevealCorrectOptionAfterTest,@AllowMultipleAttempts,@PreventWindowAndTabChange);";
+                                           ,@ShuffleOptions,@ShowReportAfterTest,@RevealCorrectOptionAfterTest,@AllowMultipleAttempts,@PreventWindowAndTabChange,@HindiEnabled
+                                           ,@IsOnlyInClass,@Otp,@IsPublished);";
 
         #endregion
 
@@ -342,22 +348,25 @@ namespace Web.Helper
                                                       ,OPTION_D_ID = @OPTION_D_ID
                                                       ,OPTION_E_ID = @OPTION_E_ID
                                                       ,CORRECT_OPTIONS = @CORRECT_OPTIONS
+                                                      ,IS_ACTIVE = @IS_ACTIVE
+                                                      ,CREATED_BY = @CREATED_BY
+                                                      ,CREATED_ON = @CREATED_ON
                                                  WHERE QUESTION_ID = @QUESTION_ID";
 
-        public const string SoftDeleteQuestion = @"UPDATE DT_QUESTIONS SET IS_ACTIVE=0 WHERE QUESTION_ID=@ID";
+        public const string SoftDeleteQuestion = @"DELETE FROM DT_QUESTIONS WHERE QUESTION_ID=@ID";
 
         public const string InsertQuestion = @"INSERT INTO DT_QUESTIONS
                                                    (QUIZ_ID,QUESTION_ID,SECTION_NAME,QUESTION_TEXT_EN,QUESTION_TEXT_HI
                                                    ,OPTION_A_EN,OPTION_B_EN,OPTION_C_EN,OPTION_D_EN,OPTION_E_EN
                                                    ,OPTION_A_HI,OPTION_B_HI,OPTION_C_HI,OPTION_D_HI,OPTION_E_HI
                                                    ,OPTION_A_ID,OPTION_B_ID,OPTION_C_ID,OPTION_D_ID,OPTION_E_ID
-                                                   ,CORRECT_OPTIONS)
+                                                   ,CORRECT_OPTIONS,IS_ACTIVE,CREATED_BY,CREATED_ON)
                                              VALUES
                                                    (@QUIZ_ID,@QUESTION_ID,@SECTION_NAME,@QUESTION_TEXT_EN,@QUESTION_TEXT_HI
                                                    ,@OPTION_A_EN,@OPTION_B_EN,@OPTION_C_EN,@OPTION_D_EN,@OPTION_E_EN
                                                    ,@OPTION_A_HI,@OPTION_B_HI,@OPTION_C_HI,@OPTION_D_HI,@OPTION_E_HI
                                                    ,@OPTION_A_ID,@OPTION_B_ID,@OPTION_C_ID,@OPTION_D_ID,@OPTION_E_ID
-                                                   ,@CORRECT_OPTIONS)";
+                                                   ,@CORRECT_OPTIONS,@IS_ACTIVE,@CREATED_BY,@CREATED_ON)";
 
         #endregion
 

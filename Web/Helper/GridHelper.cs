@@ -5,15 +5,26 @@ using System.Web;
 
 namespace Web.Helper
 {
+    public enum GridColumnType
+    {
+        Text,
+        Date,
+        Time,
+        DateTime,
+        Button,
+        Submit
+    }
+
     public class GridHelper
     {
-        private String _columnName = null;
+        private string _columnName = null;
         public GridHelper()
         {
             Sortable = true;
             Visible = true;
+            ColumnType = GridColumnType.Text;
         }
-        public String ColumnName
+        public string ColumnName
         {
             get
             {
@@ -25,9 +36,19 @@ namespace Web.Helper
                 ColumnHeader = value;
             }
         }
-        public String ColumnHeader { get; set; }
-        public Boolean Sortable { get; set; }
-        public Boolean Visible { get; set; }
+        public string ColumnHeader { get; set; }
+        public bool Sortable { get; set; }
+        public bool Visible { get; set; }
+        public GridColumnType ColumnType { get; set; }
+        public GridColumnTypeSubmitModel SubmitModel { get; set; }
+    }
+
+    public class GridColumnTypeSubmitModel
+    {
+        public string ButtonText { get; set; }
+        public string PostUrl { get; set; }
+        public string HiddenName { get; set; }
+        public string HiddenValue { get; set; }
     }
 
     public class GridModelData
@@ -35,6 +56,7 @@ namespace Web.Helper
         public GridModelData()
         {
             ShowActionColumn = true;
+            MakeDateTable = true;
         }
 
         public GridModelData(Tuple<IEnumerable<Web.Helper.GridHelper>, String> data, bool actionColumn = true)
@@ -42,9 +64,11 @@ namespace Web.Helper
             ColumnDefinitions = data.Item1.ToList();
             ControllerName = data.Item2;
             ShowActionColumn = actionColumn;
+            MakeDateTable = true;
         }
         public List<GridHelper> ColumnDefinitions { get; set; }
         public string ControllerName { get; set; }
         public bool ShowActionColumn { get; set; }
+        public bool MakeDateTable { get; set; }
     }
 }

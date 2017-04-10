@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
-using Web.Models;
-using System.Data.Common;
 using Web.Helper;
 
 namespace Web.Data.SQLite
@@ -36,16 +34,19 @@ namespace Web.Data.SQLite
             return _con.Query<McqQuestion>("SELECT * FROM DT_QUESTIONS WHERE IS_ACTIVE=1;").ToList();
         }
 
-        public bool BulkInsertQuestions(DataTable dt)
+        public bool BulkInsertQuestions(DataTable dt,string dbFilePath, string loggedUserId,string quizId)
         {
             try
             {
-                _con.Open();
-                SQLiteCommand cmd = null;
-                foreach (DataRow item in dt.Rows)
+                using (var localConnection = new SQLiteConnection(string.Format(@"Data Source={0};Version=3;UseUTF16Encoding=True;", dbFilePath)))
                 {
+                    localConnection.Open();
 
-                    var sql = @"INSERT INTO DT_QUESTIONS (
+                    SQLiteCommand cmd = null;
+                    foreach (DataRow item in dt.Rows)
+                    {
+
+                        var sql = @"INSERT INTO DT_QUESTIONS (
                             QUIZ_ID ,
                             QUESTION_ID ,
                             SECTION_NAME ,
@@ -66,7 +67,7 @@ namespace Web.Data.SQLite
                             OPTION_C_ID	,
                             OPTION_D_ID	,
                             OPTION_E_ID	,
-                            CORRECT_OPTIONS,IS_ACTIVE)
+                            CORRECT_OPTIONS,IS_ACTIVE,CREATED_BY,CREATED_ON)
                             VALUES (
                             @QUIZ_ID,
                             @QUESTION_ID,
@@ -88,50 +89,48 @@ namespace Web.Data.SQLite
                             @OPTION_C_ID,
                             @OPTION_D_ID,
                             @OPTION_E_ID,
-                            @CORRECT_OPTIONS,1)";
-                    cmd = new SQLiteCommand();
-                    cmd.Connection = _con;
-                    cmd.CommandText = sql;
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@QUIZ_ID", Convert.ToString(Guid.NewGuid()));
-                    cmd.Parameters.AddWithValue("@QUESTION_ID", Convert.ToString(Guid.NewGuid()));
-                    cmd.Parameters.AddWithValue("@SECTION_NAME", Convert.ToString(item["SECTION_NAME"]));
-                    cmd.Parameters.AddWithValue("@QUESTION_TEXT_EN", Convert.ToString(item["QUESTION_TEXT_EN"]));
-                    cmd.Parameters.AddWithValue("@QUESTION_TEXT_HI", Convert.ToString(item["QUESTION_TEXT_HI"]));
+                            @CORRECT_OPTIONS,1,@CREATED_BY,@CREATED_ON)";
+                        cmd = new SQLiteCommand();
+                        cmd.Connection = localConnection;
+                        cmd.CommandText = sql;
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@QUIZ_ID", quizId);
+                        cmd.Parameters.AddWithValue("@QUESTION_ID", Convert.ToString(Guid.NewGuid()));
+                        cmd.Parameters.AddWithValue("@SECTION_NAME", Convert.ToString(item["SECTION_NAME"]));
+                        cmd.Parameters.AddWithValue("@QUESTION_TEXT_EN", Convert.ToString(item["QUESTION_TEXT_EN"]));
+                        cmd.Parameters.AddWithValue("@QUESTION_TEXT_HI", Convert.ToString(item["QUESTION_TEXT_HI"]));
 
-                    cmd.Parameters.AddWithValue("@OPTION_A_EN", Convert.ToString(item["OPTION_A_EN"]));
-                    cmd.Parameters.AddWithValue("@OPTION_B_EN", Convert.ToString(item["OPTION_B_EN"]));
-                    cmd.Parameters.AddWithValue("@OPTION_C_EN", Convert.ToString(item["OPTION_C_EN"]));
-                    cmd.Parameters.AddWithValue("@OPTION_D_EN", Convert.ToString(item["OPTION_D_EN"]));
-                    cmd.Parameters.AddWithValue("@OPTION_E_EN", Convert.ToString(item["OPTION_E_EN"]));
+                        cmd.Parameters.AddWithValue("@OPTION_A_EN", Convert.ToString(item["OPTION_A_EN"]));
+                        cmd.Parameters.AddWithValue("@OPTION_B_EN", Convert.ToString(item["OPTION_B_EN"]));
+                        cmd.Parameters.AddWithValue("@OPTION_C_EN", Convert.ToString(item["OPTION_C_EN"]));
+                        cmd.Parameters.AddWithValue("@OPTION_D_EN", Convert.ToString(item["OPTION_D_EN"]));
+                        cmd.Parameters.AddWithValue("@OPTION_E_EN", Convert.ToString(item["OPTION_E_EN"]));
 
-                    cmd.Parameters.AddWithValue("@OPTION_A_HI", Convert.ToString(item["OPTION_A_HI"]));
-                    cmd.Parameters.AddWithValue("@OPTION_B_HI", Convert.ToString(item["OPTION_B_HI"]));
-                    cmd.Parameters.AddWithValue("@OPTION_C_HI", Convert.ToString(item["OPTION_C_HI"]));
-                    cmd.Parameters.AddWithValue("@OPTION_D_HI", Convert.ToString(item["OPTION_D_HI"]));
-                    cmd.Parameters.AddWithValue("@OPTION_E_HI", Convert.ToString(item["OPTION_E_HI"]));
+                        cmd.Parameters.AddWithValue("@OPTION_A_HI", Convert.ToString(item["OPTION_A_HI"]));
+                        cmd.Parameters.AddWithValue("@OPTION_B_HI", Convert.ToString(item["OPTION_B_HI"]));
+                        cmd.Parameters.AddWithValue("@OPTION_C_HI", Convert.ToString(item["OPTION_C_HI"]));
+                        cmd.Parameters.AddWithValue("@OPTION_D_HI", Convert.ToString(item["OPTION_D_HI"]));
+                        cmd.Parameters.AddWithValue("@OPTION_E_HI", Convert.ToString(item["OPTION_E_HI"]));
 
-                    cmd.Parameters.AddWithValue("@OPTION_A_ID", Convert.ToString(Guid.NewGuid()));
-                    cmd.Parameters.AddWithValue("@OPTION_B_ID", Convert.ToString(Guid.NewGuid()));
-                    cmd.Parameters.AddWithValue("@OPTION_C_ID", Convert.ToString(Guid.NewGuid()));
-                    cmd.Parameters.AddWithValue("@OPTION_D_ID", Convert.ToString(Guid.NewGuid()));
-                    cmd.Parameters.AddWithValue("@OPTION_E_ID", Convert.ToString(Guid.NewGuid()));
+                        cmd.Parameters.AddWithValue("@OPTION_A_ID", Convert.ToString(Guid.NewGuid()));
+                        cmd.Parameters.AddWithValue("@OPTION_B_ID", Convert.ToString(Guid.NewGuid()));
+                        cmd.Parameters.AddWithValue("@OPTION_C_ID", Convert.ToString(Guid.NewGuid()));
+                        cmd.Parameters.AddWithValue("@OPTION_D_ID", Convert.ToString(Guid.NewGuid()));
+                        cmd.Parameters.AddWithValue("@OPTION_E_ID", Convert.ToString(Guid.NewGuid()));
 
-                    cmd.Parameters.AddWithValue("@CORRECT_OPTIONS", Convert.ToString(item["CORRECT_OPTION"]));
+                        cmd.Parameters.AddWithValue("@CORRECT_OPTIONS", Convert.ToString(item["CORRECT_OPTION"]));
 
-                    cmd.ExecuteNonQuery();
+                        cmd.Parameters.AddWithValue("@CREATED_BY", loggedUserId);
+                        cmd.Parameters.AddWithValue("@CREATED_ON", Utility.GetCurrentDateInt());
+
+                        cmd.ExecuteNonQuery();
+                    }
+                    cmd = null;
                 }
             }
             catch
             {
                 throw;
-            }
-            finally
-            {
-                if (_con.State == ConnectionState.Open)
-                {
-                    _con.Close();
-                }
             }
             return true;
         }

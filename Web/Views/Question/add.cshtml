@@ -1,0 +1,273 @@
+@model Web.Models.Question
+@{
+    ViewBag.Title = "Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Web.Models.Quiz quiz = ViewBag.Quiz;
+    bool hindiEnabled = false;
+    List<SelectListItem> sections = new List<SelectListItem>();
+    sections.Add(new SelectListItem() { Text = "DEFAULT SECTION", Value = "DEFAULT SECTION" });
+    if (quiz != null)
+    {
+        hindiEnabled = quiz.HindiEnabled;
+        if (!string.IsNullOrWhiteSpace(quiz.Desciption))
+        {
+            sections = quiz.Desciption.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .Select(P => new SelectListItem() { Text = P.ToUpper().Trim(), Value = P.ToUpper().Trim() }).ToList();
+        }
+    }
+}
+
+@section stylesheet{
+    <style type="text/css">
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+    <link href="@Url.Content("~/content/summernote/summernote.css")" rel="stylesheet" type="text/css" />
+}
+@section head_scripts{
+    <script src="@Url.Content("~/content/summernote/summernote.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/content/summernote/load-image.all.min.js")" type="text/javascript"></script>
+}
+<section class="content-header">
+    <h1>
+        Add Question
+    </h1>
+</section>
+<section class="content">
+    <form action="" method="post" class="box" id="frm-add-edit-form">
+        @Html.HiddenFor(P => P.IS_ACTIVE)
+        @Html.HiddenFor(P => P.QUESTION_ID)
+        @Html.HiddenFor(P => P.OPTION_A_ID)
+        @Html.HiddenFor(P => P.OPTION_B_ID)
+        @Html.HiddenFor(P => P.OPTION_C_ID)
+        @Html.HiddenFor(P => P.OPTION_D_ID)
+        @Html.HiddenFor(P => P.OPTION_E_ID)
+        
+        <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="@ViewBag.csrfmiddlewaretoken" />
+        <input type="hidden" name="QUIZ_ID" id="QUIZ_ID" value="@quiz.ID" />
+        <div class="">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="SECTION_NAME">Question Section @Html.ValidationMessageFor(P => P.SECTION_NAME)</label>
+                    @Html.DropDownListFor(P => P.SECTION_NAME, sections, "--SELECT QUESTION SECTION--", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">ENGLISH</a></li>
+                    @if (hindiEnabled)
+                    {
+                        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">HINDI</a></li>
+                    }
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="QUESTION_TEXT_EN">Question Text @Html.ValidationMessageFor(P => P.QUESTION_TEXT_EN)</label>
+                                    @Html.TextAreaFor(P => P.QUESTION_TEXT_EN, new { @class = "form-control summer-note" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="OPTION_A_EN">Option A @Html.ValidationMessageFor(P => P.OPTION_A_EN)</label>
+                                    @Html.TextAreaFor(P => P.OPTION_A_EN, new { @class = "form-control summer-note-opt" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="OPTION_B_EN">Option B @Html.ValidationMessageFor(P => P.OPTION_B_EN)</label>
+                                    @Html.TextAreaFor(P => P.OPTION_B_EN, new { @class = "form-control summer-note-opt" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="OPTION_C_EN">Option C @Html.ValidationMessageFor(P => P.OPTION_C_EN)</label>
+                                    @Html.TextAreaFor(P => P.OPTION_C_EN, new { @class = "form-control summer-note-opt" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="OPTION_D_EN">Option D @Html.ValidationMessageFor(P => P.OPTION_D_EN)</label>
+                                    @Html.TextAreaFor(P => P.OPTION_D_EN, new { @class = "form-control summer-note-opt" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="OPTION_E_EN">Option E @Html.ValidationMessageFor(P => P.OPTION_E_EN)</label>
+                                    @Html.TextAreaFor(P => P.OPTION_E_EN, new { @class = "form-control summer-note-opt" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="CHK_CORRECT_OPTIONS">Correct Options @Html.ValidationMessageFor(P => P.CHK_CORRECT_OPTIONS)</label><br />
+                                    A.<input type="checkbox" name="CHK_CORRECT_OPTIONS" id="CHK_CORRECT_OPTIONS_A" value="A" />&nbsp;&nbsp;&nbsp;
+                                    B.<input type="checkbox" name="CHK_CORRECT_OPTIONS" id="CHK_CORRECT_OPTIONS_B" value="B" />&nbsp;&nbsp;&nbsp;
+                                    C.<input type="checkbox" name="CHK_CORRECT_OPTIONS" id="CHK_CORRECT_OPTIONS_C" value="C" />&nbsp;&nbsp;&nbsp;
+                                    D.<input type="checkbox" name="CHK_CORRECT_OPTIONS" id="CHK_CORRECT_OPTIONS_D" value="D" />&nbsp;&nbsp;&nbsp;
+                                    E.<input type="checkbox" name="CHK_CORRECT_OPTIONS" id="CHK_CORRECT_OPTIONS_E" value="E" />&nbsp;&nbsp;&nbsp;
+                                    <script type="text/javascript">
+                                        var correctOptions = "@Model.CORRECT_OPTIONS".split(",");
+                                        for (var i = 0; i < correctOptions.length; i++) {
+                                            $("#CHK_CORRECT_OPTIONS_" + correctOptions[i]).prop("checked", true);
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.tab-pane -->
+                    @if (hindiEnabled)
+                    {
+                        <div class="tab-pane" id="tab_2">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="QUESTION_TEXT_HI">Question Text @Html.ValidationMessageFor(P => P.QUESTION_TEXT_HI)</label>
+                                        @Html.TextAreaFor(P => P.QUESTION_TEXT_HI, new { @class = "form-control summer-note" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="OPTION_A_HI">Option A @Html.ValidationMessageFor(P => P.OPTION_A_HI)</label>
+                                        @Html.TextAreaFor(P => P.OPTION_A_HI, new { @class = "form-control summer-note-opt" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="OPTION_B_HI">Option B @Html.ValidationMessageFor(P => P.OPTION_B_HI)</label>
+                                        @Html.TextAreaFor(P => P.OPTION_B_HI, new { @class = "form-control summer-note-opt" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="OPTION_C_HI">Option C @Html.ValidationMessageFor(P => P.OPTION_C_HI)</label>
+                                        @Html.TextAreaFor(P => P.OPTION_C_HI, new { @class = "form-control summer-note-opt" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="OPTION_D_HI">Option D @Html.ValidationMessageFor(P => P.OPTION_D_HI)</label>
+                                        @Html.TextAreaFor(P => P.OPTION_D_HI, new { @class = "form-control summer-note-opt" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="OPTION_E_HI">Option E @Html.ValidationMessageFor(P => P.OPTION_E_HI)</label>
+                                        @Html.TextAreaFor(P => P.OPTION_E_HI, new { @class = "form-control summer-note-opt" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+
+                                </div>
+                            </div>
+                        </div><!-- /.tab-pane -->
+                    }
+                </div><!-- /.tab-content -->
+            </div>
+        </div>
+        <div class="">
+            <button type="button" class="btn btn-primary btn-flat fa fa-save" style="width:100%;" onclick="fnSubmit();">&nbsp;&nbsp;&nbsp;Save changes</button>
+        </div>
+    </form>
+</section>
+
+@section scripts {
+    <script type="text/javascript">
+        function fnSubmit() {
+            $("#frm-add-edit-form").submit();
+        }
+    </script>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.summer-note-opt').summernote({
+            focus: true,
+            toolbar: [
+              //[groupname, [button list]]
+              ['style', ['bold', 'italic', 'underline', 'clear']],
+              ['font', ['superscript', 'subscript']],
+              ['color', ['color']],
+              //['para', ['ul', 'ol']],
+              ['insert', ['picture', 'specialChar']]
+            ]
+        });
+
+        convert_to_summernote($('.summer-note'), "");
+    });
+
+
+    function convert_to_summernote(element, init_html) {
+        element.summernote({
+            minHeight: 40,
+            focus: true,
+            //toolbar: [
+            //  //[groupname, [button list]]
+            //  ['style', ['bold', 'italic', 'underline', 'clear']],
+            //  ['font', ['superscript', 'subscript']],
+            //  ['color', ['color']],
+            //  ['para', ['ul', 'ol']],
+            //  ['insert', ['picture', 'specialChar']]
+            //],
+            callbacks: {
+                onInit: function () {
+                    //console.log(init_html);
+                    if (init_html) {
+                        //$(this).summernote("insertNode", $(init_html)[0])
+                        //$(this).summernote("insertText", " ");
+                        //$(element).summernote("code", $(element).val());
+                    }
+
+                },
+
+                onImageUpload: function (files, editor, welEditable) {
+                    //console.log(files, editor, welEditable);
+                    var file = files[0];
+                    if (!file.type.match('image.*')) {
+                        console.log("Error !! Not an Image !! ");
+                        return;
+                    }
+                    var current_summernote = $(this);
+                    var old_orientation = 1;
+                    loadImage.parseMetaData(file, function (mydata) {
+                        console.log(mydata);
+
+                        if (mydata.exif) {
+                            old_orientation = mydata.exif.get('Orientation');
+                            console.log("Image Orientation : " + old_orientation);
+                        }
+                        var loadingImage = loadImage(file, function (img) {
+                            if (img.type === "error") {
+                                console.log("Error loading image ");
+                            }
+                            else {
+
+                                // document.body.appendChild(img);
+                                var img_tag = $('<img>', { 'src': img.toDataURL() });
+                                current_summernote.summernote("insertImage", img.toDataURL(file.type, 0.9), "awesome");
+                                return;
+                            }
+                        }, { maxWidth: 900, canvas: true, orientation: old_orientation });
+                    });
+                }
+            }
+        });
+    }
+</script>

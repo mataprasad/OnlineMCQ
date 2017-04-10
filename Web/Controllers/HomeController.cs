@@ -14,6 +14,13 @@ namespace Web.Controllers
     [Authorize(Roles = "SystemAdministrator,CompanyAdmin,Student")]
     public class HomeController : Web.Helper.AdminBaseController
     {
+        private Biz _db;
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            _db = this.InitBiz();
+        }
+
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
@@ -35,7 +42,7 @@ namespace Web.Controllers
             return View();
         }
 
-        public ActionResult FileImport()
+        public ActionResult FileImport(string quizId)
         {
             return View();
         }
@@ -70,13 +77,29 @@ namespace Web.Controllers
                     var tempPath = string.Concat(HostingEnvironment.MapPath("~/temp/" + Guid.NewGuid().ToString()), Path.GetExtension(form.File.FileName)).ToLower();
                     form.File.SaveAs(tempPath);
 
-                    var threadData = new Tuple<string, string, string>(tempPath, Company, LoggedUserID);
+                    var threadData = new Tuple<string, string, string, VMUpload>(tempPath, Company, LoggedUserID, form);
+
                     ThreadPool.QueueUserWorkItem((o) =>
                     {
-                        var input = o as Tuple<string, string, string>;
+                        var input = o as Tuple<string, string, string, VMUpload>;
                         if (input != null)
                         {
-                            Web.Service.CommonService.Instance.ImportStudents(input.Item1, input.Item2, input.Item3);
+                            switch (input.Item4.UploadType)
+                            {
+                                case "S":
+                                    Web.Service.CommonService.Instance.ImportStudents(input.Item1, input.Item2, input.Item3);
+                                    break;
+                                case "Q":
+                                    var quiz = _db.GetQuiz(input.Item4.QuizId);
+                                    if (quiz != null)
+                                    {
+                                        var dbFilePath = Path.Combine(CommonService.GetSQLiteDbFileDirectoryBasePath(), quiz.QuestionDbFile);
+                                        Web.Service.CommonService.Instance.ImportQuestions(input.Item1, dbFilePath, input.Item3, quiz.ID);
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }, threadData);
                 }
@@ -88,6 +111,12 @@ namespace Web.Controllers
         public ActionResult Error500()
         {
             return View("500");
+        }
+
+        [AllowAnonymous]
+        public ActionResult Captcha()
+        {
+            return Content(Utility.GetCaptchaCode());
         }
 
         public void DownloadGridData(string gridData, DownloadFormat format, string fileName = null)

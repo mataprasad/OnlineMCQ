@@ -2,13 +2,26 @@
 @{
     ViewBag.Title = "Question";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Web.Models.Quiz quiz = ViewBag.Quiz as Web.Models.Quiz;
+    List<Web.Models.Question>
+    questions = ViewBag.Questions as List<Web.Models.Question>;
+    if (questions == null)
+    {
+        questions = new List<Web.Models.Question>();
+    }
 }
-@section stylesheet {
+
+@section stylesheet{
     <style type="text/css">
         .table-responsive {
             overflow-x: auto;
         }
     </style>
+    <link href="@Url.Content(" ~/content/summernote/summernote.css")" rel="stylesheet" type="text/css" />
+}
+@section head_scripts{
+    <script src="@Url.Content(" ~/content/summernote/summernote.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content(" ~/content/summernote/load-image.all.min.js")" type="text/javascript"></script>
 }
 <section class="content-header">
     <h1>
@@ -43,7 +56,7 @@
             });
         });
     </script>
-    <form action="@Url.Action("downloadgriddata", "home")" id="frmDownload" method="post">
+    <form action="@Url.Action(" downloadgriddata", "home" )" id="frmDownload" method="post">
         <input type="hidden" name="fileName" id="fileName" value="" />
         <input type="hidden" name="gridData" id="gridData" value="" />
         <input type="hidden" name="format" id="format" value="@Web.Controllers.HomeController.DownloadFormat.XLS" />
@@ -59,45 +72,56 @@
                         <input id="txt-search-query" type="text" class="form-control">
                         <span class="input-group-btn">
                             <button id="btn-refresh" class="btn btn-primary btn-flat" type="button"><i class="fa fa-refresh"></i></button>
-                            <button id="btn-search" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i>&nbsp;&nbsp;FIND</button>
+                            <button id="btn-search" onclick="fnSubmit();" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i>&nbsp;&nbsp;FIND</button>
                         </span>
                         <input type="button" id="btn-open-modal" data-toggle="modal" data-target="#add-new-modal" value="" style="display:none;" />
-                        <button id="btn-add-new" class="btn btn-primary btn-flat" style="float: right;"><i class="fa fa-plus"></i>&nbsp;&nbsp;ADD NEW QUESTION</button>
+                        <button onclick="location.href='@Url.Action("add", "question" )?id=@quiz.ID';" class="btn btn-primary btn-flat" style="float: right;"><i class="fa fa-plus"></i>&nbsp;&nbsp;ADD NEW QUESTION</button>
                     </div>
+                    <div class="row input-group margin"><h4><label><a href="@Url.Action("fileimport","home")?type=Q&quizId=@quiz.ID"><i class="fa fa-external-link"></i>&nbsp;Click here to import question data from excel file.</a></label></h4></div>
                     <table id="example" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                @*<th>QUIZ_ID</th>
-                                    <th>QUESTION_ID</th>*@
                                 <th>SECTION_NAME</th>
                                 <th>QUESTION_TEXT_EN</th>
-                                @*<th>QUESTION_TEXT_HI</th>*@
-                                <th>OPTION_A_EN</th>
-                                <th>OPTION_B_EN</th>
-                                <th>OPTION_C_EN</th>
-                                <th>OPTION_D_EN</th>
-                                <th>OPTION_E_EN</th>
-                                @*<th>OPTION_A_HI</th>
-                                    <th>OPTION_B_HI</th>
-                                    <th>OPTION_C_HI</th>
-                                    <th>OPTION_D_HI</th>
-                                    <th>OPTION_E_HI</th>*@
-                                @*<th>OPTION_A_ID</th>
-                                    <th>OPTION_B_ID</th>
-                                    <th>OPTION_C_ID</th>
-                                    <th>OPTION_D_ID</th>
-                                    <th>OPTION_E_ID</th>*@
                                 <th>CORRECT_OPTIONS</th>
-
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @foreach (var item in questions)
+                            {
+                                <tr>
+                                    <td>@item.SECTION_NAME</td>
+                                    <td>@Html.Raw(item.QUESTION_TEXT_EN)</td>
+                                    <td>@item.CORRECT_OPTIONS</td>
+                                    <td>
+                                        <a class="grid-action-edit" href="@Url.Action("edit","question")?quiz_id=@item.QUIZ_ID&que_id=@item.QUESTION_ID"><i class="fa fa-edit"></i></a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a class="grid-action-delete" href="javascript:fnDeleteQuestion('@item.QUIZ_ID','@item.QUESTION_ID');"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<form id="frmDelete" method="post" action="@Url.Action("delete","question")">
+    <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="@ViewBag.csrfmiddlewaretoken" />
+    <input type="hidden" name="QUIZ_ID" class="hdQUIZ_ID" value="" />
+    <input type="hidden" name="QUESTION_ID" class="hdQUESTION_ID" value="" />
+</form>
+<script type="text/javascript">
+    function fnDeleteQuestion(quiz,que) {
+        if (confirm("Are you sure to delete this question?")) {
+            $(".hdQUIZ_ID").val(quiz);
+            $(".hdQUESTION_ID").val(que);
+            $("#frmDelete").submit();
+        }
+    }
+</script>
 @{
     var data = new List<Web.Helper.GridHelper>();
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "QUIZ_ID" });
@@ -122,187 +146,15 @@
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "OPTION_E_ID" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "CORRECT_OPTIONS" });
 
-    var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Question"),true);
+    var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Question"), true);
+    modelData.MakeDateTable = false;
 }
 @section scripts {
     <script type="text/javascript">
-        function fnClearForm() {
-            $('#QUIZ_ID').val('');
-            $('#QUESTION_ID').val('');
-            $('#SECTION_NAME').val('');
-            $('#QUESTION_TEXT_EN').val('');
-            $('#QUESTION_TEXT_HI').val('');
-            $('#OPTION_A_EN').val('');
-            $('#OPTION_B_EN').val('');
-            $('#OPTION_C_EN').val('');
-            $('#OPTION_D_EN').val('');
-            $('#OPTION_E_EN').val('');
-            $('#OPTION_A_HI').val('');
-            $('#OPTION_B_HI').val('');
-            $('#OPTION_C_HI').val('');
-            $('#OPTION_D_HI').val('');
-            $('#OPTION_E_HI').val('');
-            $('#OPTION_A_ID').val('');
-            $('#OPTION_B_ID').val('');
-            $('#OPTION_C_ID').val('');
-            $('#OPTION_D_ID').val('');
-            $('#OPTION_E_ID').val('');
-            $('#CORRECT_OPTIONS').val('');
-
-        }
-        function fnSetupForm(obj) {
-            $('#QUIZ_ID').val(obj.QUIZ_ID);
-            $('#QUESTION_ID').val(obj.QUESTION_ID);
-            $('#SECTION_NAME').val(obj.SECTION_NAME);
-            $('#QUESTION_TEXT_EN').val(obj.QUESTION_TEXT_EN);
-            $('#QUESTION_TEXT_HI').val(obj.QUESTION_TEXT_HI);
-            $('#OPTION_A_EN').val(obj.OPTION_A_EN);
-            $('#OPTION_B_EN').val(obj.OPTION_B_EN);
-            $('#OPTION_C_EN').val(obj.OPTION_C_EN);
-            $('#OPTION_D_EN').val(obj.OPTION_D_EN);
-            $('#OPTION_E_EN').val(obj.OPTION_E_EN);
-            $('#OPTION_A_HI').val(obj.OPTION_A_HI);
-            $('#OPTION_B_HI').val(obj.OPTION_B_HI);
-            $('#OPTION_C_HI').val(obj.OPTION_C_HI);
-            $('#OPTION_D_HI').val(obj.OPTION_D_HI);
-            $('#OPTION_E_HI').val(obj.OPTION_E_HI);
-            $('#OPTION_A_ID').val(obj.OPTION_A_ID);
-            $('#OPTION_B_ID').val(obj.OPTION_B_ID);
-            $('#OPTION_C_ID').val(obj.OPTION_C_ID);
-            $('#OPTION_D_ID').val(obj.OPTION_D_ID);
-            $('#OPTION_E_ID').val(obj.OPTION_E_ID);
-            $('#CORRECT_OPTIONS').val(obj.CORRECT_OPTIONS);
-
-        }
-        function fnSubmit() {
-            $("#frm-add-edit-form").submit();
-        }
+        $(window).load(function () {
+            $("#btn-refresh").unbind("click");
+            $('#btn-search').unbind("click");
+        });
     </script>
     @Html.Partial("~/Views/_CrudGridJs.cshtml", modelData)
 }
-<div class="modal fade" id="add-new-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="model-title-h4" add-title="Add New Question" edit-title="Modify Selected Question"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add New DT_QUESTIONS</h4>
-            </div>
-            <form action="#" method="post" class="box" id="frm-add-edit-form">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="QUIZ_ID">QUIZ_ID</label>
-                        @Html.TextBoxFor(P => P.QUIZ_ID, new { @class = "form-control", placeholder = "QUIZ_ID" })
-                        @Html.ValidationMessageFor(P => P.QUIZ_ID)
-                    </div>
-                    <div class="form-group">
-                        <label for="QUESTION_ID">QUESTION_ID</label>
-                        @Html.TextBoxFor(P => P.QUESTION_ID, new { @class = "form-control", placeholder = "QUESTION_ID" })
-                        @Html.ValidationMessageFor(P => P.QUESTION_ID)
-                    </div>
-                    <div class="form-group">
-                        <label for="SECTION_NAME">SECTION_NAME</label>
-                        @Html.TextBoxFor(P => P.SECTION_NAME, new { @class = "form-control", placeholder = "SECTION_NAME" })
-                        @Html.ValidationMessageFor(P => P.SECTION_NAME)
-                    </div>
-                    <div class="form-group">
-                        <label for="QUESTION_TEXT_EN">QUESTION_TEXT_EN</label>
-                        @Html.TextBoxFor(P => P.QUESTION_TEXT_EN, new { @class = "form-control", placeholder = "QUESTION_TEXT_EN" })
-                        @Html.ValidationMessageFor(P => P.QUESTION_TEXT_EN)
-                    </div>
-                    <div class="form-group">
-                        <label for="QUESTION_TEXT_HI">QUESTION_TEXT_HI</label>
-                        @Html.TextBoxFor(P => P.QUESTION_TEXT_HI, new { @class = "form-control", placeholder = "QUESTION_TEXT_HI" })
-                        @Html.ValidationMessageFor(P => P.QUESTION_TEXT_HI)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_A_EN">OPTION_A_EN</label>
-                        @Html.TextBoxFor(P => P.OPTION_A_EN, new { @class = "form-control", placeholder = "OPTION_A_EN" })
-                        @Html.ValidationMessageFor(P => P.OPTION_A_EN)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_B_EN">OPTION_B_EN</label>
-                        @Html.TextBoxFor(P => P.OPTION_B_EN, new { @class = "form-control", placeholder = "OPTION_B_EN" })
-                        @Html.ValidationMessageFor(P => P.OPTION_B_EN)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_C_EN">OPTION_C_EN</label>
-                        @Html.TextBoxFor(P => P.OPTION_C_EN, new { @class = "form-control", placeholder = "OPTION_C_EN" })
-                        @Html.ValidationMessageFor(P => P.OPTION_C_EN)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_D_EN">OPTION_D_EN</label>
-                        @Html.TextBoxFor(P => P.OPTION_D_EN, new { @class = "form-control", placeholder = "OPTION_D_EN" })
-                        @Html.ValidationMessageFor(P => P.OPTION_D_EN)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_E_EN">OPTION_E_EN</label>
-                        @Html.TextBoxFor(P => P.OPTION_E_EN, new { @class = "form-control", placeholder = "OPTION_E_EN" })
-                        @Html.ValidationMessageFor(P => P.OPTION_E_EN)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_A_HI">OPTION_A_HI</label>
-                        @Html.TextBoxFor(P => P.OPTION_A_HI, new { @class = "form-control", placeholder = "OPTION_A_HI" })
-                        @Html.ValidationMessageFor(P => P.OPTION_A_HI)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_B_HI">OPTION_B_HI</label>
-                        @Html.TextBoxFor(P => P.OPTION_B_HI, new { @class = "form-control", placeholder = "OPTION_B_HI" })
-                        @Html.ValidationMessageFor(P => P.OPTION_B_HI)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_C_HI">OPTION_C_HI</label>
-                        @Html.TextBoxFor(P => P.OPTION_C_HI, new { @class = "form-control", placeholder = "OPTION_C_HI" })
-                        @Html.ValidationMessageFor(P => P.OPTION_C_HI)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_D_HI">OPTION_D_HI</label>
-                        @Html.TextBoxFor(P => P.OPTION_D_HI, new { @class = "form-control", placeholder = "OPTION_D_HI" })
-                        @Html.ValidationMessageFor(P => P.OPTION_D_HI)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_E_HI">OPTION_E_HI</label>
-                        @Html.TextBoxFor(P => P.OPTION_E_HI, new { @class = "form-control", placeholder = "OPTION_E_HI" })
-                        @Html.ValidationMessageFor(P => P.OPTION_E_HI)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_A_ID">OPTION_A_ID</label>
-                        @Html.TextBoxFor(P => P.OPTION_A_ID, new { @class = "form-control", placeholder = "OPTION_A_ID" })
-                        @Html.ValidationMessageFor(P => P.OPTION_A_ID)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_B_ID">OPTION_B_ID</label>
-                        @Html.TextBoxFor(P => P.OPTION_B_ID, new { @class = "form-control", placeholder = "OPTION_B_ID" })
-                        @Html.ValidationMessageFor(P => P.OPTION_B_ID)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_C_ID">OPTION_C_ID</label>
-                        @Html.TextBoxFor(P => P.OPTION_C_ID, new { @class = "form-control", placeholder = "OPTION_C_ID" })
-                        @Html.ValidationMessageFor(P => P.OPTION_C_ID)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_D_ID">OPTION_D_ID</label>
-                        @Html.TextBoxFor(P => P.OPTION_D_ID, new { @class = "form-control", placeholder = "OPTION_D_ID" })
-                        @Html.ValidationMessageFor(P => P.OPTION_D_ID)
-                    </div>
-                    <div class="form-group">
-                        <label for="OPTION_E_ID">OPTION_E_ID</label>
-                        @Html.TextBoxFor(P => P.OPTION_E_ID, new { @class = "form-control", placeholder = "OPTION_E_ID" })
-                        @Html.ValidationMessageFor(P => P.OPTION_E_ID)
-                    </div>
-                    <div class="form-group">
-                        <label for="CORRECT_OPTIONS">CORRECT_OPTIONS</label>
-                        @Html.TextBoxFor(P => P.CORRECT_OPTIONS, new { @class = "form-control", placeholder = "CORRECT_OPTIONS" })
-                        @Html.ValidationMessageFor(P => P.CORRECT_OPTIONS)
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-flat fa fa-close" data-dismiss="modal">&nbsp;&nbsp;&nbsp;Close</button>
-                    <button type="button" class="btn btn-primary btn-flat fa fa-save" onclick="fnSubmit();">&nbsp;&nbsp;&nbsp;Save changes</button>
-                </div>
-                <div class="overlay"></div>
-                <div class="loading-img"></div>
-            </form>
-        </div>
-    </div>
-</div>

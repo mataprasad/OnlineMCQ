@@ -9,10 +9,10 @@ using Web.Models;
 
 namespace Web.Data
 {
-    public interface IDbAccess: IDisposable
+    public interface IDbAccess : IDisposable
     {
         List<McqQuestion> GetAllQuestions();
-        bool BulkInsertQuestions(DataTable dt);
+        bool BulkInsertQuestions(DataTable dt, string dbFilePath, string loggedUserId, string quizId);
         bool BulkInsertStudents(DataTable dt, string companyId, string loggedUserId, string dbFilePath);
         List<T> GetQueryData<T>(string sql);
         List<T> GetQueryData<T>(string sql, object param);

@@ -12,5 +12,7 @@ namespace Web.Models
         public string UploadType { get; set; }
         [Required(ErrorMessage = "*")]
         public HttpPostedFileBase File { get; set; }
+        [Required(ErrorMessage = "*")]
+        public string QuizId { get; set; }
     }
 }

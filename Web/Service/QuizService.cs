@@ -99,7 +99,7 @@ namespace Web.Service
         public bool UploadQuizQuestions(string excelFileName)
         {
             DataTable dt = _util.GetDataTableFromExcelSheat(Path.Combine(_temporaryDirectoryBasePath, excelFileName));
-            return _db.BulkInsertQuestions(dt);
+            return _db.BulkInsertQuestions(dt,"","","");
         }
 
         public bool CreateQuiz()

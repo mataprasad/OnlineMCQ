@@ -28,64 +28,84 @@
                         {
                             @Html.Raw(",")
                         }
+                        if (item.ColumnType == Web.Helper.GridColumnType.Submit)
+                        {
                         <text>
-                            {
-                                "sTitle": "@item.ColumnHeader",
-                                "mData": "@item.ColumnName",
-                                "bSortable": @item.Sortable.ToString().ToLower(),
-                                "bVisible": @item.Visible.ToString().ToLower()
-                             }
+                            @Html.Raw("{'bSortable': false,'sTitle': '"+item.ColumnHeader+"','mData': null, 'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {")
+                            @Html.Raw("$(nTd).html(\"<form method='POST' action='\"+"+item.SubmitModel.PostUrl+"+\"'>" + "<input type='hidden' name='" + item.SubmitModel.HiddenName + "' value='\"+oData.ID+\"'/>" + "<input type='submit' value='" + item.SubmitModel.ButtonText + "'/></form>\");")
+                            @Html.Raw("}}")
                         </text>
-                    }
-                    @if(Model.ShowActionColumn)
+                        }
+                                    else
+                                    {
+                        <text>
+                                        {
+                                            "sTitle": "@item.ColumnHeader",
+                                            "mData": "@item.ColumnName",
+                                            "bSortable": @item.Sortable.ToString().ToLower(),
+                                            "bVisible": @item.Visible.ToString().ToLower()
+                                          }
+                        </text>
+                                    }
+                                }
+                                @if(Model.ShowActionColumn)
                     {
                         <text>
                         ,{
-                                "bSortable": false,
-                                "sTitle": "Action",
-                                "mData": null,
-                                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                            "bSortable": false,
+                            "sTitle": "Action",
+                            "mData": null,
+                            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                                 $(nTd).html('<a class="grid-action-edit" onclick="fnGridActionEdit(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="grid-action-delete" onclick="fnGridActionDelete(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-trash-o"></i></a>');
-                                }
+                            }
                         }
                         </text>
                     }
-    ]
+                ]
             });
-    }
-    fnInitTable("");
-    $('#btn-search').click(function () {
-        if ($("#txt-search-query").val().trim() != "") {
-            $("#example").empty();
-            $('#example').dataTable().fnDestroy();
-            fnInitTable($("#txt-search-query").val());
         }
-    })
-    $("#btn-refresh").click(function () {
-        if ($("#txt-search-query").val().trim() != "") {
-            $("#example").empty();
-            $('#example').dataTable().fnDestroy();
-            $("#txt-search-query").val("");
-            fnInitTable("");
+        @if(Model.MakeDateTable)
+        {
+            @Html.Raw("fnInitTable('');")
         }
-    });
-    $("#txt-search-query").keyup(function (event) {
-        if (event.which == 13) {
-            $('#btn-search').click();
-        }
-        if (event.which == 27) {
-            $("#btn-refresh").click();
-        }
-    });
-    $('#btn-add-new').click(function () {
-        fnClearValidation();
-        fnClearForm();
-        $("#frm-add-edit-form").attr("action", "@Url.Action("add",Model.ControllerName)");
+        $('#btn-search').click(function () {
+            if ($("#txt-search-query").val().trim() != "") {
+                $("#example").empty();
+                $('#example').dataTable().fnDestroy();
+                @if(Model.MakeDateTable)
+                {
+                    @Html.Raw("fnInitTable($('#txt-search-query').val());")
+                }
+            }
+        })
+        $("#btn-refresh").click(function () {
+            if ($("#txt-search-query").val().trim() != "") {
+                $("#example").empty();
+                $('#example').dataTable().fnDestroy();
+                $("#txt-search-query").val("");
+                @if(Model.MakeDateTable)
+                {
+                    @Html.Raw("fnInitTable('');")
+                }
+            }
+        });
+        $("#txt-search-query").keyup(function (event) {
+            if (event.which == 13) {
+                $('#btn-search').click();
+            }
+            if (event.which == 27) {
+                $("#btn-refresh").click();
+            }
+        });
+        $('#btn-add-new').click(function () {
+            fnClearValidation();
+            fnClearForm();
+            $("#frm-add-edit-form").attr("action", "@Url.Action("add",Model.ControllerName)");
+            ToggleOverlayLoading(false);
+            $("#model-title-h4").html('<i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;' + $("#model-title-h4").attr("add-title"));
+            $("#btn-open-modal").trigger("click");
+        });
         ToggleOverlayLoading(false);
-        $("#model-title-h4").html('<i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;' + $("#model-title-h4").attr("add-title"));
-        $("#btn-open-modal").trigger("click");
-    });
-    ToggleOverlayLoading(false);
     });
     function fnGridActionEdit(obj) {
         fnClearValidation();

@@ -2395,6 +2395,7 @@
     <Content Include="Views\Question\index_old.cshtml" />
     <Content Include="Views\Question\index.cshtml" />
     <Content Include="Views\Test\index.cshtml" />
+    <Content Include="Views\Question\add.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

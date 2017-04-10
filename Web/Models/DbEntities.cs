@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Web.Models
 {
@@ -12,26 +13,56 @@ namespace Web.Models
         public string QUIZ_ID { get; set; }
         public string QUESTION_ID { get; set; }
         public string SECTION_NAME { get; set; }
-        public object QUESTION_TEXT_EN { get; set; }
-        public object QUESTION_TEXT_HI { get; set; }
-        public object OPTION_A_EN { get; set; }
-        public object OPTION_B_EN { get; set; }
-        public object OPTION_C_EN { get; set; }
-        public object OPTION_D_EN { get; set; }
-        public object OPTION_E_EN { get; set; }
-        public object OPTION_A_HI { get; set; }
-        public object OPTION_B_HI { get; set; }
-        public object OPTION_C_HI { get; set; }
-        public object OPTION_D_HI { get; set; }
-        public object OPTION_E_HI { get; set; }
+        [AllowHtml]
+        public string QUESTION_TEXT_EN { get; set; }
+        [AllowHtml]
+        public string QUESTION_TEXT_HI { get; set; }
+        [AllowHtml]
+        public string OPTION_A_EN { get; set; }
+        [AllowHtml]
+        public string OPTION_B_EN { get; set; }
+        [AllowHtml]
+        public string OPTION_C_EN { get; set; }
+        [AllowHtml]
+        public string OPTION_D_EN { get; set; }
+        [AllowHtml]
+        public string OPTION_E_EN { get; set; }
+        [AllowHtml]
+        public string OPTION_A_HI { get; set; }
+        [AllowHtml]
+        public string OPTION_B_HI { get; set; }
+        [AllowHtml]
+        public string OPTION_C_HI { get; set; }
+        [AllowHtml]
+        public string OPTION_D_HI { get; set; }
+        [AllowHtml]
+        public string OPTION_E_HI { get; set; }
         public string OPTION_A_ID { get; set; }
         public string OPTION_B_ID { get; set; }
         public string OPTION_C_ID { get; set; }
         public string OPTION_D_ID { get; set; }
         public string OPTION_E_ID { get; set; }
+        public bool IS_ACTIVE { get; set; }
+        public string CREATED_BY { get; set; }
+        public long? CREATED_ON { get; set; }
         public string CORRECT_OPTIONS { get; set; }
+        public IList<string> CHK_CORRECT_OPTIONS
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(CORRECT_OPTIONS))
+                {
+                    return CORRECT_OPTIONS.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+                }
+                return null;
+            }
+            set
+            {
+                CORRECT_OPTIONS = string.Join(",", value);
+            }
+        }
     }
-    
+
     public partial class Question1
     {
         public string QuestionTextHindi { get; set; }
@@ -105,6 +136,10 @@ namespace Web.Models
         public bool RevealCorrectOptionAfterTest { get; set; }
         public bool AllowMultipleAttempts { get; set; }
         public bool PreventWindowAndTabChange { get; set; }
+        public bool HindiEnabled { get; set; }
+        public bool IsOnlyInClass { get; set; }
+        public string Otp { get; set; }
+        public bool IsPublished { get; set; }
     }
 
     public partial class BatchQuizMap

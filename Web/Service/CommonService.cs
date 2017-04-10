@@ -110,10 +110,17 @@ namespace Web.Service
             return System.Web.Hosting.HostingEnvironment.MapPath("~/Data/DB_FILES/COM-DB-TEMPLATE.s3db");
         }
 
-        //public string GetRandomSQLiteDbFileName()
-        //{
-        //    return string.Concat(DateTime.UtcNow.ToString("ddMMyyyyHHmmssfff_", System.Globalization.CultureInfo.InvariantCulture), Guid.NewGuid().ToString(), ".s3db").ToLower();
-        //}
+        public string CreateQuestionSQLiteDbFileForQuiz(string quizId)
+        {
+            var dbFileName = string.Concat(DateTime.UtcNow.ToString("ddMMyyyyHHmmssfff_", System.Globalization.CultureInfo.InvariantCulture), quizId, ".s3db").ToLower();
+            var dbFilePath = GetSQLiteQuestionsTemplateDatabaseFile().Replace("QUE-DB-QUESTIONS.s3db", dbFileName).ToLower();
+            if (!File.Exists(dbFilePath))
+            {
+                File.Copy(GetSQLiteQuestionsTemplateDatabaseFile(), dbFilePath);
+            }
+
+            return dbFileName;
+        }
 
         public bool CreatNewCompanyDb(string companyId)
         {
@@ -173,6 +180,13 @@ namespace Web.Service
             var dbFilePath = GetCompanyDbFilePath(companyId);
 
             return _systemDb.BulkInsertStudents(dt, companyId, loggedUserId, dbFilePath);
+        }
+
+        public bool ImportQuestions(string excelFilePath, string questionDbFilePath, string loggedUserId,string quizId)
+        {
+            var dt = GetDataTableFromExcelSheat(excelFilePath);
+
+            return _systemDb.BulkInsertQuestions(dt, questionDbFilePath, loggedUserId, quizId);
         }
     }
 }

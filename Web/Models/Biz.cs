@@ -19,6 +19,14 @@ namespace Web.Models
             this.commonService = commonService;
         }
 
+        public string QuestionDbFileName
+        {
+            set
+            {
+                _db.QuestionDbFileName = value;
+            }
+        }
+
         #region Quiz Mathods
 
         public List<Quiz> GetAllQuizzes()
@@ -38,7 +46,11 @@ namespace Web.Models
 
         public Quiz AddQuiz(Quiz obj)
         {
-            return _db.AddQuiz(obj);
+            obj = _db.AddQuiz(obj);
+            var questionDbFile = commonService.CreateQuestionSQLiteDbFileForQuiz(obj.ID.ToLower());
+            obj.QuestionDbFile = questionDbFile;
+            obj = _db.EditQuiz(obj);
+            return obj;
         }
 
         public Quiz EditQuiz(Quiz obj)

@@ -87,6 +87,7 @@
                                     <th>RevealCorrectOptionAfterTest</th>
                                     <th>AllowMultipleAttempts</th>
                                     <th>PreventWindowAndTabChange</th>*@
+                                <th>Questions</th>
                                 <th>Is Active</th>
 
                                 <th>Action</th>
@@ -104,7 +105,7 @@
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "Title" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "Code" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "Desciption" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "Desciption", ColumnHeader = "Sections" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "QuestionDbFile" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
@@ -125,6 +126,7 @@
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "RevealCorrectOptionAfterTest" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "AllowMultipleAttempts" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "PreventWindowAndTabChange" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "Questions", ColumnHeader = "Questions", ColumnType = Web.Helper.GridColumnType.Submit, SubmitModel = new Web.Helper.GridColumnTypeSubmitModel() { ButtonText = "Questions", HiddenName = "id", HiddenValue = "", PostUrl = "__G_QUESTIONS_INDEX_URL" } });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive", ColumnHeader = "Is Active" });
 
     var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Quiz"));
@@ -138,6 +140,7 @@
         }
     </script>
     <script type="text/javascript">
+        var __G_QUESTIONS_INDEX_URL = "@Url.Action("index","question")";
         function fnClearForm() {
             $('#ID').val('');
             $('#CompanyID').val('');
@@ -165,6 +168,10 @@
             $('#RevealCorrectOptionAfterTest').prop("checked", false);
             $('#AllowMultipleAttempts').prop("checked", false);
             $('#PreventWindowAndTabChange').prop("checked", false);
+            $('#HindiEnabled').prop("checked", false);
+            $('#IsOnlyInClass').prop("checked", false);
+            $('#IsPublished').prop("checked", false);
+            $('#Otp').val('');
 
         }
         function fnSetupForm(obj) {
@@ -183,6 +190,12 @@
             $('#ModificationTime').val(obj.ModificationTime);
             if (obj.IsActive == true) {
                 $('#IsActive').prop("checked", true);
+            }
+            if (obj.HindiEnabled == true) {
+                $('#HindiEnabled').prop("checked", true);
+            }
+            if (obj.IsOnlyInClass == true) {
+                $('#IsOnlyInClass').prop("checked", true);
             }
             $('#AvailableFromDate').val(obj.AvailableFromDate);
             $('#AvailableToDate').val(obj.AvailableToDate);
@@ -208,10 +221,19 @@
             if (obj.PreventWindowAndTabChange == true) {
                 $('#PreventWindowAndTabChange').prop("checked", true);
             }
-
+            $('#Otp').val(obj.Otp);
+            if (obj.IsPublished == true) {
+                $('#IsPublished').prop("checked", true);
+            }
         }
         function fnSubmit() {
             $("#frm-add-edit-form").submit();
+        }
+
+        function fnGetOpt() {
+            $.get("@Url.Action("captcha", "home")", function (data, status, xhr) {
+                $("#Otp").val(data);
+            });
         }
     </script>
     @Html.Partial("~/Views/_CrudGridJs.cshtml", modelData)
@@ -325,7 +347,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="Desciption">Desciption @Html.ValidationMessageFor(P => P.Desciption)</label>
+                                <label for="Desciption">Question Sections<sup class="superscript">(comma separated i.e. English,Apptitute etc)</sup> @Html.ValidationMessageFor(P => P.Desciption)</label>
                                 @Html.TextBoxFor(P => P.Desciption, new { @class = "form-control", placeholder = "Desciption" })
                             </div>
                         </div>
@@ -339,8 +361,33 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        @Html.CheckBoxFor(P => P.IsActive, new { @class = "" })<label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.IsActive, new { @class = "" })<label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.HindiEnabled, new { @class = "" })<label for="HindiEnabled">Hindi Enabled? @Html.ValidationMessageFor(P => P.HindiEnabled)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.IsOnlyInClass, new { @class = "" })<label for="IsOnlyInClass">Is Only In-Class Exam? @Html.ValidationMessageFor(P => P.IsOnlyInClass)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.CheckBoxFor(P => P.IsPublished, new { @class = "" })<label for="IsPublished">Is Published? @Html.ValidationMessageFor(P => P.IsPublished)</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="Otp">OTP @Html.ValidationMessageFor(P => P.Otp)<a href="javascript:fnGetOpt();">Generate</a></label>
+                                @Html.TextBoxFor(P => P.Otp, new { @class = "form-control", placeholder = "OTP" })
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
