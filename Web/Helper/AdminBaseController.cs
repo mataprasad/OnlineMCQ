@@ -11,7 +11,7 @@ namespace Web.Helper
 {
     //[Authorize]
     [Trace]
-    [Error]
+    //[Error]
     public class AdminBaseController : Controller, IAppContext
     {
         private CommonService _commonService = CommonService.Instance;
