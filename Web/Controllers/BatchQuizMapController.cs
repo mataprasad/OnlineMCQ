@@ -23,17 +23,19 @@ namespace Web.Controllers
             return View();
         }
 
-        public ActionResult list(string query = null)
+        public ActionResult list(string id, string query = null)
         {
-            var data = _db.GetAllBatchQuizMappings();
+            var data = new List<BatchQuizMap>();
             if (!String.IsNullOrWhiteSpace(query))
             {
                 return new JsonNetResult(new { aaData = data.Where(P => true).ToList() });
             }
             else
             {
-                return new JsonNetResult(new { aaData = data.ToList() });
+                data = _db.GetAllBatchQuizMappings();
             }
+
+            return new JsonNetResult(new { aaData = data });
         }
 
         [HttpPost]

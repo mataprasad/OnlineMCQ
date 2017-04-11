@@ -420,22 +420,22 @@ namespace Web.Service
 
         #region BatchUserMap
 
-        public List<BatchUserMap> GetAllBatchUserMappings()
+        public List<BatchUserMap> GetAllBatchUserMappings(string id)
         {
             var data = new List<BatchUserMap>();
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                data = db.GetQueryData<BatchUserMap>(SQL.SelectAllBatchUserMap).ToList();
+                data = db.GetQueryData<BatchUserMap>(SQL.SelectAllBatchUserMap, new { ID = id }).ToList();
             }
             return data;
         }
 
-        public List<BatchUserMap> GetAllBatchUserMappings(string query)
+        public List<BatchUserMap> GetAllBatchUserMappings(string id, string query)
         {
             var data = new List<BatchUserMap>();
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                data = db.GetQueryData<BatchUserMap>(SQL.SelectAllBatchUserMapLike, new { Term = "%" + query + "%" }).ToList();
+                data = db.GetQueryData<BatchUserMap>(SQL.SelectAllBatchUserMapLike, new { Term = "%" + query + "%", ID = id }).ToList();
             }
             return data;
         }
@@ -519,7 +519,7 @@ namespace Web.Service
             var data = new Attempt();
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
             {
-                data = db.GetQueryData<Attempt>(SQL.SelectAttemptByUserAndQuiz, new { QuizID = quizId, UserID= userId }).FirstOrDefault();
+                data = db.GetQueryData<Attempt>(SQL.SelectAttemptByUserAndQuiz, new { QuizID = quizId, UserID = userId }).FirstOrDefault();
             }
             return data;
         }

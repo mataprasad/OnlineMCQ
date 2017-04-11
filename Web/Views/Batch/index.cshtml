@@ -129,6 +129,8 @@
             $('#StartFrom').val('');
             $('#EndTo').val('');
             $('#IsActive').prop("checked", false);
+            $("#btnAddStudentContainer").removeClass("hidden");
+            $("#btnAddStudentContainer").addClass("hidden");
 
         }
         function fnSetupForm(obj) {
@@ -148,7 +150,9 @@
             if (obj.IsActive == true) {
                 $('#IsActive').prop("checked", true);
             }
-
+            $("#btnAddStudentContainer").removeClass("hidden");
+            var url = "@Url.Action("index", "batchusermap")/?id=" + obj.ID;
+            $("#btnAddStudentContainer a").attr("href", url);
         }
         function fnSubmit() {
             $("#frm-add-edit-form").submit();
@@ -205,6 +209,11 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 @Html.CheckBoxFor(P => P.IsActive, new { @class = "" })<label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
+                            </div>
+                        </div>
+                        <div id="btnAddStudentContainer" class="col-lg-4 hidden">
+                            <div class="form-group">
+                                <a class="btn btn-primary" href="@Url.Action("index", "batchusermap")">Add Student to this batch</a>
                             </div>
                         </div>
                     </div>

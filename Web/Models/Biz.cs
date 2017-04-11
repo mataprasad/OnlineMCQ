@@ -99,14 +99,14 @@ namespace Web.Models
         #endregion
         #region BatchUserMap Mathods
 
-        public List<BatchUserMap> GetAllBatchUserMappings()
+        public List<BatchUserMap> GetAllBatchUserMappings(string id)
         {
-            return _db.GetAllBatchUserMappings();
+            return _db.GetAllBatchUserMappings(id);
         }
 
-        public List<BatchUserMap> GetAllBatchUserMappings(string query)
+        public List<BatchUserMap> GetAllBatchUserMappings(string id,string query)
         {
-            return _db.GetAllBatchUserMappings(query);
+            return _db.GetAllBatchUserMappings(id,query);
         }
 
         public BatchUserMap GetBatchUserMapping(string id)

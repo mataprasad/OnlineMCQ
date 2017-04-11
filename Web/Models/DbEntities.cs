@@ -173,6 +173,8 @@ namespace Web.Models
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
         public bool? IsActive { get; set; }
+        public string BatchInfo { get; set; }
+        public string StudentInfo { get; set; }
     }
 
     public partial class Attempt

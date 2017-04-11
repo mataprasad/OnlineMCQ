@@ -3,9 +3,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
         function fnInitTable(query) {
-            var url = "@Url.Action("list",Model.ControllerName)";
+            var url = "@Url.Action("list",Model.ControllerName)"+"@Model.UrlPart";
             if (query != null) {
-                url += "?query=" + query;
+                if(url.indexOf("?")>-1){
+                    url += "&query=" + query;
+                }else{
+                    url += "?query=" + query;
+                }
             }
             $('#example').dataTable({
                 "bPaginate": true,
@@ -44,7 +48,7 @@
                                             "mData": "@item.ColumnName",
                                             "bSortable": @item.Sortable.ToString().ToLower(),
                                             "bVisible": @item.Visible.ToString().ToLower()
-                                          }
+                                            }
                         </text>
                                     }
                                 }

@@ -62,17 +62,19 @@
                     <table id="example" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>CompanyID</th>
-                                <th>BatchID</th>
-                                <th>UserID</th>
-                                <th>OtherDetails</th>
-                                <th>CreationDate</th>
-                                <th>CreationTime</th>
-                                <th>ModificationDate</th>
-                                <th>CreatedBy</th>
-                                <th>ModifiedBy</th>
-                                <th>ModificationTime</th>
+                                @*<th>ID</th>
+                                    <th>CompanyID</th>
+                                    <th>BatchID</th>
+                                    <th>UserID</th>
+                                    <th>OtherDetails</th>
+                                    <th>CreationDate</th>
+                                    <th>CreationTime</th>
+                                    <th>ModificationDate</th>
+                                    <th>CreatedBy</th>
+                                    <th>ModifiedBy</th>
+                                    <th>ModificationTime</th>*@
+                                <th>BatchInfo</th>
+                                <th>StudentInfo</th>
                                 <th>IsActive</th>
 
                                 <th>Action</th>
@@ -86,20 +88,23 @@
 </section>
 @{
     var data = new List<Web.Helper.GridHelper>();
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "BatchID" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "UserID" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "BatchID" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "UserID" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "BatchInfo" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "StudentInfo" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
 
     var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "BatchUserMap"));
+    modelData.UrlPart = @"?id=" + ViewBag.ID;
 }
 @section scripts {
     <script type="text/javascript">

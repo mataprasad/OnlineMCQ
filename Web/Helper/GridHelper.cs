@@ -70,5 +70,6 @@ namespace Web.Helper
         public string ControllerName { get; set; }
         public bool ShowActionColumn { get; set; }
         public bool MakeDateTable { get; set; }
+        public string UrlPart { get; set; }
     }
 }

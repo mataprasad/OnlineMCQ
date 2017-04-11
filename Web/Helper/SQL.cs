@@ -130,9 +130,13 @@ namespace Web.Helper
 
         #region BatchQuizMap
 
-        public const string SelectAllBatchQuizMap = @"SELECT * FROM BATCHQUIZMAP;";
+        public const string SelectAllBatchQuizMap = @"SELECT *,b.Title+'['+b.Code+']' AS BatchInfo,s.Email+'['+s.DateOfBirth+']' AS StudentInfo
+                                                           FROM Batch b join BatchUserMap bum on b.ID = bum.BatchID
+                                                               JOIN student s on bum.UserID = s.ID";
 
-        public const string SelectAllBatchQuizMapLike = @"SELECT * FROM BATCHQUIZMAP WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
+        public const string SelectAllBatchQuizMapLike = @"SELECT *,b.Title+'['+b.Code+']' AS BatchInfo,s.Email+'['+s.DateOfBirth+']' AS StudentInfo
+                                                           FROM Batch b join BatchUserMap bum on b.ID = bum.BatchID
+                                                               JOIN student s on bum.UserID = s.ID WHERE StudentInfo LIKE @Term OR BatchInfo LIKE @Term;";
 
         public const string SelectBatchQuizMapByID = @"SELECT * FROM BATCHQUIZMAP WHERE ID=@ID;";
 
@@ -163,9 +167,14 @@ namespace Web.Helper
 
         #region BatchUserMap
 
-        public const string SelectAllBatchUserMap = @"SELECT * FROM BATCHUSERMAP;";
+        public const string SelectAllBatchUserMap = @"SELECT *,b.Title || '[' || b.Code || ']' AS BatchInfo,s.Email || '[' || s.DateOfBirth || ']' AS StudentInfo
+                                                           FROM Batch b join BatchUserMap bum on b.ID = bum.BatchID
+                                                               JOIN student s on bum.UserID = s.ID WHERE b.ID=@ID";
 
-        public const string SelectAllBatchUserMapLike = @"SELECT * FROM BATCHUSERMAP WHERE Title LIKE @Term OR Code LIKE @Term OR OtherDetails LIKE @Term;";
+        public const string SelectAllBatchUserMapLike = @"SELECT *,b.Title || '[' || b.Code || ']' AS BatchInfo,s.Email || '['|| s.DateOfBirth || ']' AS StudentInfo
+                                                           FROM Batch b join BatchUserMap bum on b.ID = bum.BatchID
+                                                               JOIN student s on bum.UserID = s.ID WHERE StudentInfo LIKE @Term OR BatchInfo LIKE @Term AND b.ID=@ID;";
+
 
         public const string SelectBatchUserMapByID = @"SELECT * FROM BATCHUSERMAP WHERE ID=@ID;";
 

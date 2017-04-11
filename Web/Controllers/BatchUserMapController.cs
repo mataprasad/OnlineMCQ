@@ -18,22 +18,25 @@ namespace Web.Controllers
             _db = this.InitBiz();
         }
 
-        public ActionResult index()
+        public ActionResult index(string id)
         {
+            ViewBag.ID = id;
             return View();
         }
 
-        public ActionResult list(string query = null)
+        public ActionResult list(string id, string query = null)
         {
-            var data = _db.GetAllBatchUserMappings();
+            var data = new List<BatchUserMap>();
             if (!String.IsNullOrWhiteSpace(query))
             {
-                return new JsonNetResult(new { aaData = data.Where(P => true).ToList() });
+                data = _db.GetAllBatchUserMappings(id,query);
             }
             else
             {
-                return new JsonNetResult(new { aaData = data.ToList() });
+                data = _db.GetAllBatchUserMappings(id);
             }
+
+            return new JsonNetResult(new { aaData = data });
         }
 
         [HttpPost]
