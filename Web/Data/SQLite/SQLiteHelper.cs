@@ -205,8 +205,9 @@ namespace Web.Data.SQLite
                         cmd.Parameters.AddWithValue("@DateOfBirth", Convert.ToInt32(item["DateOfBirth"]));
                         cmd.Parameters.AddWithValue("@EnrollmentNo", Convert.ToString(item["EnrollmentNo"]));
                         cmd.Parameters.AddWithValue("@Contact", Convert.ToString(item["Contact"]));
-                        cmd.Parameters.AddWithValue("@Address", Convert.ToString(item["Address"]));
+                        cmd.Parameters.AddWithValue("@Address", Convert.ToString(item["Address"])); 
                         cmd.Parameters.AddWithValue("@OtherDetails", Convert.ToString(item["OtherDetails"]));
+                        cmd.Parameters.AddWithValue("@Roles", "Student");
 
                         cmd.ExecuteNonQuery();
                     }

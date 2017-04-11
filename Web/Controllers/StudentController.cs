@@ -49,6 +49,7 @@ namespace Web.Controllers
             obj.ModificationDate = Utility.GetCurrentDateInt();
             obj.ModificationTime = Utility.GetCurrentTimeInt();
             obj.ModifiedBy = LoggedUserID;
+            obj.Roles = "Student";
             _db.AddStudent(obj);
             return RedirectToAction("index");
         }
@@ -65,6 +66,7 @@ namespace Web.Controllers
             obj.ModificationDate = Utility.GetCurrentDateInt();
             obj.ModificationTime = Utility.GetCurrentTimeInt();
             obj.ModifiedBy = LoggedUserID;
+            obj.Roles = "Student";
             _db.EditStudent(obj);
             return RedirectToAction("index");
         }
