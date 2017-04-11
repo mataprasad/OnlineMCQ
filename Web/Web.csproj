@@ -252,6 +252,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SimpleMembershipProvider_DbSchema.sql" />
+    <Content Include="App_Data\StarterSite.sdf" />
     <Content Include="bin\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
     <Content Include="bin\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
     <Content Include="bin\amd64\sqlceca40.dll" />
@@ -261,6 +262,7 @@
     <Content Include="bin\amd64\sqlceqp40.dll" />
     <Content Include="bin\amd64\sqlcese40.dll" />
     <Content Include="bin\System.Data.SQLite.dll" />
+    <Content Include="bin\System.Data.SqlServerCe.dll" />
     <Content Include="bin\x64\SQLite.Interop.dll" />
     <Content Include="bin\x86\Microsoft.VC90.CRT\msvcr90.dll" />
     <Content Include="bin\x86\Microsoft.VC90.CRT\README_ENU.txt" />
