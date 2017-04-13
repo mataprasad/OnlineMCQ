@@ -470,6 +470,9 @@
     <Content Include="Content\img\user.jpg" />
     <Content Include="Content\img\user2.jpg" />
     <Content Include="Content\index.html" />
+    <Content Include="Content\jquery.fileupload\jquery.fileupload.css" />
+    <Content Include="Content\jquery.fileupload\jquery.fileupload.js" />
+    <Content Include="Content\jquery.fileupload\jquery.iframe-transport.js" />
     <Content Include="Content\js\AdminLTE\app.js" />
     <Content Include="Content\js\AdminLTE\dashboard.js" />
     <Content Include="Content\js\AdminLTE\demo.js" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,7 +32,19 @@ namespace Web.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
-
+            
+            var data = new ArrayList();
+            data.Add(new
+            {
+                url = "https://jquery-file-upload.appspot.com/image%2Fjpeg/1284852029/how-to-become-a-game-designer.jpg",
+                thumbnailUrl = "https://jquery-file-upload.appspot.com/image%2Fjpeg/1284852029/how-to-become-a-game-designer.jpg.80x80.jpg",
+                name = "how-to-become-a-game-designer.jpg",
+                type = "image/jpeg",
+                size = 750488,
+                deleteUrl = "https://jquery-file-upload.appspot.com/image%2Fjpeg/1284852029/how-to-become-a-game-designer.jpg",
+                deleteType = "DELETE"
+            });
+            return Json(new { files = data }, JsonRequestBehavior.AllowGet);
             return View();
         }
 
