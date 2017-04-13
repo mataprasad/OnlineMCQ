@@ -140,7 +140,7 @@
         }
     </script>
     <script type="text/javascript">
-        var __G_QUESTIONS_INDEX_URL = "@Url.Action("index","question")";
+        var __G_QUESTIONS_INDEX_URL = "@Url.Action("index", "question")";
         function fnClearForm() {
             $('#ID').val('');
             $('#CompanyID').val('');
@@ -261,13 +261,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="Title">Title @Html.ValidationMessageFor(P => P.Title)</label>
+                                <label for="Title">Title @Html.ValidationMessageFor(P => P.Title, "*", new { title = "Required." })</label>
                                 @Html.TextBoxFor(P => P.Title, new { @class = "form-control", placeholder = "Title" })
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="Code">Code @Html.ValidationMessageFor(P => P.Code)</label>
+                                <label for="Code">Code @Html.ValidationMessageFor(P => P.Code, "*", new { title = "Required." })</label>
                                 @Html.TextBoxFor(P => P.Code, new { @class = "form-control", placeholder = "Code" })
                             </div>
                         </div>
@@ -275,13 +275,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="AvailableFromDate">Available From(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableFromDate)</label>
+                                <label for="AvailableFromDate">Available From(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableFromDate, "*", new { title = "Required." })</label>
                                 @Html.TextBoxFor(P => P.AvailableFromDate, new { @class = "form-control", placeholder = "Available From" })
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="AvailableToDate">Available Until(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableToDate)</label>
+                                <label for="AvailableToDate">Available Until(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableToDate, "*", new { title = "Required." })</label>
                                 @Html.TextBoxFor(P => P.AvailableToDate, new { @class = "form-control", placeholder = "Available Until" })
                             </div>
                         </div>
@@ -289,26 +289,26 @@
                     <div class="row">
                         <div class="col-lg-3">
                             <div class="form-group">
-                                <label for="TimeLimit">Time Limit @Html.ValidationMessageFor(P => P.TimeLimit)</label>
+                                <label for="TimeLimit">Time Limit(in minutes.) @Html.ValidationMessageFor(P => P.TimeLimit, "*", new { title = "Required & must be an integer number." })</label>
                                 @Html.TextBoxFor(P => P.TimeLimit, new { @class = "form-control", placeholder = "Time Limit" })
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
-                                <label for="CorrectAnswerMarks">Correct Answer Marks @Html.ValidationMessageFor(P => P.CorrectAnswerMarks)</label>
+                                <label for="CorrectAnswerMarks">Correct Answer Marks @Html.ValidationMessageFor(P => P.CorrectAnswerMarks, "*", new { title = "Required & must be an integer number." })</label>
                                 @Html.TextBoxFor(P => P.CorrectAnswerMarks, new { @class = "form-control", placeholder = "Correct Answer Marks" })
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
-                                <label for="NegativeMarking">Negative Marking @Html.ValidationMessageFor(P => P.NegativeMarking)</label>
+                                <label for="NegativeMarking">Negative Marking @Html.ValidationMessageFor(P => P.NegativeMarking, "*", new { title = "Required & must be an integer number." })</label>
                                 @Html.TextBoxFor(P => P.NegativeMarking, new { @class = "form-control", placeholder = "Negative Marking" })
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
-                                <label for="PassingPercentage">Passing Percentage @Html.ValidationMessageFor(P => P.PassingPercentage)</label>
-                                @Html.TextBoxFor(P => P.PassingPercentage, new { @class = "form-control", placeholder = "Passing Percentage" })
+                                <label for="PassingPercentage">Passing Percentage @Html.ValidationMessageFor(P => P.PassingPercentage, "*")</label>
+                                @Html.TextBoxFor(P => P.PassingPercentage, new { title = "Required & must be an integer number.", @class = "form-control", placeholder = "Passing Percentage" })
                             </div>
                         </div>
                     </div>
@@ -349,8 +349,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="Desciption">Question Sections<sup class="superscript">(comma separated i.e. English,Apptitute etc)</sup> @Html.ValidationMessageFor(P => P.Desciption)</label>
-                                @Html.TextBoxFor(P => P.Desciption, new { @class = "form-control", placeholder = "Desciption" })
+                                <label for="Desciption">Question Sections<sup class="superscript">(comma separated i.e. English,Apptitute etc)</sup> @Html.ValidationMessageFor(P => P.Desciption, "*")</label>
+                                @Html.TextBoxFor(P => P.Desciption, new { title = "Required.", @class = "form-control", placeholder = "Desciption" })
                             </div>
                         </div>
                     </div>
@@ -392,8 +392,8 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
-                                <label for="QuestionCount">Total Questions @Html.ValidationMessageFor(P => P.QuestionCount)</label>
-                                @Html.TextBoxFor(P => P.QuestionCount, new { @class = "form-control", placeholder = "Total Questions" })
+                                <label for="QuestionCount">Total Questions @Html.ValidationMessageFor(P => P.QuestionCount, "*")</label>
+                                @Html.TextBoxFor(P => P.QuestionCount, new { title = "Required & must be an integer number.", @class = "form-control", placeholder = "Total Questions" })
                             </div>
                         </div>
                     </div>

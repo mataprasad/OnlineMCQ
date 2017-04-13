@@ -83,7 +83,7 @@
             }
         })
         $("#btn-refresh").click(function () {
-            if ($("#txt-search-query").val().trim() != "") {
+            //if ($("#txt-search-query").val().trim() != "") {
                 $("#example").empty();
                 $('#example').dataTable().fnDestroy();
                 $("#txt-search-query").val("");
@@ -91,7 +91,7 @@
                 {
                     @Html.Raw("fnInitTable('');")
                 }
-            }
+            //}
         });
         $("#txt-search-query").keyup(function (event) {
             if (event.which == 13) {

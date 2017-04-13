@@ -98,6 +98,7 @@ namespace Web.Models
         {
             AvailableFromTime = 0;
             AvailableToTime = 2359999;
+            NegativeMarking = 0;
         }
         public string ID { get; set; }
         public string CompanyID { get; set; }
@@ -122,13 +123,22 @@ namespace Web.Models
         [Required]
         public long? AvailableToDate { get; set; }
         [Required]
+        public string AvailableFromDateText { get; set; }
+        [Required]
+        public string AvailableToDateText { get; set; }
+
+        [Required]
         public long? AvailableFromTime { get; set; }
         [Required]
         public long? AvailableToTime { get; set; }
 
+        [Required]
         public long? TimeLimit { get; set; }
+        [Required]
         public long? CorrectAnswerMarks { get; set; }
-        public double? NegativeMarking { get; set; }
+        [Required]
+        public float NegativeMarking { get; set; }
+        [Required]
         public double? PassingPercentage { get; set; }
         public bool ShuffleQuestions { get; set; }
         public bool ShuffleOptions { get; set; }
@@ -140,6 +150,7 @@ namespace Web.Models
         public bool IsOnlyInClass { get; set; }
         public string Otp { get; set; }
         public bool IsPublished { get; set; }
+        [Required]
         public long? QuestionCount { get; set; }
     }
 
