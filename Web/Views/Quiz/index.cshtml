@@ -133,11 +133,14 @@
 }
 @section scripts {
     <script type="text/javascript">
-        Sys.Application.add_init(appInit);
-        function appInit() {
-            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('AvailableFromDate'));
-            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('AvailableToDate'));
-        }
+        //Sys.Application.add_init(appInit);
+        //function appInit() {
+        //    $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('AvailableFromDate'));
+        //    $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('AvailableToDate'));
+        //}
+        fnToDatePicker("AvailableFromDateText", "AvailableFromDate")
+        fnToDatePicker("AvailableToDateText", "AvailableToDate")
+        //moment("20170420","yyyymmdd")._d
     </script>
     <script type="text/javascript">
         var __G_QUESTIONS_INDEX_URL = "@Url.Action("index", "question")";
@@ -158,6 +161,8 @@
             $('#IsActive').prop("checked", false);
             $('#AvailableFromDate').val('');
             $('#AvailableToDate').val('');
+            $('#AvailableFromDateText').val('');
+            $('#AvailableToDateText').val('');
             $('#TimeLimit').val('');
             $('#CorrectAnswerMarks').val('');
             $('#NegativeMarking').val('');
@@ -200,6 +205,9 @@
             }
             $('#AvailableFromDate').val(obj.AvailableFromDate);
             $('#AvailableToDate').val(obj.AvailableToDate);
+            $('#AvailableFromDateText').val(fnToPickerDate(obj.AvailableFromDate));
+            $('#AvailableToDateText').val(fnToPickerDate(obj.AvailableToDate));
+            //moment("20170429","yyyymmdd")._d
             $('#TimeLimit').val(obj.TimeLimit);
             $('#CorrectAnswerMarks').val(obj.CorrectAnswerMarks);
             $('#NegativeMarking').val(obj.NegativeMarking);
@@ -275,14 +283,16 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="AvailableFromDate">Available From(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableFromDate, "*", new { title = "Required." })</label>
-                                @Html.TextBoxFor(P => P.AvailableFromDate, new { @class = "form-control", placeholder = "Available From" })
+                                <label for="AvailableFromDateText">Available From(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableFromDateText, "*", new { title = "Required." })</label>
+                                @Html.TextBoxFor(P => P.AvailableFromDateText, new { @class = "form-control", placeholder = "Available From" })
+                                <input type="hidden" id="AvailableFromDate" name="AvailableFromDate" value="" />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="AvailableToDate">Available Until(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableToDate, "*", new { title = "Required." })</label>
-                                @Html.TextBoxFor(P => P.AvailableToDate, new { @class = "form-control", placeholder = "Available Until" })
+                                <label for="AvailableToDateText">Available Until(YYYYMMDD) @Html.ValidationMessageFor(P => P.AvailableToDateText, "*", new { title = "Required." })</label>
+                                @Html.TextBoxFor(P => P.AvailableToDateText, new { @class = "form-control", placeholder = "Available Until" })
+                                <input type="hidden" id="AvailableToDate" name="AvailableToDate" value="" />
                             </div>
                         </div>
                     </div>

@@ -1071,8 +1071,13 @@ function fnToDatePicker(datePickerTextBoxId, datePickerHiddenFieldId) {
             altField: "#" + datePickerHiddenFieldId,
             altFormat: "yymmdd",
             minDate: 0,
-            maxDate: "+24M +0D"
+            maxDate: "+24M +0D",
+            dateFormat: "d MM yy"
         });
         
     });
+}
+
+function fnToPickerDate(dateText) {
+   return moment(dateText, "YYYYMMDD").format("DD MMMM YYYY")
 }
