@@ -113,6 +113,8 @@
             $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('LicenceFrom'));
             $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('LicenceTo'));
         }
+        //fnToDatePicker("LicenceFrom", "LicenceTo")
+        //moment("20170420","yyyymmdd")._d
     </script>
     <script type="text/javascript">
         function fnClearForm() {
@@ -191,7 +193,8 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="LicenceFrom">Licence From(YYYYMMDD) @Html.ValidationMessageFor(P => P.LicenceFrom)</label>
-                                @Html.TextBoxFor(P => P.LicenceFrom, new { @class = "form-control", placeholder = "LicenceFrom" })
+                                @Html.TextBoxFor(P => P.LicenceFrom, new { @class = "form-control asp-date-picker", placeholder = "LicenceFrom" })
+                                
                             </div>
                         </div>
                         <div class="col-lg-6">
