@@ -457,6 +457,7 @@
     <Content Include="Content\img\bootstrap-colorpicker\hue-horizontal.png" />
     <Content Include="Content\img\bootstrap-colorpicker\hue.png" />
     <Content Include="Content\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="Content\img\calendar.gif" />
     <Content Include="Content\img\credit\american-express.png" />
     <Content Include="Content\img\credit\cirrus.png" />
     <Content Include="Content\img\credit\mastercard.png" />
@@ -472,6 +473,8 @@
     <Content Include="Content\img\user.jpg" />
     <Content Include="Content\img\user2.jpg" />
     <Content Include="Content\index.html" />
+    <Content Include="Content\jquery.fileupload\jquery.fileupload-process.js" />
+    <Content Include="Content\jquery.fileupload\jquery.fileupload-validate.js" />
     <Content Include="Content\jquery.fileupload\jquery.fileupload.css" />
     <Content Include="Content\jquery.fileupload\jquery.fileupload.js" />
     <Content Include="Content\jquery.fileupload\jquery.iframe-transport.js" />

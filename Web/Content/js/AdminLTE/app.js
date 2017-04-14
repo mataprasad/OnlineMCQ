@@ -1065,6 +1065,7 @@ $(window).load(function () {
 
 function fnToDatePicker(datePickerTextBoxId, datePickerHiddenFieldId) {
     $(function () {
+        $("#" + datePickerTextBoxId).attr("readonly", "readonly");
         $("#" + datePickerTextBoxId).datepicker({
             changeMonth: true,
             changeYear: true,
@@ -1072,7 +1073,11 @@ function fnToDatePicker(datePickerTextBoxId, datePickerHiddenFieldId) {
             altFormat: "yymmdd",
             minDate: 0,
             maxDate: "+24M +0D",
-            dateFormat: "d MM yy"
+            dateFormat: "d MM yy",
+            showOn: "button",
+            buttonImage: date_picker_trigger_icon,
+            buttonImageOnly: true,
+            buttonText: "Select date"
         });
         
     });

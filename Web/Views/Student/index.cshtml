@@ -125,6 +125,8 @@
             // Change this to the location of your server-side upload handler:
             var url = "@Url.Action("uploadpic", "home")";
             $('#fileupload').fileupload({
+                maxFileSize: 999000,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
                 url: url,
                 dataType: 'json',
                 done: function (e, data) {
@@ -148,8 +150,9 @@
                     //    progress + '%'
                     //);
                 }
-            }).prop('disabled', !$.support.fileInput)
-                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+            }).bind('fileuploadchange', function (e, data) {
+                //console.log(e, data);
+            });
         });
         function fnQueueToDelete(fileType, fileName) {
             //alert(fileType + " ; " + fileName);
@@ -195,11 +198,11 @@
             $('#MiddleName').attr("maxlength", "35");
             $('#LastName').attr("maxlength", "35");
             $("#Email").attr("maxlength", "85");
-            $('#Password').val('20');
-            $('#EnrollmentNo').val('20');
-            $('#Contact').val('25');
-            $('#Address').val('150');
-            $('#OtherDetails').val('150');
+            $('#Password').attr("maxlength", '20');
+            $('#EnrollmentNo').attr("maxlength", '20');
+            $('#Contact').attr("maxlength",'25');
+            $('#Address').attr("maxlength", '150');
+            $('#OtherDetails').attr("maxlength", '150');
 
         }
         function fnSetupForm(obj) {
@@ -233,11 +236,15 @@
             $("#frm-add-edit-form").validate();
             if ($("#frm-add-edit-form").valid()) {
                 //$("#frm-add-edit-form").submit();
+                ToggleOverlayLoading(true);
                 $.ajax({
                     url: $("#frm-add-edit-form").attr("action"),
                     type: "POST",
-                    data: JSON.stringify( $("#frm-add-edit-form").serialize()),
-                    success: function (response) { },
+                    data: $("#frm-add-edit-form").serialize(),
+                    success: function (response) {
+                        ToggleOverlayLoading(false);
+                        location.href = "@Url.Action("index","student")";
+                    },
                     error: function (a, b, c) { }
                 });
             }
@@ -267,7 +274,7 @@
                         <div class="col-lg-6">
                             <div id="files" class="files">
                                 <div class="col-lg-12">
-                                    <label for="FirstName">Upload/Modify Photo</label><br />
+                                    <label for="FirstName">Upload/Modify Photo(PNG/JPG allowed.)</label><br />
                                     <span class="fileinput-button">
                                         <img title="Change Image" data-file-name="" class="pull-right" id="preview" src="@AnonymousUserPng" alt="" style="width:150px; height:150px;" />
                                         <input id="fileupload" type="file" name="files">
@@ -316,8 +323,8 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6">
-                            <label for="DateOfBirthText">Date Of Birth @Html.ValidationMessageFor(P => P.DateOfBirthText)</label>
-                            @Html.TextBoxFor(P => P.DateOfBirthText, new { @class = "form-control", placeholder = "DateOfBirth" })
+                            <label for="DateOfBirthText">Date Of Birth @Html.ValidationMessageFor(P => P.DateOfBirthText)</label><br />
+                            @Html.TextBoxFor(P => P.DateOfBirthText, new { @class = "", placeholder = "DateOfBirth" })
                             <input type="hidden" name="DateOfBirth" id="DateOfBirth" value="" />
                         </div>
                         <div class="form-group col-lg-6">

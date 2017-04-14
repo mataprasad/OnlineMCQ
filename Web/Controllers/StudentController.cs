@@ -51,7 +51,7 @@ namespace Web.Controllers
             obj.ModifiedBy = LoggedUserID;
             obj.Roles = "Student";
             _db.AddStudent(obj);
-            return RedirectToAction("index");
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult edit(string id)
@@ -59,7 +59,7 @@ namespace Web.Controllers
             var obj = _db.GetStudent(id);
             if (obj != null)
             {
-                obj.PhotoUrl = ToUserPhoto(obj.PhotoUrl);
+                obj.PhotoUrl = ToUserPhoto(obj.Photo);
             }
             return new JsonNetResult(obj);
         }
@@ -77,7 +77,7 @@ namespace Web.Controllers
                 obj.Roles = "Student";
             }
             _db.EditStudent(obj);
-            return RedirectToAction("index");
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult delete(string id)
