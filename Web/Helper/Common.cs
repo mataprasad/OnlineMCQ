@@ -9,6 +9,7 @@ namespace Web.Helper
     public class Common
     {
         public const string DEFAULT_USER = "Guest";
+        public const string STUDENT_PIC_BASE_DIR = "~/content/img/pic/";
         public static readonly bool EmailEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["SendEmail"]);
         public static readonly bool SmsEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["SendSms"]);
         public enum ApplicationRole
@@ -25,6 +26,11 @@ namespace Web.Helper
             LOGGED_USER,
             COMPANY,
             COMPANY_CODE
+        }
+
+        public enum FileType
+        {
+            USER_PHOTO
         }
 
         public const string ApplicationName = "Online-MCQ";

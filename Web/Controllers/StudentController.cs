@@ -56,7 +56,12 @@ namespace Web.Controllers
 
         public ActionResult edit(string id)
         {
-            return new JsonNetResult(_db.GetStudent(id));
+            var obj = _db.GetStudent(id);
+            if (obj != null)
+            {
+                obj.PhotoUrl = ToUserPhoto(obj.PhotoUrl);
+            }
+            return new JsonNetResult(obj);
         }
 
         [HttpPost]

@@ -48,7 +48,7 @@ namespace Web.Helper
 
         #region Student
 
-        public const string SelectAllStudentADMIN = @"SELECT * FROM STUDENT;";
+        public const string SelectAllStudentADMIN = @"SELECT * FROM STUDENT WHERE IsActive=1 ORDER BY CreationDate DESC, CreationTime DESC;";
         public const string SelectAllStudentLikeADMIN = @"SELECT * FROM Student WHERE Email LIKE @Term OR FirstName LIKE @Term OR LastName LIKE @Term 
 	                                                    OR MiddleName LIKE @Term OR EnrollmentNo LIKE @Term OR Contact LIKE @Term 
 	                                                    OR Address LIKE @Term;";
@@ -81,16 +81,17 @@ namespace Web.Helper
                                                   ,IsActive = @IsActive
                                                   ,DateOfBirth = @DateOfBirth
                                                   ,Roles = @Roles
+                                                  ,Photo = @Photo
                                              WHERE ID = @ID";
 
         public const string SoftDeleteStudent = @"UPDATE Student SET IsActive=0 WHERE ID=@ID";
 
         public const string InsertStudent = @"INSERT INTO Student(ID,CompanyID,Email,Password,FirstName,MiddleName,
                                                 LastName,EnrollmentNo,Contact,Address,OtherDetails,CreationDate,CreationTime,
-                                                ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive,DateOfBirth,Roles)
+                                                ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive,DateOfBirth,Roles,Photo)
                                               VALUES(@ID,@CompanyID,@Email,@Password,@FirstName,@MiddleName,
                                                 @LastName,@EnrollmentNo,@Contact,@Address,@OtherDetails,@CreationDate,@CreationTime,
-                                                @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive,@DateOfBirth,@Roles)";
+                                                @ModificationDate,@CreatedBy,@ModifiedBy,@ModificationTime,@IsActive,@DateOfBirth,@Roles,@Photo)";
 
         #endregion
 

@@ -82,5 +82,22 @@ namespace Web.Helper
                 _appContext.Company = value;
             }
         }
+
+        public string ToAbsoluteUrl(string fileRelativePath)
+        {
+            return new UriBuilder(Request.Url.AbsoluteUri)
+            {
+                Path = Url.Content(fileRelativePath),
+                Query = null,
+            }.ToString();
+        }
+
+        public string AnonymousUserPng
+        {
+            get
+            {
+                return ToAbsoluteUrl(System.IO.Path.Combine(Web.Helper.Common.STUDENT_PIC_BASE_DIR, "anonymous.png"));
+            }
+        }
     }
 }

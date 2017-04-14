@@ -311,16 +311,18 @@ namespace Web.Models
         }
         public string ID { get; set; }
         public string CompanyID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required & Should be valid email address.'>*<span>")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "<span title='Required & Should be valid email address.'>?<span>")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string Password { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string LastName { get; set; }
         public string EnrollmentNo { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string Contact { get; set; }
         public string Address { get; set; }
         public string OtherDetails { get; set; }
@@ -330,11 +332,15 @@ namespace Web.Models
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public bool IsActive { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public long? DateOfBirth { get; set; }
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
+        public string DateOfBirthText { get; set; }
         public string Roles { get; set; }
+        public string Photo { get; set; }
+        public string PhotoUrl { get; set; }
     }
 
     public static class DbEntityExt

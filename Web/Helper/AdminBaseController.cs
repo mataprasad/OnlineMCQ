@@ -27,6 +27,25 @@ namespace Web.Helper
             this.OnComapnyChange += AdminBaseController_OnComapnyChange;
         }
 
+        public string ToAbsoluteUrl(string fileRelativePath)
+        {
+            return new UriBuilder(Request.Url.AbsoluteUri)
+            {
+                Path = Url.Content(fileRelativePath),
+                Query = null,
+            }.ToString();
+        }
+
+        public string ToUserPhoto(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return ToAbsoluteUrl(System.IO.Path.Combine(Web.Helper.Common.STUDENT_PIC_BASE_DIR, "anonymous.png")); ;
+            }
+            var fileRelativePath = string.Concat(Common.STUDENT_PIC_BASE_DIR, fileName).ToLower();
+            return ToAbsoluteUrl(fileRelativePath);
+        }
+
         private void AdminBaseController_OnComapnyChange(string obj,string companyCode)
         {
             this.Company = obj;

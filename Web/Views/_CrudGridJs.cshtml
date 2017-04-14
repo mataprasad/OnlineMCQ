@@ -15,7 +15,7 @@
                 "bPaginate": true,
                 "bLengthChange": false,
                 "bFilter": false,
-                "bSort": true,
+                "bSort": @Model.SortingEnabled.ToString().ToLower(),
                 "bInfo": true,
                 "bAutoWidth": false,
                 "iDisplayLength": 8,
@@ -45,6 +45,7 @@
                         <text>
                                         {
                                             "sTitle": "@item.ColumnHeader",
+                                            "aaSort": [ "desc" ],
                                             "mData": "@item.ColumnName",
                                             "bSortable": @item.Sortable.ToString().ToLower(),
                                             "bVisible": @item.Visible.ToString().ToLower()
@@ -60,7 +61,7 @@
                             "sTitle": "Action",
                             "mData": null,
                             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                                $(nTd).html('<a class="grid-action-edit" onclick="fnGridActionEdit(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="grid-action-delete" onclick="fnGridActionDelete(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i class="fa fa-trash-o"></i></a>');
+                                $(nTd).html('<a class="grid-action-edit" onclick="fnGridActionEdit(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i title="Edit" class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="grid-action-delete" onclick="fnGridActionDelete(this);" href="javascript:void(0);" data-key="' + oData.ID + '"><i title="Delete" class="fa fa-trash-o text-danger"></i></a>');
                             }
                         }
                         </text>

@@ -29,23 +29,34 @@ namespace Web.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult UploadPic()
         {
-            ViewBag.Message = "Your app description page.";
-            
-            var data = new ArrayList();
-            data.Add(new
+            string errors = string.Empty;
+            if (Request.Files != null && Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
             {
-                url = "https://jquery-file-upload.appspot.com/image%2Fjpeg/1284852029/how-to-become-a-game-designer.jpg",
-                thumbnailUrl = "https://jquery-file-upload.appspot.com/image%2Fjpeg/1284852029/how-to-become-a-game-designer.jpg.80x80.jpg",
-                name = "how-to-become-a-game-designer.jpg",
-                type = "image/jpeg",
-                size = 750488,
-                deleteUrl = "https://jquery-file-upload.appspot.com/image%2Fjpeg/1284852029/how-to-become-a-game-designer.jpg",
-                deleteType = "DELETE"
-            });
-            return Json(new { files = data }, JsonRequestBehavior.AllowGet);
-            return View();
+                var fileName = string.Concat(Guid.NewGuid().ToString(), Path.GetExtension(Request.Files[0].FileName).ToLower());
+                var fileRelativePath = string.Concat(Common.STUDENT_PIC_BASE_DIR, fileName).ToLower();
+                Request.Files[0].SaveAs(Server.MapPath(fileRelativePath));                
+
+                return Json(new { errors = errors, files = new ArrayList() { new { url = ToAbsoluteUrl(fileRelativePath), fileName= fileName } } }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { errors = errors, files = new ArrayList() }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeletePic(VMFileDelete obj)
+        {
+            switch (obj.FileType)
+            {
+                case Common.FileType.USER_PHOTO:
+                    var fileRelativePath = string.Concat(Common.STUDENT_PIC_BASE_DIR, obj.FileName).ToLower();
+                    System.IO.File.Delete(Server.MapPath(fileRelativePath));
+                    break;
+                default:
+                    break;
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Contact()

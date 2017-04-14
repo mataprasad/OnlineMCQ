@@ -65,11 +65,13 @@ namespace Web.Helper
             ControllerName = data.Item2;
             ShowActionColumn = actionColumn;
             MakeDateTable = true;
+            SortingEnabled = true;
         }
         public List<GridHelper> ColumnDefinitions { get; set; }
         public string ControllerName { get; set; }
         public bool ShowActionColumn { get; set; }
         public bool MakeDateTable { get; set; }
         public string UrlPart { get; set; }
+        public bool SortingEnabled { get; set; }
     }
 }

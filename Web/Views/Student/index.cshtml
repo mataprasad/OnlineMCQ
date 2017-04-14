@@ -96,61 +96,76 @@
     var data = new List<Web.Helper.GridHelper>();
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "ID" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "CompanyID" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "Email" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "Email", Sortable = false });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "Password" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "FirstName" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "MiddleName" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "LastName" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "EnrollmentNo" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "Contact" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "Address" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "FirstName", Sortable = false });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "MiddleName", Sortable = false });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "LastName", Sortable = false });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "EnrollmentNo", Sortable = false });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "Contact", Sortable = false });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "Address", Sortable = false });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "OtherDetails", Sortable = false });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationDate" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreationTime" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationDate" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "CreatedBy" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModifiedBy" });
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
+    data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive", Sortable = false });
 
     var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "Student"));
+    modelData.SortingEnabled = false;
 }
 @section scripts {
-    <script type="text/javascript">
-        Sys.Application.add_init(appInit);
-        function appInit() {
-            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('DateOfBirth'));
-        }
-
-
-    </script>
     <script>
         /*jslint unparam: true */
         /*global window, $ */
         $(function () {
             'use strict';
             // Change this to the location of your server-side upload handler:
-            var url = "@Url.Action("about","home")";
+            var url = "@Url.Action("uploadpic", "home")";
             $('#fileupload').fileupload({
                 url: url,
                 dataType: 'json',
                 done: function (e, data) {
-                    $.each(data.result.files, function (index, file) {
-                        $('<p/>').text(file.name).appendTo('#files');
-                    });
+                    if (data.result.errors == "") {
+                        $.each(data.result.files, function (index, file) {
+                            if ($("#preview").attr("data-file-name") && $("#preview").attr("data-file-name") != "" && $("#preview").attr("data-file-name").indexOf("anonymous.png") == -1) {
+                                fnQueueToDelete("@Web.Helper.Common.FileType.USER_PHOTO.ToString()", $("#preview").attr("data-file-name"));
+                            }
+                            $("#preview").attr("src", file.url);
+                            $("#preview").attr("data-file-name", file.fileName);
+                            $("#Photo").val(file.fileName)
+                        });
+                    } else {
+                        alert(data.result.errors);
+                    }
                 },
                 progressall: function (e, data) {
-                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                    $('#progress .progress-bar').css(
-                        'width',
-                        progress + '%'
-                    );
+                    //var progress = parseInt(data.loaded / data.total * 100, 10);
+                    //$('#progress .progress-bar').css(
+                    //    'width',
+                    //    progress + '%'
+                    //);
                 }
             }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
         });
+        function fnQueueToDelete(fileType, fileName) {
+            //alert(fileType + " ; " + fileName);
+            $.ajax({
+                url: "@Url.Action("deletepic", "home")",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: "{'FileType':'" + fileType + "','FileName':'" + fileName + "'}",
+                success: function (response) { },
+                error: function (a, b, c) { }
+            });
+        }
     </script>
     <script type="text/javascript">
+        fnToDatePicker("DateOfBirthText", "DateOfBirth")
         function fnClearForm() {
             $('#ID').val('');
             $('#CompanyID').val('');
@@ -169,8 +184,22 @@
             $('#CreatedBy').val('');
             $('#ModifiedBy').val('');
             $('#ModificationTime').val('');
-            $('#IsActive').prop("checked", false);
+            $('#IsActive').prop("checked", true);
             $('#DateOfBirth').val('');
+            $('#DateOfBirthText').val('');
+            $('#Photo').val('');
+            $("#preview").attr("src", "");
+            $("#preview").attr("data-file-name", "");
+
+            $('#FirstName').attr("maxlength", "35");
+            $('#MiddleName').attr("maxlength", "35");
+            $('#LastName').attr("maxlength", "35");
+            $("#Email").attr("maxlength", "85");
+            $('#Password').val('20');
+            $('#EnrollmentNo').val('20');
+            $('#Contact').val('25');
+            $('#Address').val('150');
+            $('#OtherDetails').val('150');
 
         }
         function fnSetupForm(obj) {
@@ -195,10 +224,23 @@
                 $('#IsActive').prop("checked", true);
             }
             $('#DateOfBirth').val(obj.DateOfBirth);
-
+            $('#DateOfBirthText').val(fnToPickerDate(obj.DateOfBirth));
+            $('#Photo').val(obj.Photo);
+            $("#preview").attr("src", obj.PhotoUrl);
+            $("#preview").attr("data-file-name", obj.Photo);
         }
         function fnSubmit() {
-            $("#frm-add-edit-form").submit();
+            $("#frm-add-edit-form").validate();
+            if ($("#frm-add-edit-form").valid()) {
+                //$("#frm-add-edit-form").submit();
+                $.ajax({
+                    url: $("#frm-add-edit-form").attr("action"),
+                    type: "POST",
+                    data: JSON.stringify( $("#frm-add-edit-form").serialize()),
+                    success: function (response) { },
+                    error: function (a, b, c) { }
+                });
+            }
         }
     </script>
     @Html.Partial("~/Views/_CrudGridJs.cshtml", modelData)
@@ -219,21 +261,38 @@
                 <input type="hidden" name="CreatedBy" id="CreatedBy" value="" />
                 <input type="hidden" name="ModifiedBy" id="ModifiedBy" value="" />
                 <input type="hidden" name="ModificationTime" id="ModificationTime" value="" />
+                <input type="hidden" name="Photo" id="Photo" value="" />
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group col-lg-4">
-                            <label for="FirstName">First Name @Html.ValidationMessageFor(P => P.FirstName)</label>
-                            @Html.TextBoxFor(P => P.FirstName, new { @class = "form-control", placeholder = "FirstName" })
+                    <div class="col-lg-12">
+                        <div class="col-lg-6">
+                            <div id="files" class="files">
+                                <div class="col-lg-12">
+                                    <label for="FirstName">Upload/Modify Photo</label><br />
+                                    <span class="fileinput-button">
+                                        <img title="Change Image" data-file-name="" class="pull-right" id="preview" src="@AnonymousUserPng" alt="" style="width:150px; height:150px;" />
+                                        <input id="fileupload" type="file" name="files">
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group col-lg-4">
-                            <label for="MiddleName">Middle Name @Html.ValidationMessageFor(P => P.MiddleName)</label>
-                            @Html.TextBoxFor(P => P.MiddleName, new { @class = "form-control", placeholder = "MiddleName" })
-                        </div>
-                        <div class="form-group col-lg-4">
-                            <label for="LastName">Last Name @Html.ValidationMessageFor(P => P.LastName)</label>
-                            @Html.TextBoxFor(P => P.LastName, new { @class = "form-control", placeholder = "LastName" })
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="form-group col-lg-12">
+                                    <label for="FirstName">First Name @Html.ValidationMessageFor(P => P.FirstName)</label>
+                                    @Html.TextBoxFor(P => P.FirstName, new { @class = "form-control", placeholder = "FirstName" })
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="MiddleName">Middle Name @Html.ValidationMessageFor(P => P.MiddleName)</label>
+                                    @Html.TextBoxFor(P => P.MiddleName, new { @class = "form-control", placeholder = "MiddleName" })
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="LastName">Last Name @Html.ValidationMessageFor(P => P.LastName)</label>
+                                    @Html.TextBoxFor(P => P.LastName, new { @class = "form-control", placeholder = "LastName" })
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label for="Email">Email @Html.ValidationMessageFor(P => P.Email)</label>
@@ -257,8 +316,9 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6">
-                            <label for="DateOfBirth">DateOfBirth(YYYYMMDD) @Html.ValidationMessageFor(P => P.DateOfBirth)</label>
-                            @Html.TextBoxFor(P => P.DateOfBirth, new { @class = "form-control", placeholder = "DateOfBirth" })
+                            <label for="DateOfBirthText">Date Of Birth @Html.ValidationMessageFor(P => P.DateOfBirthText)</label>
+                            @Html.TextBoxFor(P => P.DateOfBirthText, new { @class = "form-control", placeholder = "DateOfBirth" })
+                            <input type="hidden" name="DateOfBirth" id="DateOfBirth" value="" />
                         </div>
                         <div class="form-group col-lg-6">
                             @Html.CheckBoxFor(P => P.IsActive, new { @class = "" })<label for="IsActive">Is Active? @Html.ValidationMessageFor(P => P.IsActive)</label>
@@ -274,30 +334,7 @@
                             @Html.TextAreaFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "OtherDetails" })
                         </div>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <input id="fileupload" type="file" name="files">
-                        </div>
 
-                        @*<div class="form-group">
-                                <!-- The fileinput-button span is used to style the file input field as button -->
-                                <span class="btn btn-success fileinput-button">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                    <span>Select files...</span>
-                                    <!-- The file input field used as target for the file upload widget -->
-                                    <!-- <input id="fileupload" type="file" name="files" multiple>  -->
-                                    <input id="fileupload" type="file" name="files">
-                                </span>
-                                <br>
-                                <br>
-                                <!-- The global progress bar -->
-                                <div id="progress" class="progress">
-                                    <div class="progress-bar progress-bar-success"></div>
-                                </div>
-                                <!-- The container for the uploaded files -->
-                                <div id="files" class="files"></div>
-                            </div>*@
-                    </div>
                 </div>
 
                 <div class="modal-footer">
