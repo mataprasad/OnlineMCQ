@@ -257,13 +257,13 @@ namespace Web.Models
     public partial class Company
     {
         public string ID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string Title { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string Code { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string Address { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string Contact { get; set; }
         public string OtherDetails { get; set; }
         public long? CreationDate { get; set; }
@@ -272,12 +272,16 @@ namespace Web.Models
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public long? LicenceFrom { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public long? LicenceTo { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public bool IsActive { get; set; }
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
+        public string LicenceFromText { get; set; }
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
+        public string LicenceToText { get; set; }
     }
 
     public partial class Batch

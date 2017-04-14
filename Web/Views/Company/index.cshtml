@@ -108,15 +108,8 @@
 }
 @section scripts {
     <script type="text/javascript">
-        Sys.Application.add_init(appInit);
-        function appInit() {
-            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('LicenceFrom'));
-            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('LicenceTo'));
-        }
-        //fnToDatePicker("LicenceFrom", "LicenceTo")
-        //moment("20170420","yyyymmdd")._d
-    </script>
-    <script type="text/javascript">
+        fnToDatePicker("LicenceFromText", "LicenceFrom")
+        fnToDatePicker("LicenceToText", "LicenceTo")
         function fnClearForm() {
             $('#ID').val('');
             $('#Title').val('');
@@ -132,7 +125,15 @@
             $('#ModificationTime').val('');
             $('#LicenceFrom').val('');
             $('#LicenceTo').val('');
-            $('#IsActive').prop("checked", false);
+            $('#LicenceFromText').val('');
+            $('#LicenceToText').val('');
+            $('#IsActive').prop("checked", true);
+
+            $('#Title').attr("maxlength", '30');
+            $('#Code').attr("maxlength", '30');
+            $('#Address').attr("maxlength", '150');
+            $('#Contact').attr("maxlength", '30');
+            $('#OtherDetails').attr("maxlength", '150');
 
         }
         function fnSetupForm(obj) {
@@ -153,10 +154,30 @@
             if (obj.IsActive == true) {
                 $('#IsActive').prop("checked", true);
             }
-
+            $('#LicenceFromText').val(fnToPickerDate(obj.LicenceFrom));
+            $('#LicenceToText').val(fnToPickerDate(obj.LicenceTo));
         }
         function fnSubmit() {
-            $("#frm-add-edit-form").submit();
+            $("#frm-add-edit-form").validate();
+            if ($("#frm-add-edit-form").valid()) {
+                var todate = parseFloat($("#LicenceTo").val());
+                var fromdate = parseFloat($("#LicenceFrom").val());
+                if (todate <= fromdate) {
+                    alert("Licence upto date should be greater than Licence from date.");
+                    return;
+                }
+                ToggleOverlayLoading(true);
+                $.ajax({
+                    url: $("#frm-add-edit-form").attr("action"),
+                    type: "POST",
+                    data: $("#frm-add-edit-form").serialize(),
+                    success: function (response) {
+                        ToggleOverlayLoading(false);
+                        location.href = "@Url.Action("index","company")";
+                    },
+                    error: function (a, b, c) { }
+                });
+            }
         }
     </script>
     @Html.Partial("~/Views/_CrudGridJs.cshtml", modelData)
@@ -192,15 +213,16 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="LicenceFrom">Licence From(YYYYMMDD) @Html.ValidationMessageFor(P => P.LicenceFrom)</label>
-                                @Html.TextBoxFor(P => P.LicenceFrom, new { @class = "form-control asp-date-picker", placeholder = "LicenceFrom" })
-                                
+                                <label for="LicenceFromText">Licence From @Html.ValidationMessageFor(P => P.LicenceFromText)</label><br />
+                                @Html.TextBoxFor(P => P.LicenceFromText, new { @class = "", placeholder = "Licence From" })
+                                <input type="hidden" name="LicenceFrom" id="LicenceFrom" value="" />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="LicenceTo">Licence Upto(YYYYMMDD) @Html.ValidationMessageFor(P => P.LicenceTo)</label>
-                                @Html.TextBoxFor(P => P.LicenceTo, new { @class = "form-control", placeholder = "LicenceTo" })
+                                <label for="LicenceToText">Licence Upto @Html.ValidationMessageFor(P => P.LicenceToText)</label><br />
+                                @Html.TextBoxFor(P => P.LicenceToText, new { @class = "", placeholder = "Licence Upto" })
+                                <input type="hidden" name="LicenceTo" id="LicenceTo" value="" />
                             </div>
                         </div>
                         <div class="col-lg-6">
