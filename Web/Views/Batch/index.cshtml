@@ -107,13 +107,8 @@
 }
 @section scripts {
     <script type="text/javascript">
-        Sys.Application.add_init(appInit);
-        function appInit() {
-            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('StartFrom'));
-            $create(AjaxControlToolkit.CalendarBehavior, { "format": "yyyyMMdd" }, null, null, $get('EndTo'));
-        }
-    </script>
-    <script type="text/javascript">
+        fnToDatePicker("StartFromText", "StartFrom")
+        fnToDatePicker("EndToText", "EndTo")
         function fnClearForm() {
             $('#ID').val('');
             $('#CompanyID').val('');
@@ -128,9 +123,15 @@
             $('#ModificationTime').val('');
             $('#StartFrom').val('');
             $('#EndTo').val('');
+            $('#StartFromText').val('');
+            $('#EndToText').val('');
             $('#IsActive').prop("checked", false);
             $("#btnAddStudentContainer").removeClass("hidden");
             $("#btnAddStudentContainer").addClass("hidden");
+
+            $('#Title').attr("maxlength", "35");
+            $('#Code').attr("maxlength", "35");
+            $('#OtherDetails').attr("maxlength", "150");
 
         }
         function fnSetupForm(obj) {
@@ -146,7 +147,9 @@
             $('#ModifiedBy').val(obj.ModifiedBy);
             $('#ModificationTime').val(obj.ModificationTime);
             $('#StartFrom').val(obj.StartFrom);
+            $('#StartFromText').val(fnToPickerDate(obj.StartFrom));
             $('#EndTo').val(obj.EndTo);
+            $('#EndToText').val(fnToPickerDate(obj.EndTo));
             if (obj.IsActive == true) {
                 $('#IsActive').prop("checked", true);
             }
@@ -194,14 +197,16 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="StartFrom">Start From(YYYYMMDD) @Html.ValidationMessageFor(P => P.StartFrom)</label>
-                                @Html.TextBoxFor(P => P.StartFrom, new { @class = "form-control", placeholder = "Start From" })
+                                <label for="StartFromText">Start From @Html.ValidationMessageFor(P => P.StartFromText)</label><br />
+                                @Html.TextBoxFor(P => P.StartFromText, new { @class = "", placeholder = "Start From" })
+                                <input type="hidden" name="StartFrom" id="StartFrom" value="" />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="EndTo">Runs Until(YYYYMMDD) @Html.ValidationMessageFor(P => P.EndTo)</label>
-                                @Html.TextBoxFor(P => P.EndTo, new { @class = "form-control", placeholder = "Runs Until" })
+                                <label for="EndToText">Runs Until @Html.ValidationMessageFor(P => P.EndToText)</label><br />
+                                @Html.TextBoxFor(P => P.EndToText, new { @class = "", placeholder = "Runs Until" })
+                                <input type="hidden" name="EndTo" id="EndTo" value="" />
                             </div>
                         </div>
                     </div>
@@ -213,7 +218,7 @@
                         </div>
                         <div id="btnAddStudentContainer" class="col-lg-4 hidden">
                             <div class="form-group">
-                                <a class="btn btn-primary" href="@Url.Action("index", "batchusermap")">Add Student to this batch</a>
+                                <a class="btn btn-primary" href="@Url.Action("index", "batchusermap")">Add/Remove Students to this batch</a>
                             </div>
                         </div>
                     </div>

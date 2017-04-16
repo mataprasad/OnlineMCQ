@@ -288,9 +288,9 @@ namespace Web.Models
     {
         public string ID { get; set; }
         public string CompanyID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string Title { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public string Code { get; set; }
         public string OtherDetails { get; set; }
         public long? CreationDate { get; set; }
@@ -299,12 +299,17 @@ namespace Web.Models
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public long? ModificationTime { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public long? StartFrom { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public long? EndTo { get; set; }
-        [Required]
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
         public bool IsActive { get; set; }
+
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
+        public string StartFromText { get; set; }
+        [Required(ErrorMessage = "<span title='Required'>*<span>")]
+        public string EndToText { get; set; }
     }
 
     public partial class Student
