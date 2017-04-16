@@ -59,7 +59,7 @@ namespace Web.Controllers
             var obj = _db.GetStudent(id);
             if (obj != null)
             {
-                obj.PhotoUrl = ToUserPhoto(obj.Photo);
+                obj.PhotoUrl = ToUserPhotoNonAbsulture(obj.Photo);
             }
             return new JsonNetResult(obj);
         }

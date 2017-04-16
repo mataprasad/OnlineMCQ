@@ -21,6 +21,10 @@ namespace Web.Controllers
         public ActionResult index(string id)
         {
             ViewBag.ID = id;
+            ViewBag.Students = _db.GetAllStudents();
+            ViewBag.Batch = _db.GetBatch(id);
+            ViewBag.SelectedStudents = Newtonsoft.Json.JsonConvert.SerializeObject(_db.GetAllBatchUserMappings(id).Select(P => P.UserID).ToList());
+
             return View();
         }
 
@@ -29,7 +33,7 @@ namespace Web.Controllers
             var data = new List<BatchUserMap>();
             if (!String.IsNullOrWhiteSpace(query))
             {
-                data = _db.GetAllBatchUserMappings(id,query);
+                data = _db.GetAllBatchUserMappings(id, query);
             }
             else
             {
@@ -68,6 +72,21 @@ namespace Web.Controllers
             obj.ModifiedBy = LoggedUserID;
             _db.EditBatchUserMapping(obj);
             return RedirectToAction("index");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateList(string id, List<SelectListItem> list)
+        {
+            if (list == null)
+            {
+                list = new List<SelectListItem>();
+            }
+            if (_db.UpdateBatchUserMap(list, id, Company, LoggedUserID))
+            {
+                return Json(new { Success = true, ErrorMessage = string.Empty }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { Success = false, ErrorMessage = "Not able to complete the request" }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult delete(string id)

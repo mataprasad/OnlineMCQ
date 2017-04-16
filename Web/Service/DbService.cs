@@ -468,6 +468,35 @@ namespace Web.Service
             return obj;
         }
 
+        public bool UpdateBatchUserMap(List<System.Web.Mvc.SelectListItem> list, string batchID, string companyID, string loggedUserID)
+        {
+            var obj = new BatchUserMap();
+            using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))
+            {
+                db.Execute(SQL.EmptyBatchUserMap, null);
+
+                foreach (var item in list)
+                {
+                    obj = new BatchUserMap();
+                    obj.ID = Guid.NewGuid().ToString().ToLower();
+                    obj.CompanyID = companyID.ToLower();
+                    obj.CreatedBy = loggedUserID;
+                    obj.CreationDate = Utility.GetCurrentDateInt();
+                    obj.CreationTime = Utility.GetCurrentTimeInt();
+                    obj.ModificationDate = Utility.GetCurrentDateInt();
+                    obj.ModificationTime = Utility.GetCurrentTimeInt();
+                    obj.ModifiedBy = loggedUserID;
+                    obj.BatchID = batchID.ToLower();
+                    obj.IsActive = true;
+                    obj.OtherDetails = item.Text;
+                    obj.UserID = item.Value;
+
+                    db.Execute(SQL.InsertBatchUserMap, obj);
+                }
+            }
+            return true;
+        }
+
         public bool DeleteBatchUserMapping(string id)
         {
             using (var db = ObjectFactory.CreateDbContext(commonService.GetCompanyDbFilePath(this.company)))

@@ -38,7 +38,7 @@ namespace Web.Controllers
                 var fileRelativePath = string.Concat(Common.STUDENT_PIC_BASE_DIR, fileName).ToLower();
                 Request.Files[0].SaveAs(Server.MapPath(fileRelativePath));                
 
-                return Json(new { errors = errors, files = new ArrayList() { new { url = ToAbsoluteUrl(fileRelativePath), fileName= fileName } } }, JsonRequestBehavior.AllowGet);
+                return Json(new { errors = errors, files = new ArrayList() { new { url = Url.Content(fileRelativePath), fileName= fileName } } }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new { errors = errors, files = new ArrayList() }, JsonRequestBehavior.AllowGet);

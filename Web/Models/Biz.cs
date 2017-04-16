@@ -104,9 +104,9 @@ namespace Web.Models
             return _db.GetAllBatchUserMappings(id);
         }
 
-        public List<BatchUserMap> GetAllBatchUserMappings(string id,string query)
+        public List<BatchUserMap> GetAllBatchUserMappings(string id, string query)
         {
-            return _db.GetAllBatchUserMappings(id,query);
+            return _db.GetAllBatchUserMappings(id, query);
         }
 
         public BatchUserMap GetBatchUserMapping(string id)
@@ -122,6 +122,11 @@ namespace Web.Models
         public BatchUserMap EditBatchUserMapping(BatchUserMap obj)
         {
             return _db.EditBatchUserMapping(obj);
+        }
+
+        public bool UpdateBatchUserMap(List<System.Web.Mvc.SelectListItem> list, string batchID, string companyID, string loggedUserID)
+        {
+            return _db.UpdateBatchUserMap(list, batchID, companyID, loggedUserID);
         }
 
         public bool DeleteBatchUserMapping(string id)

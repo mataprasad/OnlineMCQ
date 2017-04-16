@@ -36,6 +36,16 @@ namespace Web.Helper
             }.ToString();
         }
 
+        public string ToUserPhotoNonAbsulture(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return Url.Content(System.IO.Path.Combine(Web.Helper.Common.STUDENT_PIC_BASE_DIR, "anonymous.png")); ;
+            }
+            var fileRelativePath = string.Concat(Common.STUDENT_PIC_BASE_DIR, fileName).ToLower();
+            return Url.Content(fileRelativePath);
+        }
+
         public string ToUserPhoto(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))

@@ -2,6 +2,17 @@
 @{
     ViewBag.Title = "BatchUserMap";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var students = ViewBag.Students as List<Web.Models.Student>;
+    if (students == null)
+    {
+        students = new List<Web.Models.Student>();
+    }
+
+    var batch = ViewBag.Batch as Web.Models.Batch;
+    if (batch == null)
+    {
+        batch = new Web.Models.Batch();
+    }
 }
 @section stylesheet {
     <style type="text/css">
@@ -57,7 +68,7 @@
                             <button id="btn-search" class="btn btn-primary btn-flat" type="button"><i class="fa fa-search"></i>&nbsp;&nbsp;FIND</button>
                         </span>
                         <input type="button" id="btn-open-modal" data-toggle="modal" data-target="#add-new-modal" value="" style="display:none;" />
-                        <button id="btn-add-new" class="btn btn-primary btn-flat" style="float: right;"><i class="fa fa-plus"></i>&nbsp;&nbsp;ADD NEW BatchUserMap</button>
+                        <button id="btn-add-new" class="btn btn-primary btn-flat" style="float: right;"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add/Remove Student to/from Batch</button>
                     </div>
                     <table id="example" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
                         <thead>
@@ -75,9 +86,9 @@
                                     <th>ModificationTime</th>*@
                                 <th>BatchInfo</th>
                                 <th>StudentInfo</th>
-                                <th>IsActive</th>
+                                @*<th>IsActive</th>
 
-                                <th>Action</th>
+                                    <th>Action</th>*@
                             </tr>
                         </thead>
                     </table>
@@ -101,41 +112,68 @@
     //data.Add(new Web.Helper.GridHelper() { ColumnName = "ModificationTime" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "BatchInfo" });
     data.Add(new Web.Helper.GridHelper() { ColumnName = "StudentInfo" });
-    data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
+    //data.Add(new Web.Helper.GridHelper() { ColumnName = "IsActive" });
 
     var modelData = new Web.Helper.GridModelData(new Tuple<IEnumerable<Web.Helper.GridHelper>, String>(data, "BatchUserMap"));
     modelData.UrlPart = @"?id=" + ViewBag.ID;
+    modelData.ShowActionColumn = false;
 }
 @section scripts {
     <script type="text/javascript">
+        function fnUpdateStudent(action) {
+
+            switch (action) {
+                case "CLEAR":
+                    $(".student-chk").prop("checked", false);
+                    break;
+                case "SELECT":
+                    $(".student-chk").prop("checked", true);
+                    break;
+                case "SUBMIT":
+                    var selectedStudents = [];
+                    $(".student-row").map(function (i, obj) {
+                        var chk = $(obj).find(".student-chk");
+                        var remark = $(obj).find(".student-remark");
+                        if ($(chk).prop("checked") === true) {
+                            selectedStudents.push({ Value: $(chk).attr("data-student-id"), Text: $(remark).val() });
+                        }
+                        return null;
+                    });
+                    //alert(JSON.stringify(selectedStudents));
+                    ToggleOverlayLoading(true);
+                    $.ajax({
+                        url: "@Url.Action("updatelist", "batchusermap")/@ViewBag.ID",
+                        type: "POST",
+                        dataType:"json",
+                        contentType:"application/json",
+                        data: JSON.stringify( selectedStudents),
+                        success: function (response) {
+                            ToggleOverlayLoading(false);
+                            if(response.Success)
+                            {
+                                location.reload();
+                            }else{
+                                alert(response.ErrorMessage)
+                            }
+                            //location.href = "@Url.Action("index","student")";
+                        },
+                        error: function (a, b, c) { }
+                    });
+
+                    break;
+                default:
+                    break;
+            }
+        }
         function fnClearForm() {
-            $('#ID').val('');
-            $('#CompanyID').val('');
-            $('#BatchID').val('');
-            $('#UserID').val('');
-            $('#OtherDetails').val('');
-            $('#CreationDate').val('');
-            $('#CreationTime').val('');
-            $('#ModificationDate').val('');
-            $('#CreatedBy').val('');
-            $('#ModifiedBy').val('');
-            $('#ModificationTime').val('');
-            $('#IsActive').val('');
+            var fromDate=fnToPickerDate('@batch.StartFrom');
+            var toDate=fnToPickerDate('@batch.EndTo');
+
+            $("#lblBatchDetails").html("Batch Details : @batch.Title [@batch.Code] ("+fromDate+" - "+toDate+")");
+
 
         }
         function fnSetupForm(obj) {
-            $('#ID').val(obj.ID);
-            $('#CompanyID').val(obj.CompanyID);
-            $('#BatchID').val(obj.BatchID);
-            $('#UserID').val(obj.UserID);
-            $('#OtherDetails').val(obj.OtherDetails);
-            $('#CreationDate').val(obj.CreationDate);
-            $('#CreationTime').val(obj.CreationTime);
-            $('#ModificationDate').val(obj.ModificationDate);
-            $('#CreatedBy').val(obj.CreatedBy);
-            $('#ModifiedBy').val(obj.ModifiedBy);
-            $('#ModificationTime').val(obj.ModificationTime);
-            $('#IsActive').val(obj.IsActive);
 
         }
         function fnSubmit() {
@@ -146,78 +184,68 @@
 }
 <div class="modal fade" id="add-new-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width:800px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="model-title-h4" add-title="Add New BatchUserMap" edit-title="Modify Selected BatchUserMap"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add New BatchUserMap</h4>
+                <h4 class="modal-title" id="model-title-h4" add-title="Add/Remove Student to/from Batch" edit-title="Add/Remove Student to/from Batch"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add/Remove Student to/from Batch</h4>
             </div>
             <form action="#" method="post" class="box" id="frm-add-edit-form">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="ID">ID</label>
-                        @Html.TextBoxFor(P => P.ID, new { @class = "form-control", placeholder = "ID" })
-                        @Html.ValidationMessageFor(P => P.ID)
+                        <label id="lblBatchDetails">Batch Details : @batch.Title [@batch.Code] (@batch.StartFrom - @batch.EndTo) </label>
                     </div>
                     <div class="form-group">
-                        <label for="CompanyID">CompanyID</label>
-                        @Html.TextBoxFor(P => P.CompanyID, new { @class = "form-control", placeholder = "CompanyID" })
-                        @Html.ValidationMessageFor(P => P.CompanyID)
+                        <button id="btnClearAllStudent" onclick="fnUpdateStudent('CLEAR')" type="button" class="btn btn-primary btn-flat btn-sm bg-red" role="button"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;Clear All</button>
+                        <button id="btnSelectAllStudent" type="button" onclick="fnUpdateStudent('SELECT')" class="btn btn-primary btn-flat btn-sm bg-green" role="button"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;Select All</button>
+                        <button id="btnSubmitSelectedStudents" type="button" onclick="fnUpdateStudent('SUBMIT')" class="btn btn-primary btn-flat btn-sm bg-blue pull-right" role="button"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Update&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                     </div>
-                    <div class="form-group">
-                        <label for="BatchID">BatchID</label>
-                        @Html.TextBoxFor(P => P.BatchID, new { @class = "form-control", placeholder = "BatchID" })
-                        @Html.ValidationMessageFor(P => P.BatchID)
+                    <div class="table-responsive">
+                        <table id="tblStudent" class="table table-bordered table-hover dataTable" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Remark</th>
+                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>Address</th>
+                                    <th>EnrollmentNo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < students.Count; i++)
+                                {
+                                    <tr class="student-row">
+                                        <td><input class="student-chk" type="checkbox" name="chkStudent_@i" id="chkStudent_@i" data-student-id="@students[i].ID" value="" /></td>
+                                        <td><input class="student-remark" type="text" name="remarkStudent_@i" id="remarkStudent_@i" data-student-id="@students[i].ID" value="" /></td>
+                                        <td>@students[i].Email</td>
+                                        <td>@string.Concat(students[i].FirstName, " ", students[i].MiddleName, " ", students[i].LastName) </td>
+                                        <td>@students[i].Contact</td>
+                                        <td>@students[i].Address</td>
+                                        <td>@students[i].EnrollmentNo</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="form-group">
-                        <label for="UserID">UserID</label>
-                        @Html.TextBoxFor(P => P.UserID, new { @class = "form-control", placeholder = "UserID" })
-                        @Html.ValidationMessageFor(P => P.UserID)
-                    </div>
-                    <div class="form-group">
-                        <label for="OtherDetails">OtherDetails</label>
-                        @Html.TextBoxFor(P => P.OtherDetails, new { @class = "form-control", placeholder = "OtherDetails" })
-                        @Html.ValidationMessageFor(P => P.OtherDetails)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreationDate">CreationDate</label>
-                        @Html.TextBoxFor(P => P.CreationDate, new { @class = "form-control", placeholder = "CreationDate" })
-                        @Html.ValidationMessageFor(P => P.CreationDate)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreationTime">CreationTime</label>
-                        @Html.TextBoxFor(P => P.CreationTime, new { @class = "form-control", placeholder = "CreationTime" })
-                        @Html.ValidationMessageFor(P => P.CreationTime)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModificationDate">ModificationDate</label>
-                        @Html.TextBoxFor(P => P.ModificationDate, new { @class = "form-control", placeholder = "ModificationDate" })
-                        @Html.ValidationMessageFor(P => P.ModificationDate)
-                    </div>
-                    <div class="form-group">
-                        <label for="CreatedBy">CreatedBy</label>
-                        @Html.TextBoxFor(P => P.CreatedBy, new { @class = "form-control", placeholder = "CreatedBy" })
-                        @Html.ValidationMessageFor(P => P.CreatedBy)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModifiedBy">ModifiedBy</label>
-                        @Html.TextBoxFor(P => P.ModifiedBy, new { @class = "form-control", placeholder = "ModifiedBy" })
-                        @Html.ValidationMessageFor(P => P.ModifiedBy)
-                    </div>
-                    <div class="form-group">
-                        <label for="ModificationTime">ModificationTime</label>
-                        @Html.TextBoxFor(P => P.ModificationTime, new { @class = "form-control", placeholder = "ModificationTime" })
-                        @Html.ValidationMessageFor(P => P.ModificationTime)
-                    </div>
-                    <div class="form-group">
-                        <label for="IsActive">IsActive</label>
-                        @Html.TextBoxFor(P => P.IsActive, new { @class = "form-control", placeholder = "IsActive" })
-                        @Html.ValidationMessageFor(P => P.IsActive)
-                    </div>
+                    <script type="text/javascript">
+                        //$('#tblStudent').dataTable({
+                        //    "bPaginate": true,
+                        //    "bLengthChange": false,
+                        //    "bInfo": true,
+                        //    "bAutoWidth": false,
+                        //    "iDisplayLength": 10
+                        //});
+                        $('#tblStudent').dataTable({ "iDisplayLength": 100 });
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-flat fa fa-close" data-dismiss="modal">&nbsp;&nbsp;&nbsp;Close</button>
-                    <button type="button" class="btn btn-primary btn-flat fa fa-save" onclick="fnSubmit();">&nbsp;&nbsp;&nbsp;Save changes</button>
+                        var selectedUsers=@Html.Raw(ViewBag.SelectedStudents);
+
+                        for (var i = 0; i < selectedUsers.length; i++) {
+                            $("[data-student-id='"+selectedUsers[i]+"']").prop("checked",true);
+                        }
+
+
+                    </script>
                 </div>
                 <div class="overlay"></div>
                 <div class="loading-img"></div>

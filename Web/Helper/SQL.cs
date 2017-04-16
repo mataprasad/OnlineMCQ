@@ -195,6 +195,8 @@ namespace Web.Helper
 
         public const string SoftDeleteBatchUserMap = @"UPDATE BATCHUSERMAP SET IsActive=0 WHERE ID=@ID";
 
+        public const string EmptyBatchUserMap = @"DELETE FROM BATCHUSERMAP;";
+
         public const string InsertBatchUserMap = @"INSERT INTO BatchUserMap
                                                    (ID,CompanyID,BatchID,UserID,OtherDetails,CreationDate,CreationTime
                                                    ,ModificationDate,CreatedBy,ModifiedBy,ModificationTime,IsActive)
